@@ -1,9 +1,148 @@
 package com.shopdb.board.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.shopdb.board.vo.BoardVO;
 import com.shopdb.main.dao.DAO;
+import com.shopdb.util.DB;
 
 public class BoardDAO extends DAO {
 
+	// 1. 리스트
+	public List<BoardVO> list() throws Exception {
+		// 결과를 저장할 변수 선언
+		List<BoardVO> list = null;
+		
+		try {
+			// 1. 드라이버 확인
+			// DB 클래스 static 메서드에 구현 - 1번만 실행이 됩니다.
+			// 2. DB 연결
+			con = DB.getConnection();
+			// DB 연결 확인 방법
+			if (con != null) {
+				System.out.println("DB 연결이 완료되었습니다.");
+			}
+			// 연결이 되지 않았을때 확인하는 방법
+			// - windows 의 서비스에서 mysql 검색 실행중인지 확인
+			// - MySQL Workbench 에서 접속이 되는지 확인
+			// - 접속후 select @@version; 을 실행해서 version이 표시되는지 확인
+			// - URL 이 맞게 작성되었는지 확인
+			// - ID, PW 설정이 맞게 되었는지 확인
+			
+			// 3. SQL 작성 - class 하단 LIST 상수로 작성
+			// 4. 실행객체에 SQL 세팅 & DB에 전달할 데이터 세팅
+			pstmt = con.prepareStatement(LIST);
+			// 5. 실행 및 리턴값 받기
+			rs = pstmt.executeQuery();// select 에서의 메서드
+			// 6. 리턴받은 데이터를 저장
+			if (rs != null) {
+				while (rs.next()) {
+					if (list == null) list = new ArrayList<BoardVO>();
+					// rs -> BoardVO vo
+					BoardVO vo = new BoardVO();
+					vo.setNo(rs.getInt("no"));
+					vo.setTitle(rs.getString("title"));
+					vo.setWriter(rs.getString("writer"));
+					vo.setWriteDate(rs.getString("writeDate"));
+					vo.setHit(rs.getInt("hit"));
+					list.add(vo);
+				} // end of while (rs.next())
+			} // end of if (rs != null)
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB 닫기 - select 3개를 닫습니다.
+			DB.close(con, pstmt, rs);
+		}
+		
+		
+		return list;
+	} // end of list()
+	
+	// 2-1. 조회수 증가
+	public Integer increase(Integer no) throws Exception {
+		// 결과 담을 변수 선언
+		Integer result = 0;
+		
+		try {
+			// 1. 드라이버 확인
+			// 2. DB 연결
+			con = DB.getConnection();
+			// 3. SQL --> INCREASE (class 하단 상수)
+			// 4. 실행객체에 데이터세팅
+			pstmt = con.prepareStatement(INCREASE);
+			pstmt.setInt(1, no);// 순서, 데이터
+			// 5. 실행 및 리턴
+			result = pstmt.executeUpdate();// update, insert, delete
+			// 6. 결과 확인
+			// 리턴으로 미룸		
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB 닫기 - 2개를 닫는 close사용
+			// insert, update, delete
+			DB.close(con, pstmt);
+		}
+		
+		return result;
+	}
+	
+	// 2-2 글보기
+	public BoardVO view(Integer no) throws Exception {
+		// 결과 담을 변수 선언
+		BoardVO vo = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB 연결
+			con = DB.getConnection();
+			// 3. SQL 작성 - VIEW (클래스하단 상수)
+			// 4. 실행객체에 SQL + 데이터세팅
+			pstmt = con.prepareStatement(VIEW);
+			pstmt.setInt(1, no);
+			// 5. 실행 및 결과리턴 - select ==> rs(ResultSet)
+			rs = pstmt.executeQuery();
+			// 6. 데이터 저장
+			if (rs != null && rs.next()) {
+				vo = new BoardVO();
+				vo.setNo(rs.getInt("no"));
+				vo.setTitle(rs.getString("title"));
+				vo.setContent(rs.getString("content"));
+				vo.setWriter(rs.getString("writer"));
+				vo.setWriteDate(rs.getString("writeDate"));
+				vo.setHit(rs.getInt("hit"));
+				vo.setPw(rs.getString("pw"));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB 닫기 - select - 3개 close
+			DB.close(con, pstmt, rs);
+		}
+		
+		return vo;
+	} // end of view
+	
+	// 3. 글쓰기
+	public Integer write(BoardVO vo) throws Exception {
+		// 결과 저장 변수 선언
+		Integer result = 0;
+		
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			
+		}
+		
+		return result;
+	}
 	
 	
 	// 사용할 SQL 쿼리 세팅
