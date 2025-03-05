@@ -133,12 +133,86 @@ public class BoardDAO extends DAO {
 		Integer result = 0;
 		
 		try {
+			// 1. 드라이버확인 (mysql jdbc 드라이버)
+			// 2. DB 연결
+			con = DB.getConnection();
+			// 3. SQL 작성 - WRITE (class 하단 상수) ?(4개)
+			// 4. 실행객체에 데이터 세팅
+			pstmt = con.prepareStatement(WRITE);
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getContent());
+			pstmt.setString(3, vo.getWriter());
+			pstmt.setString(4, vo.getPw());
+			// 5. 실행 및 결과 리턴 - insert
+			result = pstmt.executeUpdate();
+			// 6. 결과확인은 리턴으로
 			
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		} finally {
+			// 7. DB닫기 - insert (2개)
+			DB.close(con, pstmt);
+		}
+		
+		return result;
+	}
+	
+	// 4. 글수정
+	public Integer update(BoardVO vo) throws Exception {
+		// 결과 담을 변수 선언
+		Integer result = 0;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB 연결
+			con = DB.getConnection();
+			// 3. SQL작성 - UPDATE (class 하단 상수) : ?(5개)
+			// 4. 실행객체 - SQL 및 데이터세팅
+			pstmt = con.prepareStatement(UPDATE);
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getContent());
+			pstmt.setString(3, vo.getWriter());
+			pstmt.setInt(4, vo.getNo());
+			pstmt.setString(5, vo.getPw());
+			// 5. 실행 및 결과 리턴
+			result = pstmt.executeUpdate();
+			// 6. 결과 확인 - return 후
 			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB 닫기 - 2개 (update)
+			DB.close(con, pstmt);
+		}
+		
+		return result;
+	}
+	
+	// 5. 글삭제
+	public Integer delete(BoardVO vo) throws Exception {
+		// 결과 담을 변수 선언
+		Integer result = 0;
+		
+		try {
+			// 1. 드라이버 확인
+			// 2. DB 연결
+			con = DB.getConnection();
+			// 3. SQL 작성 - DELETE (class 하단 상수)
+			// 4. 실행 객체에 sql 및 데이터 세팅 ?:2개
+			pstmt = con.prepareStatement(DELETE);
+			pstmt.setInt(1, vo.getNo());
+			pstmt.setString(2, vo.getPw());
+			// 5. 실행 및 결과 리턴 - delete
+			result = pstmt.executeUpdate();
+			// 6. 결과 확인 - 리턴후
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB 닫기 - delete (2개)
+			DB.close(con, pstmt);
 		}
 		
 		return result;
