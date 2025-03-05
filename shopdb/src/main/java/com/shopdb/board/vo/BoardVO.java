@@ -2,6 +2,9 @@ package com.shopdb.board.vo;
 
 import lombok.Data;
 
+
+// VO (Value Object) - 데이터베이스의 한행을 의미 하거나 Join 한 결과를 담는 역할
+// DTO (Data Transfer Object)
 @Data
 public class BoardVO {
 

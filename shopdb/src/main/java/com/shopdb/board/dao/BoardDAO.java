@@ -7,6 +7,8 @@ import com.shopdb.board.vo.BoardVO;
 import com.shopdb.main.dao.DAO;
 import com.shopdb.util.DB;
 
+// DAO (Data Access Object) - DB와 연동하는 프로그램부분
+
 public class BoardDAO extends DAO {
 
 	// 1. 리스트
