@@ -12,6 +12,15 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<script type="text/javascript">
+	$(function(){
+		$("#deleteBtn").click(function(){
+			// 비밀번호 입력창 clear
+			$("#pw").val("");
+		});
+		
+	});
+	</script>
 </head>
 <body>
 <div class="container">
@@ -33,8 +42,48 @@
     	<div>
     		조회수: ${vo.hit }
     	</div>
+    	<div>
+    		<a href="updateForm.do?no=${param.no }">
+    			<button class="btn btn-primary">수정</button></a>
+    		<button class="btn btn-danger" id="deleteBtn">삭제</button>
+    		<a href="list.do">
+    			<button class="btn btn-success">리스트</button></a>
+    	</div>
     </div>
   </div>
 </div>
+
+<!-- The Modal -->
+<div class="modal" id="deleteModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">비밀 번호 확인</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form action="delete.do" method="post">
+        	<input type="hidden" name="no" value="${vo.no }">
+        	<input type="password" placeHolder="본인확인용 비밀번호입력"
+        		name="pw" id="pw" required maxlength="20">
+        	<button class="btn btn-danger">삭제</button>
+        	<button type="button" class="btn btn-success"
+        		id="deleteCancelBtn">취소</button>
+        </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

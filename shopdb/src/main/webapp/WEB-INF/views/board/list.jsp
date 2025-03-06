@@ -54,6 +54,11 @@
 	        <td>${vo.hit }</td>
 	      </tr>
 			</c:forEach>
+			<tr>
+				<td colspan="5">
+					<a href="writeForm.do"><button class="btn btn-primary">등록</button></a>
+				</td>
+			</tr>
     </tbody>
   </table>
 </div>
