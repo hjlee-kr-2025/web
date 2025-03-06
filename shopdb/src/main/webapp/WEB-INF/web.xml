@@ -3,5 +3,20 @@
 xmlns="http://xmlns.jcp.org/xml/ns/javaee"
 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlnss.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
 id="WebApp_ID" version="4.0">
-111
+<display-name>shopdb</display-name>
+<welcome-file-list>
+	<welcome-file>main.do</welcome-file>
+</welcome-file-list>
+
+<!-- servlet 등록 -->
+<servlet>
+	<description>설명 : FrontController</description>
+	<servlet-name>dispatcherServlet</servlet-name>
+	<servlet-class>com.shopdb.main.controller.DispatcherServlet</servlet-class>
+	
+</servlet>
+
+
+
+
 </web-app>
