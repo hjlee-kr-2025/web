@@ -20,7 +20,7 @@ public class DB {
 	// 한번만 실행하는 static 메서드
 	static {
 		try {
-			
+			Class.forName(DRIVER);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
