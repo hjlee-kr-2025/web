@@ -116,6 +116,18 @@ public class BoardController {
 				jsp = "redirect:view.do?no="+no+"&inc=0";
 				break;
 			case "/board/delete.do":
+				System.out.println("5. 일반게시판 글삭제 처리");
+				// 데이터 수집 : 글번호, 비밀번호 (request)
+				no = Integer.parseInt(request.getParameter("no"));
+				pw = request.getParameter("pw");
+				// 전달 데이터 만들기
+				vo = new BoardVO();
+				vo.setNo(no);
+				vo.setPw(pw);
+				// 서비스 실행
+				result = Execute.execute(Init.get(uri), vo);
+				
+				jsp = "redirect:list.do";
 				break;
 			default:
 			}
