@@ -17,8 +17,13 @@
 		$("#deleteBtn").click(function(){
 			// 비밀번호 입력창 clear
 			$("#pw").val("");
+			$("#deleteModal").modal("show");
 		});
 		
+		$("#deleteCancelBtn").click(function(){
+			$("#pw").val("");
+			$("#deleteModal").modal("hide");
+		});
 	});
 	</script>
 </head>
@@ -57,7 +62,7 @@
 <div class="modal" id="deleteModal">
   <div class="modal-dialog">
     <div class="modal-content">
-
+		<form action="delete.do" method="post">
       <!-- Modal Header -->
       <div class="modal-header">
         <h4 class="modal-title">비밀 번호 확인</h4>
@@ -66,21 +71,19 @@
 
       <!-- Modal body -->
       <div class="modal-body">
-        <form action="delete.do" method="post">
         	<input type="hidden" name="no" value="${vo.no }">
         	<input type="password" placeHolder="본인확인용 비밀번호입력"
-        		name="pw" id="pw" required maxlength="20">
-        	<button class="btn btn-danger">삭제</button>
-        	<button type="button" class="btn btn-success"
-        		id="deleteCancelBtn">취소</button>
-        </form>
+        		name="pw" id="pw" required class="form-control"
+        		maxlength="20">
       </div>
 
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        <button class="btn btn-danger">삭제</button>
+        	<button type="button" class="btn btn-success"
+        		id="deleteCancelBtn">취소</button>
       </div>
-
+		</form>
     </div>
   </div>
 </div>
