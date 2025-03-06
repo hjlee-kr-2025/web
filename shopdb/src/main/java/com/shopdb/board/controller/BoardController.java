@@ -36,6 +36,17 @@ public class BoardController {
 				// "/WEB-INF/views/board/list.jsp"
 				break;
 			case "/board/view.do":
+				System.out.println("2. 일반 게시판 글보기");
+				// 정보수집
+				Integer no = Integer.parseInt(request.getParameter("no"));
+				Integer inc = Integer.parseInt(request.getParameter("inc"));
+				// 서비스실행
+				result = Execute.execute(Init.get(uri), new Integer[] {no, inc});
+				// DB에서 받은 데이터를 프론트로 전달하기 위해
+				// request에 담습니다.
+				request.setAttribute("vo", result);
+				jsp = "board/view";
+				// ===> /WEB-INF/views/board/view.jsp
 				break;
 			case "/board/write.do":
 				break;
