@@ -12,3 +12,20 @@
  프로젝트의 src/main/webapp/WEB-INF/lib 폴더에 카피합니다.
  (웹 프로젝트에서는 자동등록됩니다.)
 
+** lombok 라이브러리
+1. https://projectlombok.org/ 이동
+2. download 메뉴 클릭
+3. download 버전 클릭하여 다운받습니다.
+	-> 다운로드는 windows기분 downloads폴더로 받았다고 가정합니다.
+4. cmd창을 열고 cmd창에서
+	>cd downloads[enter] 를 실행합니다.
+5. user/유저이름/downloads 폴더로 이동해 있습니다.
+6. user/유저이름/downloads>java -jar lombok.jar 
+	를 실행합니다.
+7. installer 프로그램에서 사용하는 IDE(이클립스) 선택후
+	install 버튼 클릭
+8. eclipse 폴더의 ini파일에 lombok등록확인,
+ 폴더에 lombok.jar 있는지 확인
+9. lombok.jar 파일
+	프로젝트의 src/main/webapp/WEB-INF/lib 폴더에 카피
+(끝)
