@@ -1,0 +1,17 @@
+*** 테스트 서버 세팅
+1. 서버탭으로 이동
+	- 화면에 안보이면 : 상단 Windows -> show view -> server 선택
+2. 서버탭 화면에서 오른쪽마우스 -> new -> server 클릭
+3. Apache 왼쪽 화살표 클릭
+	-> Tomcat v9.0 server 선택
+	-> 하단의 Server Name 수정 (프로젝트 이름 추가)
+	-> next 버튼 클릭
+	-> 프로젝트폴더 선택 -> Add 버튼 클릭
+	-> Finish 버튼 클릭
+
+4. 생성된 서버 더블 클릭
+5. Http/1.1 포트번호 수정 8080->80 : 이유는 포트번호 없이 url만으로 테스트하기 위해
+6. timeout 의 start : 45->300 정도로 수정
+7. module 탭 클릭
+		-> 내용클릭 -> edit -> path를 /로 수정
+8. 저장 (Ctrl+S) ====> 가장중요!!!!

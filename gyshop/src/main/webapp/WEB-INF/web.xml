@@ -9,4 +9,21 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>default.htm</welcome-file>
   </welcome-file-list>
+  
+  <!-- 서블릿을 등록합니다. : servlet, servlet-mapping -->
+  <servlet>
+  	<description>설명 : FrontController 의 역할 - DispatcherServlet 등록</description>
+  	<servlet-name>dispatcherServlet</servlet-name>
+  	<servlet-class>com.gyshop.main.controller.DispatcherServlet</servlet-class>
+  	<!-- 서버가 실행될 떄 확인해서 시작해 주세요. init()실행 -->
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <!-- servlet과 servlet-mapping의 <servlet-name>이 같아야 합니다. -->
+  <servlet-mapping>
+  	<servlet-name>dispatcherServlet</servlet-name>
+  	<url-pattern>*.do</url-pattern>
+  	<!-- url 끝에 .do로 끝나는 것만 servlet의 service로 들어오도록
+  	만들어 줍니다. -->
+  </servlet-mapping>
 </web-app>

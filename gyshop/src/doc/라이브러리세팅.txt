@@ -1,0 +1,14 @@
+** Mysql jdbc 라이브러리
+1. mysql.com 으로 이동
+2. downloads 메뉴 이동
+3. 하단 MySQL Community Downloads 클릭
+4. Connector/J 클릭
+5. Archives 탭 클릭
+6. 버전선택 - 설치한 SQL버전과 비슷한 버전으로 선택합니다.
+7. OS - Platform independent 선택
+8. zip 파일 다운로드
+9. 압축해제
+10. mysql-connector-j-8.4.0.jar 파일을
+ 프로젝트의 src/main/webapp/WEB-INF/lib 폴더에 카피합니다.
+ (웹 프로젝트에서는 자동등록됩니다.)
+
