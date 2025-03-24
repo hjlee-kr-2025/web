@@ -2,6 +2,7 @@ package com.gyshop.main.controller;
 
 import java.io.IOException;
 
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -32,13 +33,25 @@ public class DispatcherServlet extends HttpServlet {
 				throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("DispatherServlet.service() --- 실행");
+		
+		String uri = request.getRequestURI();
+		System.out.println("uri = " + uri);
+		
+		String jsp = null;
+		
+		jsp = "main/main";
+		jsp = "WEB-INF/views/" + jsp + ".jsp";
+		request.getRequestDispatcher(jsp).forward(request, response);
+		
+		
+		
 	}
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		// TODO Auto-generated method stub
 		System.out.println("DispatcherServlet.init() --- 실행");
-
+		
 	}
 	
 	
