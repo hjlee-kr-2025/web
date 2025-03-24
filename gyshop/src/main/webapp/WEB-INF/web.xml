@@ -26,4 +26,26 @@
   	<!-- url 끝에 .do로 끝나는 것만 servlet의 service로 들어오도록
   	만들어 줍니다. -->
   </servlet-mapping>
+  
+  <!-- Filter 등록 -->
+  <!-- <filter>, <filter-mapping> 태그가 쌍으로 설정됩니다. -->
+  <!-- <filter-name> 태그를 동일하게 설정해 줍니다. -->
+  <!-- <filter> -> <filter-class> : Filter class의 패키지이름+클래스이름 -->
+  <!-- <filter-mapping> -> <url-pattern> : filter를 사용할 url -->
+  <filter>
+  	<filter-name>sitemesh</filter-name>
+  	<filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>sitemesh</filter-name>
+  	<url-pattern>*.do</url-pattern>
+  </filter-mapping>
+  
+  
 </web-app>
+
+
+
+
+

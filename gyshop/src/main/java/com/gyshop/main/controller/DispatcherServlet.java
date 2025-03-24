@@ -8,6 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/* 1. webserver 가 로딩될때 init()가 실행되도록 구성
+ * 		(web.xml에 load-on-startup 를 1로 세팅)
+ * 		벡엔드에서 사용할 모든 자원의 초기화를 이곳에서 진행합니다.
+ * 2. 웹브라우저의 주소를 입력해서 페이지 이동시 service() 메서드가 실행
+ * 		(단, web.xml 의 url-pattern에 맞는 주소만)
+ */
 public class DispatcherServlet extends HttpServlet {
 
 	/**
