@@ -30,11 +30,13 @@ public class Init {
 		serviceMap.put("/board/list.do", new BoardListService());
 		
 		// 3. 조립 : service에 dao를 할당
-		serviceMap.get("/board/list.do")
+		serviceMap.get("/board/list.do").setDAO(daoMap.get("boardDAO"));
 	}
 	
-	
-	
-	
+	// 어느 서비스를 실행할지 리턴하는 메서드(할당된 서비스 주소 리턴)
+	public static Service get(String uri) {
+		// uri 키값으로 service 주소를 가져옵니다.
+		return serviceMap.get(uri);
+	}
 	
 }
