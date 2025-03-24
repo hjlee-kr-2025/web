@@ -40,7 +40,7 @@ public class DispatcherServlet extends HttpServlet {
 		String jsp = null;
 		
 		jsp = "main/main";
-		jsp = "WEB-INF/views/" + jsp + ".jsp";
+		jsp = "/WEB-INF/views/" + jsp + ".jsp";
 		request.getRequestDispatcher(jsp).forward(request, response);
 		
 		

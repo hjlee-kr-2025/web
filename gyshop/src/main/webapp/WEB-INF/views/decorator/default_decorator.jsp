@@ -48,7 +48,7 @@
 	}
 	
 	article {
-		min-height: 795px;
+		min-height: 600px;
 	}
 	
 

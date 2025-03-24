@@ -29,3 +29,14 @@
 9. lombok.jar 파일
 	프로젝트의 src/main/webapp/WEB-INF/lib 폴더에 카피
 (끝)
+
+
+*** sitemesh - 프레임워크 ***
+1. 웹페이지의 공통된 부분을 구성해 줍니다.
+2. Apache tomcat 9.0 은 sitemesh 2.4.x 까지 사용할 수 있습니다.
+3. Apache tomcat 10 이상의 버전은 sitemesh 2.6.x 를 사용합니다.
+4. sitemesh 를 사용할때 필요한 파일
+	- sitemesh-2.4.x.jar	: sitemesh 라이브러리
+	- sitemesh.xml				: sitemesh 설정
+	- decorators.xml			: decorator 할 경로(url) 및 화일 설정
+	- default_decorator.jsp	: 실제 화면 구현되어있는 jsp파일
