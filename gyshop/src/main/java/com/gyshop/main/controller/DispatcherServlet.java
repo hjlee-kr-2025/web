@@ -68,6 +68,9 @@ public class DispatcherServlet extends HttpServlet {
 		
 		// 메뉴
 		switch (module) {
+		case "/main":// 테스트용도
+			jsp = "main/main";
+			break;
 		case "/board":
 			jsp = boardController.execute(request);
 			break;

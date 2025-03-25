@@ -39,12 +39,18 @@ public class BoardDAO extends DAO {
 				while (rs.next()) {
 					if (list == null) list = new ArrayList<BoardVO>();
 					
+					// ResultSet에 담긴 데이터를 하나씩 꺼내서
+					// BoardVO에 담는다.
 					BoardVO vo = new BoardVO();
 					vo.setNo(rs.getLong("no"));
 					vo.setTitle(rs.getString("title"));
 					vo.setWriter(rs.getString("writer"));
 					vo.setWriteDate(rs.getString("writeDate"));
 					vo.setHit(rs.getLong("hit"));
+					
+					// BoardVO에 담은 데이터를 list에 추가
+					list.add(vo);
+					
 				}
 			}
 			
