@@ -67,6 +67,89 @@ public class BoardDAO extends DAO {
 		return list;
 	}	// end of list()
 	
+	
+	// 2. VIEW
+	// View 서비스에는 두가지가 진행되어야 합니다.
+	// 1. 조회수 증가, 2. 글번호로 작성된 데이터를 가져옵니다.
+	// 2-1 조회수 증가 : update (hit 를 1증가한 값으로 수정)
+	public Integer increase(Long no) throws Exception {
+		// 결과를 저장할 변수 선언 null값으로 초기화
+		Integer result = null;
+		
+		System.out.println("BoardDAO.increase() -----");
+		
+		try {
+			// 1. 드라이버확인 - Init클래스에서 확인 끝
+			// 2. DB연결
+			con = DB.getConnection();
+			System.out.println("2. DB 연결확인");
+			// 3. SQL작성 - INCREASE - 클래스 하단 상수
+			System.out.println(INCREASE);
+			// 4. 실행객체(pstmt)에 SQL, 데이터 세팅(? : 1개)
+			pstmt = con.prepareStatement(INCREASE);
+			pstmt.setLong(1, no);
+			// 5. 실행 그리고 결과 리턴
+			result = pstmt.executeUpdate();
+			// 6. 결과확인은 리턴 후 처리(controller에서)
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB 닫기
+			DB.close(con, pstmt);
+		}
+		
+		// 결과 리턴합니다.
+		return result;
+	}	// end of increase(Long no)
+	
+	// 2-2 글보기 VIEW
+	public BoardVO view(Long no) throws Exception {
+		// 결과 저장 변수 선언 및 초기화
+		BoardVO vo = null;
+		// 초기값을 null 로 선언한 이유는 db에서 데이터가 넘어오지
+		// 못했을 때 확인하는 용도로 사용합니다.
+		System.out.println("BoardDAO.view() -----");
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결(con)
+			con = DB.getConnection();
+			System.out.println("2. DB연결 확인완료");
+			// 3. SQL 작성 - VIEW - 클래스하단 상수
+			System.out.println(VIEW);
+			// 4. 실행객체(pstmt)에 SQL, 데이터세팅 (?: 1개)
+			pstmt = con.prepareStatement(VIEW);
+			pstmt.setLong(1, no);
+			System.out.println("4. 실행객체 준비완료");
+			// 5. 실행 및 결과 리턴
+			rs = pstmt.executeQuery();
+			System.out.println("5. 실행완료");
+			// 6. 결과 저장
+			if (rs != null && rs.next()) {
+				vo = new BoardVO();
+				vo.setNo(rs.getLong("no"));
+				vo.setTitle(rs.getString("title"));
+				vo.setContent(rs.getString("content"));
+				vo.setWriter(rs.getString("writer"));
+				vo.setWriteDate(rs.getString("writeDate"));
+				vo.setHit(rs.getLong("hit"));
+			}
+			System.out.println("6. 결과담기 완료");
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt, rs);
+			System.out.println("7. DB닫기 완료");
+		}
+		
+		// 결과 리턴
+		return vo;
+	}	// end of view(Long no)
+	
+	
 	// SQL ==================
 	private final String LIST = ""
 			+ "select no, title, writer, "
@@ -76,6 +159,15 @@ public class BoardDAO extends DAO {
 			// order by no -> 오래된 글부터 앞에서 보여줌
 			// order by hit desc -> 조회수 많은 순으로
 			// order by hit -> 조회수 적은 순으로
+	
+	private final String INCREASE = ""
+			+ "update board set hit = hit + 1 where no = ?";
+	
+	private final String VIEW = ""
+			+ "select no, title, content, writer, "
+			+ " date_format(writeDate, '%Y-%m-%d') as writeDate, hit "
+			+ " from board where no = ?";
+	
 	
 }	// end of class
 

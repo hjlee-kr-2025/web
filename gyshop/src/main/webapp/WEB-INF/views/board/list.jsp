@@ -21,7 +21,16 @@ $(function(){
 	
 	// 리스트의 데이터를 클릭했을때 처리하는 이벤트
 	$(".dataRow").click(function(){
-		alert("dataRow click 이벤트발생");
+		//alert("dataRow click 이벤트발생");
+		let no = $(this).find(".no").text();
+		// 클릭이벤트가 발생한 곳에서 <tr> 아래방향으로 찾습니다.
+		// class="no" 로 되어있는 태그를 찾고,
+		// 그안에 적힌 값을 가져옵니다.
+		//alert("클릭한 no : " + no);
+		
+		// 페이지를 이동합니다. location에 주소를 입력합니다.
+		location = "view.do?no="+no;
+		// ==> view.do?no=글번호
 	});
 	
 });
