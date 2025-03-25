@@ -42,6 +42,16 @@
   	<url-pattern>*.do</url-pattern>
   </filter-mapping>
   
+  <filter>
+  	<filter-name>encoding</filter-name>
+  	<filter-class>com.gyshop.util.filter.EncodingFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>encoding</filter-name>
+  	<url-pattern>*.do</url-pattern>
+  </filter-mapping>
+  
   
 </web-app>
 

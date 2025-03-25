@@ -165,10 +165,10 @@ public class BoardDAO extends DAO {
 			System.out.println(WRITE);
 			// 4. 실행객체(pstmt)에 SQL, 데이터세팅 (?: 4개)
 			pstmt = con.prepareStatement(WRITE);
-			pstmt.setString(1, "title");
-			pstmt.setString(2, "content");
-			pstmt.setString(3, "writer");
-			pstmt.setString(4, "pw");
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getContent());
+			pstmt.setString(3, vo.getWriter());
+			pstmt.setString(4, vo.getPw());
 			System.out.println("4. 실행객체 세팅 완료");
 			// 5. 실행 및 결과 리턴
 			result = pstmt.executeUpdate();

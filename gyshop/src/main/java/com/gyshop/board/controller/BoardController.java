@@ -2,6 +2,7 @@ package com.gyshop.board.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.gyshop.board.vo.BoardVO;
 import com.gyshop.main.controller.Init;
 import com.gyshop.util.exe.Execute;
 
@@ -65,6 +66,23 @@ public class BoardController {
 				break;
 			case "/board/write.do":
 				System.out.println("3-2. 일반게시판 글쓰기 처리");
+
+				System.out.println(request);
+				// 서비스로 전달할 데이터 세팅
+				BoardVO vo = new BoardVO();
+				vo.setTitle(request.getParameter("title"));
+				vo.setContent(request.getParameter("content"));
+				vo.setWriter(request.getParameter("writer"));
+				vo.setPw(request.getParameter("pw"));
+				// request.getParameter() 로 웹에서 입력한 데이터를
+				// 전달 받습니다.
+				// ""안에 들어가는 값은 name 속성에 적힌 값입니다.
+				
+				// 서비스 실행
+				result = Execute.execute(Init.get(uri), vo);
+				
+				// 실행결과 확인
+				jsp = "redirect:list.do";
 				break;
 			default:
 			}
