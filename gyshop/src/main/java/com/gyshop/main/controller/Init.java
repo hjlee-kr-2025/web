@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.gyshop.board.dao.BoardDAO;
 import com.gyshop.board.service.BoardListService;
+import com.gyshop.board.service.BoardViewService;
 import com.gyshop.main.dao.DAO;
 import com.gyshop.main.service.Service;
 
@@ -28,9 +29,11 @@ public class Init {
 		
 		// 2. service 생성
 		serviceMap.put("/board/list.do", new BoardListService());
+		serviceMap.put("/board/view.do", new BoardViewService());
 		
 		// 3. 조립 : service에 dao를 할당
 		serviceMap.get("/board/list.do").setDAO(daoMap.get("boardDAO"));
+		serviceMap.get("/board/view.do").setDAO(daoMap.get("boardDAO"));
 	}
 	
 	// 어느 서비스를 실행할지 리턴하는 메서드(할당된 서비스 주소 리턴)

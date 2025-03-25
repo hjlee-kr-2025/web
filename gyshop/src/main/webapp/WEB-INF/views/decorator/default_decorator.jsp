@@ -51,6 +51,9 @@
 		min-height: 600px;
 	}
 	
+	.topbox {
+		margin-top : 20px;
+	}
 
 	</style>
 

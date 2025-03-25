@@ -38,6 +38,27 @@ public class BoardController {
 				jsp = "board/list";
 				// "/WEB-INF/views/board/list.jsp" 파일을 웹에 로딩합니다.
 				break;
+			case "/board/view.do":
+				System.out.println("2. 일반게시판 글보기");
+				
+				// 서비스로 전달하는 데이터 세팅
+				Long no = Long.parseLong(request.getParameter("no"));
+				Long inc = Long.parseLong(request.getParameter("inc"));
+				// 주소창으로 넘어온 변수값을 java에서 받는 방법은
+				// request.getParameter() 메서드를 이용합니다.
+				// request.getParameter()의 리턴값은 String이므로
+				// 적절한 자료형으로 변환하여 사용합니다.
+				
+				// 서비스를 실행 : 전달데이터 Long[] - 글번호, 조회수증가변수
+				result = Execute.execute(Init.get(uri),
+						new Long[] {no, inc});
+				
+				// DB에서 가져온 데이터를 담는다.
+				request.setAttribute("vo", result);
+				
+				// jsp 파일로 이동
+				jsp = "board/view";
+				break;
 			default:
 			}
 		} catch (Exception e) {
@@ -50,3 +71,5 @@ public class BoardController {
 		return jsp;
 	}	// end of execute(HttpServletRequest request)
 }
+
+

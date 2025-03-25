@@ -7,11 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>일반게시판</title>
-<style>
-	.container {
-		margin-top : 20px;
-	}
-</style>
+
 <script type="text/javascript">
 /* javascript 는 jquery library를 사용해서 구현하겠습니다. 
  * $(document).ready(function(){~~~~~});
@@ -29,7 +25,7 @@ $(function(){
 		//alert("클릭한 no : " + no);
 		
 		// 페이지를 이동합니다. location에 주소를 입력합니다.
-		location = "view.do?no="+no;
+		location = "view.do?no="+no+"&inc=1";
 		// ==> view.do?no=글번호
 	});
 	
@@ -37,7 +33,7 @@ $(function(){
 </script>
 </head>
 <body>
-<div class="container">
+<div class="container topbox">
 	<h2><i class="fa fa-list"></i> 일반게시판 리스트</h2>
 	<table class="table table-hover">
     <thead><!-- 칼럼의 제목 -->
