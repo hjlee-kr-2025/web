@@ -59,6 +59,13 @@ public class BoardController {
 				// jsp 파일로 이동
 				jsp = "board/view";
 				break;
+			case "/board/writeForm.do":
+				System.out.println("3-1. 일반게시판 글씨기 폼");
+				jsp = "board/writeForm";
+				break;
+			case "/board/write.do":
+				System.out.println("3-2. 일반게시판 글쓰기 처리");
+				break;
 			default:
 			}
 		} catch (Exception e) {

@@ -29,6 +29,11 @@ $(function(){
 		// ==> view.do?no=글번호
 	});
 	
+	// 글쓰기 버튼 이벤트
+	$("#writeBtn").click(function(){
+		location = "writeForm.do";
+	});
+	
 });
 </script>
 </head>
@@ -59,6 +64,13 @@ $(function(){
     		</tr>
     	</c:forEach>
     </tbody>
+    <tfoot>
+    	<tr>
+    		<td colspan="5">
+    			<button class="btn btn-primary" id="writeBtn">글쓰기</button>
+    		</td>
+    	<tr>
+    </tfoot>
   </table>
 </div>
 </body>

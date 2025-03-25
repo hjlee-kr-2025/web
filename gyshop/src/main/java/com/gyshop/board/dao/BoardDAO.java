@@ -149,6 +149,45 @@ public class BoardDAO extends DAO {
 		return vo;
 	}	// end of view(Long no)
 	
+	// 3. 일반게시판 글쓰기
+	// 제목, 내용, 작성자, pw
+	public Integer write(BoardVO vo) throws Exception {
+		// 결과 저장 변수 선언 및 초기화
+		Integer result = null;
+		System.out.println("BoardDAO.write() -----");
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			System.out.println("2. DB연결 완료");
+			// 3. SQL작성 - WRITE - 클래스 하단 상수
+			System.out.println(WRITE);
+			// 4. 실행객체(pstmt)에 SQL, 데이터세팅 (?: 4개)
+			pstmt = con.prepareStatement(WRITE);
+			pstmt.setString(1, "title");
+			pstmt.setString(2, "content");
+			pstmt.setString(3, "writer");
+			pstmt.setString(4, "pw");
+			System.out.println("4. 실행객체 세팅 완료");
+			// 5. 실행 및 결과 리턴
+			result = pstmt.executeUpdate();
+			System.out.println("5. DB실행 완료");
+			// 6. 결과 확인 - 리턴후에 실행 (controller)
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+			System.out.println("7. DB닫기 완료");
+		}
+		
+		
+		// 결과 리턴
+		return result;
+	}	// end of write(BoardVO vo)
+	
 	
 	// SQL ==================
 	private final String LIST = ""
@@ -168,6 +207,9 @@ public class BoardDAO extends DAO {
 			+ " date_format(writeDate, '%Y-%m-%d') as writeDate, hit "
 			+ " from board where no = ?";
 	
+	private final String WRITE = ""
+			+ "insert into board (title, content, writer, pw) "
+			+ " values (?, ?, ?, ?)";
 	
 }	// end of class
 
