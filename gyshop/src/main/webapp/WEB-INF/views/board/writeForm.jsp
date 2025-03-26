@@ -19,6 +19,7 @@ $(function(){
 			str = str.trim();
 			// 공백제거된 str문자열을 objStr객체에 다시 기록합니다.(화면)
 			$(objStr).val(str);
+			//objStr="#title" 일때 $("#title").val(str);
 		}
 		
 		// str의 길이를 변수에 저장합니다.
@@ -36,8 +37,7 @@ $(function(){
 	// form 태그에서 type="submit" 인 input 태그 또는 button 태그를
 	// 클릭했을때 form 태그를 기준으로 submit event가 발생됩니다.
 	$("#writeForm").submit(function(){
-		alert("form 태그 submit 이벤트 발생");
-		
+		//alert("form 태그 submit 이벤트 발생");
 		/*
 		// 제목에 쓴 글의 길이가 제한사항에 맞는지 확인
 		let str = $("#title").val();
@@ -64,7 +64,7 @@ $(function(){
 		let pw = $("#pw").val();
 		let pw2 = $("#pw2").val();
 		if (pw != pw2) {
-			alert("비밀번호와 비밀번호확인이 다릅니다. 다시 확인해 주세요")
+			alert("비밀번호와 비밀번호확인이 다릅니다. 다시 확인해 주세요");
 			return false; // submit 이벤트를 취소시킨다.
 		}
 		
@@ -108,6 +108,34 @@ $(function(){
 	  </div>
 	  <button type="submit" class="btn btn-primary">등록</button>
 	</form>
+	
+	<!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Modal Heading</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          Modal body..
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+	
+	
+	
 </div>
 </body>
 </html>
