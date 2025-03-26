@@ -1,6 +1,7 @@
 package com.gyshop.board.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.gyshop.board.vo.BoardVO;
 import com.gyshop.main.controller.Init;
@@ -12,6 +13,9 @@ public class BoardController {
 		System.out.println("** BoardController.execute()");
 		// 이동할 jsp 주소를 담아놓을 변수
 		String jsp = null;
+		
+		// session 선언
+		HttpSession session = request.getSession();
 		
 		// 메뉴입력(uri)
 		String uri = request.getRequestURI();
@@ -98,7 +102,48 @@ public class BoardController {
 				break;
 			case "/board/update.do":
 				System.out.println("4-2. 일반게시판 글수정 처리");
+				System.out.println(request.getParameter("title")); 
+				// 수정된 데이터 수집
+				vo = new BoardVO();
+				vo.setNo(Long.parseLong(request.getParameter("no")));
+				vo.setTitle(request.getParameter("title"));
+				vo.setContent(request.getParameter("content"));
+				vo.setWriter(request.getParameter("writer"));
+				vo.setPw(request.getParameter("pw"));
+				// 서비스 실행
+				result = Execute.execute(Init.get(uri), vo);
+				// 실행결과확인
+				if ((Integer)result == 0) {
+					session.setAttribute("msg",
+						"비밀번호가 맞지않습니다. 다시확인하시고 시도해주세요");
+				}
+				else {
+					session.setAttribute("msg",
+						vo.getNo() + "번 게시글이 수정되었습니다.");
+				}
 				
+				// 페이지이동, 수정글의 상세페이지
+				jsp = "redirect:view.do?no="+vo.getNo()+"&inc=0";
+				break;
+			case "/board/delete.do":
+				System.out.println("5. 일반게시판 글삭제");
+				// 서비스로 넘어가는 데이터 수집
+				vo = new BoardVO();
+				vo.setNo(Long.parseLong(request.getParameter("no")));
+				vo.setPw(request.getParameter("pw"));
+				// 서비스 실행
+				result = Execute.execute(Init.get(uri), vo);
+				// 실행 결과 확인
+				if ((Integer)result == 0) {
+					session.setAttribute("msg",
+							"비밀번호가 맞지않습니다. 다시확인하시고 시도해주세요");
+					jsp = "redirect:view.do?no="+vo.getNo()+"&inc=0";
+				}
+				else {
+					session.setAttribute("msg",
+							vo.getNo() + "번 게시글이 삭제되었습니다.");
+					jsp = "redirect:list.do";
+				}
 				break;
 			default:
 			}

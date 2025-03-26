@@ -25,8 +25,20 @@
 	  		<div>작성자: ${vo.writer }</div>
 	  		<div>작성일: ${vo.writeDate }</div>
 	  	</div>
+	  	<div style="margin-top: 15px;">
+			  <a href="updateForm.do?no=${vo.no }">
+			  	<button class="btn btn-primary">수정</button>
+			  </a>
+			  <a href="list.do">
+			  	<button class="btn btn-success">리스트</button>
+			  </a>
+		  </div>
 	  </div>
-	</div>
-</div>
+	</div><!-- end of class="card" -->
+</div><!-- end of class="container" -->
 </body>
 </html>
+
+
+
+

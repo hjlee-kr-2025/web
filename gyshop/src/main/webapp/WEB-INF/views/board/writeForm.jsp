@@ -108,7 +108,7 @@ $(function(){
 			return false; // submit 이벤트를 취소시킨다.
 		}
 		
-		return false; // submit 이벤트를 취소시킨다.
+		//return false; // submit 이벤트를 취소시킨다.
 	});
 	
 	$("#cancelBtn").click(function(){

@@ -108,7 +108,7 @@ $(function(){
 			return false; // submit 이벤트를 취소시킨다.
 		}
 		
-		return false; // submit 이벤트를 취소시킨다.
+		//return false; // submit 이벤트를 취소시킨다.
 	});
 	
 	$("#cancelBtn").click(function(){
@@ -126,23 +126,28 @@ $(function(){
 <body>
 <div class="container topbox">
 	<h2><i class="fa fa-edit"></i> 일반게시판 글수정</h2>
-	<form action="view.do" method="post" id="updateForm">
+	<form action="update.do" method="post" id="updateForm">
+	  <div class="form-group">
+	    <label for="no">번호:</label>
+	    <input type="text" class="form-control"
+	    	id="no" name="no" readonly value="${vo.no }">
+	  </div>
 	  <div class="form-group">
 	    <label for="title">제목:</label>
 	    <input type="text" class="form-control"
 	    	placeholder="제목을 입력하세요" id="title"
-	    	name="title" required>
+	    	name="title" required value="${vo.title }">
 	  </div>
 	  <div class="form-group">
 	  	<label for="content">내용:</label>
 	  	<textarea class="form-control" id="content"
-	  		name="content" rows="10" required></textarea>
+	  		name="content" rows="10" required>${vo.content }</textarea>
 	  </div>
 	  <div class="form-group">
 	    <label for="writer">작성자:</label>
 	    <input type="text" class="form-control"
 	    	placeholder="이름을 입력하세요" id="writer"
-	    	name="writer" required>
+	    	name="writer" required value="${vo.writer }">
 	  </div>
 	  <div class="form-group">
 	    <label for="pw">비밀번호:</label>
@@ -154,7 +159,7 @@ $(function(){
 	    <input type="password" class="form-control"
 	    	placeholder="비밀번호확인을 입력하세요" id="pw2" required>
 	  </div>
-	  <button type="submit" class="btn btn-primary">등록</button>
+	  <button type="submit" class="btn btn-primary">수정</button>
 	  <button type="reset" class="btn btn-success">새로고침</button>
 	  <button type="button" class="btn btn-secondary"
 	  	id="cancelBtn">취소</button>

@@ -223,7 +223,38 @@ public class BoardDAO extends DAO {
 		
 		// 결과 리턴
 		return result;
-	}
+	}	// end of update(BoardVO vo)
+	
+	// 5. 일반게시판 글삭제 (no, pw)
+	public Integer delete(BoardVO vo) throws Exception {
+		// 결과 저장 변수 선언 및 null로 초기화
+		Integer result = null;
+		System.out.println("BoardDAO.delete() -----");
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL - DELETE - 클래스하단 상수
+			System.out.println(DELETE);
+			// 4. 실행객체(pstmt)에 SQL과 데이터를 세팅(?: 2개)
+			pstmt = con.prepareStatement(DELETE);
+			pstmt.setLong(1, vo.getNo());
+			pstmt.setString(2, vo.getPw());
+			// 5. 실행 및 결과 리턴
+			result = pstmt.executeUpdate();
+			// 6. 결과확인은 - controller
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		
+		// 결과 리턴
+		return result;
+	}	// end of delete(BoardVO vo)
 	
 	
 	// SQL ==================
@@ -251,6 +282,9 @@ public class BoardDAO extends DAO {
 	private final String UPDATE = ""
 			+ "update board set title = ?, content = ?, writer = ? "
 			+ " where no = ? and pw = ?";
+	
+	private final String DELETE = ""
+			+ "delete from board where no = ? and pw = ?";
 	
 }	// end of class
 
