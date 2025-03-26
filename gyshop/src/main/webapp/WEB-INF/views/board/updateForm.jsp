@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!-- /WEB-INF/views/board/writeForm.jsp -->    
+<!-- /WEB-INF/views/board/updateForm.jsp -->    
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,7 +57,7 @@ $(function(){
 	// 언제 아래 사항을 확인할 것인가? ==> 등록버튼을 클릭했을 때
 	// form 태그에서 type="submit" 인 input 태그 또는 button 태그를
 	// 클릭했을때 form 태그를 기준으로 submit event가 발생됩니다.
-	$("#writeForm").submit(function(){
+	$("#updateForm").submit(function(){
 		//alert("form 태그 submit 이벤트 발생");
 		
 		/*
@@ -125,8 +125,8 @@ $(function(){
 </head>
 <body>
 <div class="container topbox">
-	<h2><i class="fa fa-edit"></i> 일반게시판 글쓰기</h2>
-	<form action="write.do" method="post" id="writeForm">
+	<h2><i class="fa fa-edit"></i> 일반게시판 글수정</h2>
+	<form action="view.do" method="post" id="updateForm">
 	  <div class="form-group">
 	    <label for="title">제목:</label>
 	    <input type="text" class="form-control"

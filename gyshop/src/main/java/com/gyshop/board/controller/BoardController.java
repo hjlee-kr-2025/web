@@ -84,6 +84,22 @@ public class BoardController {
 				// 실행결과 확인
 				jsp = "redirect:list.do";
 				break;
+			case "/board/updateForm.do":
+				System.out.println("4-1. 일반게시판 글수정 폼");
+				// 1. 수정할 글번호 수집
+				no = Long.parseLong(request.getParameter("no"));
+				// 2. 글번호로 수정할 데이터 DB에서 가져오기
+				result = Execute.execute(Init.get("/board/view.do"),
+						new Long[] {no, 0L});
+				// 3. 웹페이지로 넘어갈 데이터 세팅
+				request.setAttribute("vo", result);
+				// 4. jsp페이지로 이동
+				jsp = "board/updateForm";
+				break;
+			case "/board/update.do":
+				System.out.println("4-2. 일반게시판 글수정 처리");
+				
+				break;
 			default:
 			}
 		} catch (Exception e) {

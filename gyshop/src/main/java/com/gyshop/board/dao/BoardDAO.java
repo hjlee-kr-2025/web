@@ -188,6 +188,43 @@ public class BoardDAO extends DAO {
 		return result;
 	}	// end of write(BoardVO vo)
 	
+	// 4. 일반게시판 글수정 (글번호, 비밀번호) : (제목, 내용, 이름)
+	public Integer update(BoardVO vo) throws Exception {
+		// 결과 저장 변수 선언 및 초기화(null)
+		Integer result = null;
+		System.out.println("BoardDAO.update() -----");
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. 퀴리작성 - UPDATE - 클래스하단 상수
+			System.out.println(UPDATE);
+			// 4. 실행객체(pstmt) - SQL 구성, 데이터 세팅(? : 5개)
+			pstmt = con.prepareStatement(UPDATE);
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getContent());
+			pstmt.setString(3, vo.getWriter());
+			pstmt.setLong(4, vo.getNo());
+			pstmt.setString(5, vo.getPw());
+			System.out.println("4.실행객체 세팅 완료 ===");
+			// 5. 실행 및 결과 리턴
+			result = pstmt.executeUpdate();
+			System.out.println("5.실행완료 ===");
+			// 6. 결과 확인 - controller에서
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		
+		// 결과 리턴
+		return result;
+	}
+	
 	
 	// SQL ==================
 	private final String LIST = ""
@@ -210,6 +247,10 @@ public class BoardDAO extends DAO {
 	private final String WRITE = ""
 			+ "insert into board (title, content, writer, pw) "
 			+ " values (?, ?, ?, ?)";
+	
+	private final String UPDATE = ""
+			+ "update board set title = ?, content = ?, writer = ? "
+			+ " where no = ? and pw = ?";
 	
 }	// end of class
 
