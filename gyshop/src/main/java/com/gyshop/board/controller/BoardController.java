@@ -86,6 +86,15 @@ public class BoardController {
 				result = Execute.execute(Init.get(uri), vo);
 				
 				// 실행결과 확인
+				if ((Integer)result == 0) {
+					session.setAttribute("msg",
+						"글쓰기가 실패했습니다. 다시 시도해 주세요.");
+				}
+				else {
+					session.setAttribute("msg",
+						"새로운 글이 등록되었습니다.");
+				}
+				
 				jsp = "redirect:list.do";
 				break;
 			case "/board/updateForm.do":
