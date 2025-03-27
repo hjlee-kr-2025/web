@@ -3,6 +3,7 @@ package com.gyshop.board.service;
 import com.gyshop.board.dao.BoardDAO;
 import com.gyshop.main.dao.DAO;
 import com.gyshop.main.service.Service;
+import com.gyshop.util.page.PageObject;
 
 public class BoardListService implements Service {
 	
@@ -16,7 +17,12 @@ public class BoardListService implements Service {
 		// ---> BoardController 의 execute() 메서드가 실행
 		// ---> Execute.execute() 를 통해서 이곳까지 옵니다.
 		// ===> 여기서 BoardDAO 의 list()메서드를 호출해서 결과를 리턴받습니다.
-		return dao.list();
+		PageObject pageObject = (PageObject) obj;
+		
+		// 전체 데이터 정보를 DB에서 가져오고 페이지세팅을 합니다.
+		pageObject.setTotalRow(dao.getTotalRow(pageObject));
+		
+		return dao.list(pageObject);
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import com.gyshop.board.vo.BoardVO;
 import com.gyshop.main.controller.Init;
 import com.gyshop.util.exe.Execute;
+import com.gyshop.util.page.PageObject;
 
 public class BoardController {
 
@@ -32,12 +33,18 @@ public class BoardController {
 				
 				// 서비스로 넘어가는 데이터 세팅
 				// 리스트에는 없습니다.
+				// ===> 페이지 처리를 위한 정보가 전달됩니다.
+				PageObject pageObject = PageObject.getInstance(request);
 				
 				// 서비스를 실행하고 결과를 리턴받습니다.
-				result = Execute.execute(Init.get(uri), null);
+				//result = Execute.execute(Init.get(uri), null); // 기본리스트
+				// 페이지 처리를 위한 서비스 실행
+				result = Execute.execute(Init.get(uri), pageObject);
 				
 				// 결과 데이터를 request에 담습니다.
 				request.setAttribute("list", result);
+				// 페이지와 관련된 정보도 request에 담습니다.
+				request.setAttribute("pageObject", pageObject);
 				// => jsp로 데이터를 전달하기 위해서
 				
 				jsp = "board/list";

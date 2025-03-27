@@ -6,13 +6,47 @@ import java.util.List;
 import com.gyshop.board.vo.BoardVO;
 import com.gyshop.main.dao.DAO;
 import com.gyshop.util.db.DB;
+import com.gyshop.util.page.PageObject;
 
 public class BoardDAO extends DAO {
 
 	// DAO 클래스에는 DB사용에 필요한 3가지 객체가 선언되어있습니다
 	
-	// 1. 일반게시판 리스트
-	public List<BoardVO> list() throws Exception {
+	// 1-1 일반게시판 전체 데이터 개수
+	public Long getTotalRow(PageObject pageObject) throws Exception {
+		// 결과 저장할 변수 선언
+		Long totalRow = null;
+		System.out.println("BoardDAO.getTotalRow() -----");
+		
+		try {
+			// 1. 드라이버 확인
+			// 2. DB 연결
+			con = DB.getConnection();
+			// 3. SQL 쿼리 작성 - GETTOTALROW - 클래스 하단 상수
+			System.out.println(GETTOTALROW);
+			// 4. 실행객체에 SQL + 데이터세팅(? 없음)
+			pstmt = con.prepareStatement(GETTOTALROW);
+			// 5. 실행 + 결과 리턴 (select문은 ReseultSet에 결과를 담는다)
+			rs = pstmt.executeQuery();
+			// 6. 결과 저장
+			if (rs != null && rs.next()) {
+				totalRow = rs.getLong(1);
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt, rs);
+		}
+		
+		// 결과 리턴
+		return totalRow;
+	}	// end of getTotalRow(PageObject pageObject)
+	
+	// 1-2. 일반게시판 리스트
+	public List<BoardVO> list(PageObject pageObject) throws Exception {
 		// 1) 결과 저장 변수 선언 - 리턴타입과 같은 자료형 선언, 초기값 null
 		List<BoardVO> list = null;
 		System.out.println("** BoardDAO.list() -----");
@@ -26,9 +60,12 @@ public class BoardDAO extends DAO {
 			System.out.println("----- 2. DB연결완료 -----");
 			// 3. SQL 작성 - 클래스하단 LIST 상수로 구현
 			System.out.println("3. SQL(LIST) : " + LIST);
-			// 4. 실행객체에 SQL + 데이터세팅(?: 0)
+			// 4. 실행객체에 SQL + 데이터세팅(?: 0 -> 2)
 			pstmt = con.prepareStatement(LIST); // SQL 세팅
 			// 데이터세팅은 없습니다. (?가 없기 때문에)
+			// 페이지 처리후에 세팅하는 값이 2개 들어갑니다.
+			pstmt.setLong(1, pageObject.getStartRow());
+			pstmt.setLong(2, pageObject.getEndRow());
 			System.out.println("4. 실행객체 세팅 완료 ---");
 			// 5. 실행 + 결과리턴
 			rs = pstmt.executeQuery();
@@ -268,6 +305,9 @@ public class BoardDAO extends DAO {
 			// order by hit desc -> 조회수 많은 순으로
 			// order by hit -> 조회수 적은 순으로
 	// 페이지 처리를 위한 쿼리
+	private final String GETTOTALROW = ""
+		+ "select count(*) from board";
+	
 	private final String LIST = ""
 		+ "select "
 		+ "	no, title, writer, writeDate, hit "
@@ -278,7 +318,7 @@ public class BoardDAO extends DAO {
 		+ " date_format(writeDate, '%Y-%m-%d') as writeDate, hit " 
 		+ " from board, (select @rownum := 0) as rn "
 		+ " order by no desc) as pageBoard " 
-		+ " where rnum >= 1 and rnum <= 5";
+		+ " where rnum >= ? and rnum <= ?";
 	// ===> 일반게시판의 리스트 전체를 rnum으로 1번부터 순서대로 번호를 매긴
 	// 가상의 테이블을 만들고
 	// rnum 1부터 5까지 5개의 데이터를 가져오는 쿼리입니다.

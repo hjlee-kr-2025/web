@@ -72,6 +72,7 @@ $(function(){
     	<tr>
     </tfoot>
   </table>
+  ${pageObject }
 </div>
 </body>
 </html>

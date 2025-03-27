@@ -158,6 +158,13 @@ public class PageObject {
 		System.out.println("startPage = " + startPage);
 		System.out.println("endPage = " + endPage);
 	}
+
+	@Override
+	public String toString() {
+		return "PageObject [page=" + page + ", perPageNum=" + perPageNum + ", startRow=" + startRow + ", endRow="
+				+ endRow + ", perGroupPageNum=" + perGroupPageNum + ", startPage=" + startPage + ", endPage=" + endPage
+				+ ", totalPage=" + totalPage + ", totalRow=" + totalRow + "]";
+	}
 	
 	
 	
