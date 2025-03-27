@@ -21,7 +21,7 @@
 	  		><i class="fa fa-angle-left"></i></a>
   	</c:if>
   </li>
-  <!-- page의 숫자링크를 구현하는 부분 <c:forEach></c:forEach> -->
+  <!-- page의 숫자링크를 구현하는 부분  -->
   <c:forEach begin="${pageObject.startPage }"
   	end="${pageObject.endPage }" var="cnt">
 	  <li data-page="${cnt }"
