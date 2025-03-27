@@ -72,7 +72,21 @@ $(function(){
     	<tr>
     </tfoot>
   </table>
-  ${pageObject }
+  <div>
+  	<ul class="pagination">
+		  <li class="page-item">
+		  	<a class="page-link" href="#">Previous</a>
+		  </li>
+		  <li class="page-item">
+		  	<a class="page-link" href="list.do?page=1&perPageNum=10">1</a>
+		  </li>
+		  <li class="page-item">
+		  	<a class="page-link" href="list.do?page=2&perPageNum=10">2</a>
+		  </li>
+		  <li class="page-item"><a class="page-link" href="#">3</a></li>
+		  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+		</ul>
+  </div>
 </div>
 </body>
 </html>
