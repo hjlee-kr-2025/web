@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="pageNav" tagdir="/WEB-INF/tags" %>
 <!-- /WEB-INF/views/board/list.jsp -->
 <!DOCTYPE html>
 <html>
@@ -73,19 +74,7 @@ $(function(){
     </tfoot>
   </table>
   <div>
-  	<ul class="pagination">
-		  <li class="page-item">
-		  	<a class="page-link" href="#">Previous</a>
-		  </li>
-		  <li class="page-item">
-		  	<a class="page-link" href="list.do?page=1&perPageNum=10">1</a>
-		  </li>
-		  <li class="page-item">
-		  	<a class="page-link" href="list.do?page=2&perPageNum=10">2</a>
-		  </li>
-		  <li class="page-item"><a class="page-link" href="#">3</a></li>
-		  <li class="page-item"><a class="page-link" href="#">Next</a></li>
-		</ul>
+  	<pageNav:pageNav listURI="list.do" pageObject="${pageObject }"></pageNav:pageNav>
   </div>
 </div>
 </body>

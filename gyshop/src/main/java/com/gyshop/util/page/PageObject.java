@@ -98,11 +98,11 @@ public class PageObject {
 		this.perGroupPageNum = perGroupPageNum;
 	}
 
-	public Long getStartpage() {
+	public Long getStartPage() {
 		return startPage;
 	}
 
-	public void setStartpage(Long startPage) {
+	public void setStartPage(Long startPage) {
 		this.startPage = startPage;
 	}
 

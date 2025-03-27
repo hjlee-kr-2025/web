@@ -14,21 +14,32 @@
   	<c:if test="${pageObject.startPage > 1 }">
 	  	<a class="page-link"
 	  		href="${listURI }?page=${pageObject.startPage - 1}&perPageNum=${pageObject.perPageNum}"
-	  	>Previous</a>
+	  		><i class="fa fa-angle-left"></i></a>
   	</c:if>
   	<c:if test="${pageObject.startPage == 1 }">
-	  	<a class="page-link" href="" onclick="return false">Previous</a>
+	  	<a class="page-link" href="" onclick="return false"
+	  		><i class="fa fa-angle-left"></i></a>
   	</c:if>
   </li>
+  <!-- page의 숫자링크를 구현하는 부분 <c:forEach></c:forEach> -->
   <c:forEach begin="${pageObject.startPage }"
   	end="${pageObject.endPage }" var="cnt">
-	  <li data-page="${cnt }" class="page-item">
+	  <li data-page="${cnt }"
+	  	${(pageObject.page == cnt)?"class=\"page-item active\"":"class=\"page-item\"" }>
 	  	<a class="page-link"
 	  		href="${listURI }?page=${cnt}&perPageNum=${pageObject.perPageNum}"
-	  	>${cnt }</a>
+	  		>${cnt }</a>
 	  </li>
   </c:forEach>
   <li data-page="${pageObject.endPage + 1 }" class="page-item">
-  	<a class="page-link" href="#">Next</a>
+  	<c:if test="${pageObject.endPage < pageObject.totalPage }">
+  		<a class="page-link"
+  			href="${listURI }?page=${pageObject.endPage + 1}&perPageNum=${pageObject.perPageNum}"
+  			><i class="fa fa-angle-right"></i></a>
+  	</c:if>
+  	<c:if test="${pageObject.endPage == pageObject.totalPage }">
+  		<a class="page-link" href="" onclick="return false"
+  			><i class="fa fa-angle-right"></i></a>
+  	</c:if>
   </li>
 </ul>

@@ -14,3 +14,23 @@
 - 시작페이지, 끝페이지
 
 // 시작은 최근글부터 보여주는 정렬방식
+
+
+// DB 데이터 증가시키기
+insert into board (title, content, writer, pw)
+	select title, content, writer, pw from board;
+
+// 위 명령문은 board 테이블에 있는 모든 데이터를 한번 복제합니다.
+no, writeDate, hit는 DB에 insert할때 자동으로 부여되기때문에
+제외하였습니다.
+
+
+
+
+
+
+
+
+
+
+
