@@ -67,7 +67,7 @@ $(function(){
     </tbody>
     <tfoot>
     	<tr>
-    		<td colspan="5">
+    		<td colspan="5" style="text-align:right;">
     			<button class="btn btn-primary" id="writeBtn">글쓰기</button>
     		</td>
     	<tr>

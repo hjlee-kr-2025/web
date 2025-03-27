@@ -13,6 +13,7 @@
 
 <% request.setAttribute("tooltip", " data-toggle='tooltip' data-placement='top' "); %>
 <% request.setAttribute("noMove", " title='no move page!' "); %>
+<% request.setAttribute("noLinkColor", "#888"); %>
 	
 <ul class="pagination justify-content-center">
 	<%-- 첫 페이지로 이동할 때 사용하는 링크 --%>
@@ -28,7 +29,7 @@
 		<c:if test="${pageObject.page == 1 }">
 			<a class="page-link" href="" onclick="return false"
 				${noMove } ${tooltip }
-	  		><i class="fa fa-angle-double-left" style="color: #888"></i></a>
+	  		><i class="fa fa-angle-double-left" style="color: ${noLinkColor}"></i></a>
 		</c:if>
 	</li>
 	<%-- 앞 페이지 그룹으로 이동할 때 사용하는 링크 --%>
@@ -36,11 +37,13 @@
   	<c:if test="${pageObject.startPage > 1 }">
 	  	<a class="page-link"
 	  		href="${listURI }?page=${pageObject.startPage - 1}&perPageNum=${pageObject.perPageNum}"
+	  		title="click to move previous page group!!" ${tooltip }
 	  		><i class="fa fa-angle-left"></i></a>
   	</c:if>
   	<c:if test="${pageObject.startPage == 1 }">
 	  	<a class="page-link" href="" onclick="return false"
-	  		><i class="fa fa-angle-left"></i></a>
+	  		${noMove } ${tooltip }
+	  		><i class="fa fa-angle-left" style="color: ${noLinkColor}"></i></a>
   	</c:if>
   </li>
   <!-- 주석을 테스트 합니다. -->
@@ -60,25 +63,30 @@
   	<c:if test="${pageObject.endPage < pageObject.totalPage }">
   		<a class="page-link"
   			href="${listURI }?page=${pageObject.endPage + 1}&perPageNum=${pageObject.perPageNum}"
+  			title="click to move next page group!!" ${tooltip }
   			><i class="fa fa-angle-right"></i></a>
   	</c:if>
   	<c:if test="${pageObject.endPage == pageObject.totalPage }">
   		<a class="page-link" href="" onclick="return false"
-  			><i class="fa fa-angle-right"></i></a>
+  			${noMove } ${tooltip }
+  			><i class="fa fa-angle-right" style="color: ${noLinkColor}"></i></a>
   	</c:if>
   </li>
   <%-- 마지막 페이지로 이동하는 링크 --%>
   <li data-page="${pageObject.totalPage }"
-  	${(pageObject.page == pageObject.totalPage)
-  		?"class=\"page-item disabled\"":"class=\"page-item\"" }>
+  <%-- 	${(pageObject.page == pageObject.totalPage)
+  		?"class=\"page-item disabled\"":"class=\"page-item\"" } --%>
+  		class="page-item">
   	<c:if test="${pageObject.page < pageObject.totalPage }">
   		<a class="page-link"
   			href="${listURI }?page=${pageObject.totalPage}&perPageNum=${pageObject.perPageNum}"
+  			title="click to move last page!!" ${tooltip }
   			><i class="fa fa-angle-double-right"></i></a>
   	</c:if>
   	<c:if test="${pageObject.page == pageObject.totalPage }">
   		<a class="page-link" href="" onclick="return false"
-  			><i class="fa fa-angle-double-right"></i></a>
+  			${noMove } ${tooltip }
+  			><i class="fa fa-angle-double-right" style="color: ${noLinkColor}"></i></a>
   	</c:if>
   </li>
 </ul>
