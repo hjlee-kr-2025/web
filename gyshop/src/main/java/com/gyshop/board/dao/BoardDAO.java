@@ -258,14 +258,32 @@ public class BoardDAO extends DAO {
 	
 	
 	// SQL ==================
-	private final String LIST = ""
+	/* LIST 기본쿼리
+	  private final String LIST = ""
 			+ "select no, title, writer, "
 			+ " date_format(writeDate, '%Y-%m-%d') as writeDate, hit "
-			+ " from board order by no desc";
+			+ " from board order by no desc";*/
 			// order by no desc -> 최근글 부터 앞에서 보여줌
 			// order by no -> 오래된 글부터 앞에서 보여줌
 			// order by hit desc -> 조회수 많은 순으로
 			// order by hit -> 조회수 적은 순으로
+	// 페이지 처리를 위한 쿼리
+	private final String LIST = ""
+		+ "select "
+		+ "	no, title, writer, writeDate, hit "
+		+ " from "
+		+ " (select "
+		+ " @rownum := @rownum + 1 as rnum, "
+		+ "	no, title, writer, "
+		+ " date_format(writeDate, '%Y-%m-%d') as writeDate, hit " 
+		+ " from board, (select @rownum := 0) as rn "
+		+ " order by no desc) as pageBoard " 
+		+ " where rnum >= 1 and rnum <= 5";
+	// ===> 일반게시판의 리스트 전체를 rnum으로 1번부터 순서대로 번호를 매긴
+	// 가상의 테이블을 만들고
+	// rnum 1부터 5까지 5개의 데이터를 가져오는 쿼리입니다.
+	// (최신글 첫번째 부터 다섯번째까지 데이터)
+	
 	
 	private final String INCREASE = ""
 			+ "update board set hit = hit + 1 where no = ?";
