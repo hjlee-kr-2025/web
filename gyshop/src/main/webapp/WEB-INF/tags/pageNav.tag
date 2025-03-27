@@ -11,13 +11,14 @@
 <%@ attribute name="listURI" required="true"
 	type="java.lang.String" %>
 
-<% request.setAttribute("tooltip", " data-toggle=\"tooltip\" data-placement=\"top\" "); %>
-<% request.setAttribute("noMove", " title=\"no move page!\" "); %>
+<% request.setAttribute("tooltip", " data-toggle='tooltip' data-placement='top' "); %>
+<% request.setAttribute("noMove", " title='no move page!' "); %>
 	
 <ul class="pagination justify-content-center">
 	<%-- 첫 페이지로 이동할 때 사용하는 링크 --%>
 	<li data-page="1"
-		${(pageObject.page == 1)?"class=\"page-item disabled\"":"class=\"page-item\"" } >
+		<%-- ${(pageObject.page == 1)?"class=\"page-item disabled\"":"class=\"page-item\"" } --%>
+			class="page-item">
 		<c:if test="${pageObject.page > 1 }">
 			<a class="page-link" 
 				href="${listURI }?page=1&perPageNum=${pageObject.perPageNum}"
@@ -27,7 +28,7 @@
 		<c:if test="${pageObject.page == 1 }">
 			<a class="page-link" href="" onclick="return false"
 				${noMove } ${tooltip }
-	  		><i class="fa fa-angle-double-left"></i></a>
+	  		><i class="fa fa-angle-double-left" style="color: #888"></i></a>
 		</c:if>
 	</li>
 	<%-- 앞 페이지 그룹으로 이동할 때 사용하는 링크 --%>
