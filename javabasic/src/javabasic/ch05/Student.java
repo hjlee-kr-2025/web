@@ -66,9 +66,9 @@ public class Student {
 		//student2.serialNum = 1002;
 		//student3.serialNum = 1003;
 		Student.serialNum = 1005;// static 변수의 실제 사용하는 방법
-		System.out.println(student1.serialNum);
-		System.out.println(student2.serialNum);
-		System.out.println(student3.serialNum);
+		System.out.println(++student1.serialNum);
+		System.out.println(++student2.serialNum);
+		System.out.println(++student3.serialNum);
 	}
 
 	/* 생성자 (일반클래스에는 생성자가 있습니다.)
@@ -88,6 +88,16 @@ public class Student {
 	public Student(int studentId, String studentName) {
 		this.studentId = studentId;
 		this.studentName = studentName;
+	}
+	
+	// static 메서드에는 생성되지않은 멤버변수를 사용할 수 없습니다.
+	// 멤버변수는 생성자를 사용한 후에 메모리가 할당되기 때문입니다.
+	// static 메서드는 static 변수와 마찬가지로 클래스가 처음 로드될때
+	// 메모리가 할당 되기 때문입니다.
+	public static void setSerialNum(int serialNum) {
+		Student.serialNum = serialNum;
+		Student student1 = new Student();
+		student1.studentName = "이현진";
 	}
 }
 
