@@ -30,7 +30,7 @@ public class GradeDAO extends DAO {
 					if (list == null) list = new ArrayList<GradeVO>();
 					GradeVO vo = new GradeVO();
 					vo.setGradeNo(rs.getInt("gradeNo"));
-					vo.setGradeName(rs.getString("grageName"));
+					vo.setGradeName(rs.getString("gradeName"));
 					
 					list.add(vo);
 				}
