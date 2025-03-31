@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.gyshop.board.controller.BoardController;
+import com.gyshop.member.service.GradeController;
 
 /* 1. webserver 가 로딩될때 init()가 실행되도록 구성
  * 		(web.xml에 load-on-startup 를 1로 세팅)
@@ -27,6 +28,7 @@ public class DispatcherServlet extends HttpServlet {
 	 * 
 	 */
 	private BoardController boardController = new BoardController();
+	private GradeController gradeController = new GradeController();
 	
 
 	/* [shift]+[alt]+[s] -> override/implements method 클릭
@@ -72,6 +74,9 @@ public class DispatcherServlet extends HttpServlet {
 			break;
 		case "/board":
 			jsp = boardController.execute(request);
+			break;
+		case "/grade":
+			jsp = gradeController.execute(request);
 			break;
 		default:
 			request.setAttribute("uri", uri);
