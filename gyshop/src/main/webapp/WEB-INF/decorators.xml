@@ -6,6 +6,7 @@
 	<decorator name="main" page="default_decorator.jsp">
 		<pattern>/main/*</pattern>
 		<pattern>/board/*</pattern>
+		<pattern>/grade/*</pattern>
 		<pattern>/notice/*</pattern>
 		<pattern>/image/*</pattern>
 		<pattern>/member/*</pattern>
