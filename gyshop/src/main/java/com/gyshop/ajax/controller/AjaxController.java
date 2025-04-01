@@ -17,7 +17,7 @@ public class AjaxController {
 		
 		try {
 			switch(uri) {
-			case "ajax/checkId.do":
+			case "/ajax/checkId.do":
 				System.out.println("아이디 중복체크 처리");
 				// 서비스로 넘어가는 데이터 수집
 				String id = request.getParameter("id");
@@ -26,7 +26,7 @@ public class AjaxController {
 				// jsp로 전달되는 데이터 담기
 				request.setAttribute("id", id);
 				// 로드할 jsp경로 표시
-				jsp = "member/chekcId";
+				jsp = "member/checkId";
 				break;
 			}
 		} catch (Exception e) {

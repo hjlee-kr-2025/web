@@ -109,7 +109,7 @@ $(function(){
 	// 아이디를 체크하는 코드
 	$("#id").keyup(function(){
 		console.log("#id, keyup event");
-		let id = $("$id").val();
+		let id = $("#id").val();
 		if (id.length < 3) {
 			$("#checkIdDiv").removeClass("alert-success alert-danger")
 				.addClass("alert-danger");
@@ -122,16 +122,18 @@ $(function(){
 				ajax -> 페이지를 이동하지 않고 데이터만 가져오는 기법
 				jquery에서는 load() 메서드를 사용합니다.
 			*/
-			$("checkIdDiv").load("/ajax/checkId.do?id=" + id,
+			console.log("중복id체크");
+			$("#checkIdDiv").load("/ajax/checkId.do?id=" + id,
 					function(result){
-					if (result.indexOf("중복") >= 0) {
-						$("#checkIdDiv").removeClass("alert-success alert-danger")
-							.addClass("alert-danger");
-					}
-					else {
-						$("#checkIdDiv").removeClass("alert-success alert-danger")
-						.addClass("alert-success");
-					}
+						console.log("ajax result: ",result);
+						if (result.indexOf("중복") >= 0) {
+							$("#checkIdDiv").removeClass("alert-success alert-danger")
+								.addClass("alert-danger");
+						}
+						else {
+							$("#checkIdDiv").removeClass("alert-success alert-danger")
+							.addClass("alert-success");
+						}
 			});
 		}
 	});
