@@ -45,6 +45,39 @@ public class MemberDAO extends DAO {
 		return result;
 	} // end of write(MemberVO vo)
 	
+	// 3-1. id 중복체크
+	public String checkId(String id) throws Exception {
+		// 결과 저장 변수 선언 및 초기화(null)
+		String result = null;
+		
+		try {
+			// 1. 드라이버 확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL쿼리작성 - CHECKID - 클래스 하단 상수
+			System.out.println(CHECKID);
+			// 4. 실행객체에 SQL + 데이터세팅(?: 1개)
+			pstmt = con.prepareStatement(CHECKID);
+			pstmt.setString(1, id);
+			// 5. 실행 및 결과 리턴
+			rs = pstmt.executeQuery();
+			// 6. 결과 담기
+			if (rs != null && rs.next()) {
+				result = rs.getString("id");
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt, rs);
+		}
+		
+		// 결과 리턴
+		return result;
+	}
+	
 	
 	// SQL
 	private static final String WRITE = ""
@@ -55,6 +88,9 @@ public class MemberDAO extends DAO {
 			+ " (?, ?, ?, ?, ?, ?, ?, ?, "
 			+ " ?, ?, ?)";
 	// insert 시 자동으로 값이 들어가는 것을 제외한 모든 열을 세팅합니다.
+	
+	private static final String CHECKID = ""
+			+ "select id from member where id = ?";
 }
 
 
