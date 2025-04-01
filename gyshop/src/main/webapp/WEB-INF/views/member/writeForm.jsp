@@ -41,6 +41,11 @@ $(function(){
 	$("#searchPostcode").click(function(){
 		new daum.Postcode({
 			oncomplete: function(data) {
+				
+				// 우편번호찾기 후 넘어오는 데이터
+				console.log("data: ", data);
+				
+				
 				// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
 				// 각 주소의 노출 규칙에 따라 주소를 조합한다.
@@ -70,20 +75,35 @@ $(function(){
 					if(extraAddr !== ''){
 						extraAddr = ' (' + extraAddr + ')';
 					}
-					// 조합된 참고항목을 해당 필드에 넣는다.
-					document.getElementById("sample6_extraAddress").value = extraAddr;
+					
                 
 				} else {
-					document.getElementById("sample6_extraAddress").value = '';
+					extraAddr = '';
 				}
 	
 				// 우편번호와 주소 정보를 해당 필드에 넣는다.
 				document.getElementById('zipcode').value = data.zonecode;
-				document.getElementById("addr1").value = addr;
+				document.getElementById("addr1").value = addr + extraAddr;
 				// 커서를 상세주소 필드로 이동한다.
 				document.getElementById("addr2").focus();
 			}
 		}).open();
+	});
+	// end : 다음 우편번호 검색 서비스
+	
+	// 사진(이미지) 미리보기
+	$("#photo").change(function(){
+		console.log(this);
+		
+		let file = this.files[0];
+		let reader = new FileReader();
+		// 화일의 로딩(읽기)이 끝났을때 하는 일을 세팅
+		reader.onloadend = function() {
+			console.log("reader.result: ",reader.result);
+			$("#image").attr("src", reader.result);
+		}
+		// 화일을 읽어옴
+		reader.readAsDataURL(file);
 	});
 	
 });
@@ -102,7 +122,10 @@ $(function(){
  -->
 <div class="container topbox">
 	<h2><i class="fa fa-edit"></i> 회원 가입</h2>
-	<form action="write.do" method="post" id="writeForm">
+	<form action="write.do" method="post" id="writeForm"
+		enctype="multipart/form-data">
+		<!-- 화일을 서버로 넘길때는 반드시 enctype에 "multipart/form-data"
+		 설정을 해야 합니다. method는 "post" 만 지원합니다. -->
 		<div class="form-group">
 	    <label for="id">아이디:</label>
 	    <input type="text" class="form-control" maxlength="20"
@@ -149,9 +172,10 @@ $(function(){
 		  </div>
 		  <div class="custom-control custom-radio custom-control-inline">
 		    <input type="radio" class="custom-control-input" id="woman"
-		    	name="gender" value="여자">
+		    	name="gender" value="여자" checked>
 		    <label class="custom-control-label" for="woman">여자</label>
 		  </div>
+		  <!-- radio버튼에서 처음로딩시 체크되는 항목에 checked 옵션을 부여합니다. -->
 	  </div>
 	  <div class="form-group">
 	  	<label for="birth">생년월일: </label>
@@ -170,71 +194,33 @@ $(function(){
 	  </div>
 	  <!-- 우편번호서비스: https://postcode.map.daum.net/guide 이용 -->
 	  <div class="input-group mb-3">
-		  <input type="text" class="form-control"
-		  	id="zipcode" placeholder="우편번호" name="zipcode">
+		  <input type="text" class="form-control" style="background:white;"
+		  	readonly id="zipcode" placeholder="우편번호" name="zipcode">
 		  <div class="input-group-append">
 		    <button class="btn btn-success" id="searchPostcode"
 		    	type="button">우편번호찾기</button>
 		  </div>
 		</div>
 	  <div class="form-group">
-			<input type="text" id="addr1" name="addr1"
-				class="form-control" placeholder="주소">
+			<input type="text" id="addr1" name="addr1" style="background:white;"
+				readonly class="form-control" placeholder="주소">
 			<input type="text" id="addr2" name="addr2"
 				class="form-control" placeholder="상세주소">
-			<input type="text" id="sample6_extraAddress" placeholder="참고항목">
 	  </div>
-
-
-<script>
-    function sample6_execDaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var addr = ''; // 주소 변수
-                var extraAddr = ''; // 참고항목 변수
-
-                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                    addr = data.roadAddress;
-                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                    addr = data.jibunAddress;
-                }
-
-                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-                if(data.userSelectedType === 'R'){
-                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                        extraAddr += data.bname;
-                    }
-                    // 건물명이 있고, 공동주택일 경우 추가한다.
-                    if(data.buildingName !== '' && data.apartment === 'Y'){
-                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                    if(extraAddr !== ''){
-                        extraAddr = ' (' + extraAddr + ')';
-                    }
-                    // 조합된 참고항목을 해당 필드에 넣는다.
-                    document.getElementById("sample6_extraAddress").value = extraAddr;
-                
-                } else {
-                    document.getElementById("sample6_extraAddress").value = '';
-                }
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById('sample6_postcode').value = data.zonecode;
-                document.getElementById("sample6_address").value = addr;
-                // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("sample6_detailAddress").focus();
-            }
-        }).open();
-    }
-</script>
+	  <div class="form-group">
+	  	<label for="photo">사진:</label>
+	  	<input type="file" class="form-control" id="photo" name="photo">
+	  </div>
+	  <div>
+	  	<img id="image" src="">
+	  </div>
+	  <div>
+	  	<button type="submit" class="btn btn-primary">가입</button>
+	  	<button type="reset" class="btn btn-secondary">다시입력</button>
+	  	<button type="button" class="btn btn-warning"
+	  		onclick="history.back()">취소</button>
+	  	<!-- history.back()은 이전페이지로 돌아가는 명령입니다. -->
+	  </div>
 	</form>
 </div>
 </body>
