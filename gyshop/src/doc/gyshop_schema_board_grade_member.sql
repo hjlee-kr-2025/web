@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `gyshop`.`member` (
   `id` VARCHAR(20) NOT NULL,
   `pw` VARCHAR(20) NOT NULL,
   `name` VARCHAR(40) NOT NULL,
-  `gerder` VARCHAR(8) NOT NULL COMMENT '남자/여자',
+  `gender` VARCHAR(8) NOT NULL COMMENT '남자/여자',
   `birth` DATETIME NOT NULL,
   `tel` VARCHAR(13) NULL,
   `zipcode` VARCHAR(5) NULL,
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `gyshop`.`member` (
   `conDate` DATETIME NULL DEFAULT now(),
   `photo` VARCHAR(200) NULL,
   `status` VARCHAR(20) NULL DEFAULT '정상',
-  `gradeNo` INT NOT NULL DEFAULT 1 COMMENT '1:일반회원\n99:관리자',
+  `gradeNo` INT NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   INDEX `fk_member_grade_idx` (`gradeNo` ASC) VISIBLE,
   CONSTRAINT `fk_member_grade`
