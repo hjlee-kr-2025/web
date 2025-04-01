@@ -12,10 +12,12 @@ import com.gyshop.board.service.BoardWriteService;
 import com.gyshop.main.dao.DAO;
 import com.gyshop.main.service.Service;
 import com.gyshop.member.dao.GradeDAO;
+import com.gyshop.member.dao.MemberDAO;
 import com.gyshop.member.service.GradeDeleteService;
 import com.gyshop.member.service.GradeListService;
 import com.gyshop.member.service.GradeUpdateService;
 import com.gyshop.member.service.GradeWriteService;
+import com.gyshop.member.service.MemberWriteService;
 
 public class Init {
 
@@ -64,6 +66,16 @@ public class Init {
 		serviceMap.get("/grade/write.do").setDAO(daoMap.get("gradeDAO"));
 		serviceMap.get("/grade/update.do").setDAO(daoMap.get("gradeDAO"));
 		serviceMap.get("/grade/delete.do").setDAO(daoMap.get("gradeDAO"));
+		
+		// 회원관리
+		// 1. dao 생성
+		daoMap.put("memberDAO", new MemberDAO());
+		
+		// 2. service 생성
+		serviceMap.put("/member/write.do", new MemberWriteService());
+		
+		// 3. 조립 : service 에 dao 할당
+		serviceMap.get("/member/write.do").setDAO(daoMap.get("memberDAO"));
 	}
 	
 	// 어느 서비스를 실행할지 리턴하는 메서드(할당된 서비스 주소 리턴)

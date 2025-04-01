@@ -1,4 +1,4 @@
-package com.gyshop.member.service;
+package com.gyshop.member.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

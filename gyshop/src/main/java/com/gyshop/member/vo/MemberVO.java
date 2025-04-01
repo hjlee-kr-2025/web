@@ -19,6 +19,6 @@ public class MemberVO {
 	private String conDate;	// 자동(default)
 	private String photo;	
 	private String status;	// 자동(default)
-	private String gradeNo;	// 자동(default
+	private Integer gradeNo;	// 자동(default
 	private String gradeName;	// member table에 사용하는 값은 아닙니다.
 }
