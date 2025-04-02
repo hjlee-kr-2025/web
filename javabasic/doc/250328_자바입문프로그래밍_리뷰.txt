@@ -446,6 +446,64 @@ service.setDAO(dao);
 serviceMap.get("/board/list.do").setDAO(daoMap.get("boardDAO"));
 
 
+[13장] 내부클래스, 람다식, 스트림
+내부클래스는 잘 사용하지 않습니다.
+- "클래스 내부에 클래스를 구현할 수 있다" 정도로 넘어가셔도 괜찮습니다.
+
+람다식 : 익명함수를 만든다.
+int add(int num1, int num2) {
+	return num1 + num2;
+}
+add(num1, num2); 
+==>
+(num1, num2) -> {return num1 + num2;}
+
+Java에서는 람다식을 단독으로 사용하는 경우는 많이 없습니다.
+함수형 인터페이스를 만들고 람다식으로 구성해서 사용합니다.
+
+
+**** 데이터베이스에서 자료를 가져오는 프로그램을 작성할 때
+자료를 가져와서 정렬하는 방식이 아닌,
+데이터베이스에서 자료를 가져올때 정렬된 자료를 가져와서 사용합니다.
+
+스트림 : 특정조건, 또는 정렬에 관련된 내용을 쉽게 처리하도록 돕는역할
+** 중간연산 : filter(), map(), sorted()
+** 최종연산(마지막에 들어갑니다.)
+	: forEach(), count(), sum(), reduce()
+스트림을 사용할때 ()안에 람다식으로 표현해 주는 경우가 많습니다.
+
+
+[ch14] 예외 처리
+*** Exception 클래스 (예외 클래스의 최상위 클래스)
+ ==> 모든 예외처리 클래스는 Exception 클래스를 상속받아서 구성되어있습니다.
+
+try {
+} catch (Exception e) {
+	e.printStackTrace();
+} finally {
+}
+
+public 리턴자료형 메서드이름() throws Exception {
+}
+
+Exception
+--- IOException
+===> 코드상에서 try~catch 또는 throws 처리가 안되어있으면 오류로
+나타납니다.
+--- RuntimeException
+===> 코드상에 try~catch 또는 throws 가 없어도 컴파일되고 실행도 됩니다.
+---> 하지만 try~catch 또는 throws 가 없으면 예외발생시 시스템이 중단됩니다.
+
+예외처리의 목적은 시스템이 중단없이 사용하고자 하는데 있습니다.
+자바가 웹프로그램에서 많이 사용하는 이유가 예외처리가 잘 구성되어있기 때문입니다.
+
+
+키보드 입력을 위한 클래스 Scanner
+Scanner scanner = new Scanner(System.in);
+String inputStr = scanner.nextLine();
+
+
+
 
 
 
