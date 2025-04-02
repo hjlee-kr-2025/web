@@ -2,8 +2,9 @@ package javabasic.ch08;
 
 public class ClassExtends extends ParentsClass {
 
-	@Override
+	@Override /*부모클래스에 존재하는 메서드를 의미*/
 	public void info() {
+		/*부모클래스에 존재하는 info() 메서드를 재정의*/
 		System.out.println("자녀클래스입니다.");
 	}
 	
@@ -24,11 +25,14 @@ public class ClassExtends extends ParentsClass {
 		 * 4. 자녀클래스에만 존재하는 변수또는 함수(메서드)를 사용하고 싶을때
 		 * 	 ==> 다운캐스팅을 하면 됩니다.   
 		 */
+		ParentsClass test2 = new ParentsClass();
 		
 		// 사용할 수 있는 것은 선언한 클래서에 정의되어있는 것을
 		// 사용할 수 있고
 		// 구현되는 내용은 생성자를 기준으로 처리됩니다.
 		test.info();
 		((ClassExtends)test).infoParent();
+		System.out.println("---------------");
+		test2.info();
 	}
 }

@@ -8,6 +8,8 @@ import java.sql.ResultSet;
  * 
  */
 public abstract class DAO {
+	// ==> class 앞에 abstract 를 적어서
+	// 추상클래스로 만들었습니다.
 	
 	// 연결 객체
 	public Connection con;

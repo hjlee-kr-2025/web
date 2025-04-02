@@ -7,6 +7,7 @@ import com.gyshop.main.service.Service;
 // 서비스 실행과 로그를 출력하는 클래스
 public class Execute {
 
+	// 클래스의 다형성을 이해할 수 있는 대표적인 메서드
 	public static Object execute(Service service, Object obj)
 		throws Exception {
 		// 처리결과를 저장하는 변수

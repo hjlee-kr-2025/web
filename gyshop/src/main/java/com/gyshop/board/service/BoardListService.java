@@ -25,6 +25,8 @@ public class BoardListService implements Service {
 		return dao.list(pageObject);
 	}
 
+	// BoardDAO를 사용하려면 메모리 주소가 할당되어야 합니다.
+	// setDAO를 통해서 외부에서 할당된 주소를 멤버변수인 dao에 세팅했습니다.
 	@Override
 	public void setDAO(DAO dao) {
 		// TODO Auto-generated method stub
