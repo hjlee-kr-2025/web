@@ -56,7 +56,36 @@ public class MemberDAO extends DAO {
 		return list;
 	} // end of list()
 	
-	
+	// 2. 회원정보 상세보기(관리자) / 내 정보보기(일반회원)
+	public MemberVO view(String id) throws Exception {
+		// 결과저장변수 선언 및 초기화
+		MemberVO vo = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL작성 - VIEW - 클래스하단 상수
+			System.out.println(VIEW);
+			// 4. 실행객체에 SQL + 데이터세팅 (?: 1개) - id
+			pstmt = con.prepareStatement(VIEW);
+			pstmt.setString(1, id);
+			// 5. 실행 및 결과 리턴
+			rs = pstmt.executeQuery();
+			// 6. 결과 저장
+			if (rs != null && rs.next()) {
+				vo = new MemberVO();
+				vo.setId(rs.getString("id"));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			
+		}
+		// 결과 리턴
+		return vo;
+	} // end of view(String id)
 	
 	// 3. 회원가입
 	public Integer write(MemberVO vo) throws Exception {
@@ -183,6 +212,17 @@ public class MemberDAO extends DAO {
 			+ " where m.gradeNo = g.gradeNo "
 			+ " order by m.regDate desc";
 	
+	private static final String VIEW = ""
+			+ "select id, pw, name, gender, "
+			+ " date_format(birth, '%Y-%m-%d') as birth, tel, email, "
+			+ " zipcode, addr1, addr2, "
+			+ " date_format(regDate, '%Y-%m-%d') as regDate, "
+			+ " date_format(conDate, '%Y-%m-%d') as conDate, "
+			+ " photo, "
+			+ " m.gradeNo, gradeName, status "
+			+ " from member m, grade g "
+			+ " where (id = ?) "
+			+ " and (m.gradeNo = g.gradeNo)";
 	
 	private static final String WRITE = ""
 			+ "insert into member "
