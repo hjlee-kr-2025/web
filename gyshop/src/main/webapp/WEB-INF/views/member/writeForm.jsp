@@ -137,6 +137,46 @@ $(function(){
 			});
 		}
 	});
+	// end 아이디를 체크하는 코드
+	
+	// 비밀번호와 비밀번호확인 체크하는 코드
+	$("#pw, #pw2").keyup(function(){
+		let pw = $("#pw").val();
+		let pw2 = $("#pw2").val();
+		
+		// 비밀번호 길이체크, 5자이상
+		if (pw.length < 5) {
+			$("#pwDiv").removeClass("alert-success alert-danger")
+				.addClass("alert-danger");
+			$("#pwDiv").text("비밀번호는 필수입력입니다. 5자이상 입력하세요.");
+		}
+		else {
+			$("#pwDiv").removeClass("alert-success alert-danger")
+				.addClass("alert-success");
+			$("#pwDiv").text("사용할 수 있는 비밀번호 입니다.");
+		}
+		
+		// 비밀번호 확인 길이 체크, 5자 이상
+		if (pw2.length < 5) {
+			$("#pw2Div").removeClass("alert-success alert-danger")
+				.addClass("alert-danger");
+			$("#pw2Div").text("비밀번호확인은 필수입력입니다. 5자이상 입력하세요.");
+		}
+		else {
+			// 비밀번호와 비밀번호확인이 같은지 체크합니다.
+			if (pw != pw2) {
+				$("#pw2Div").removeClass("alert-success alert-danger")
+					.addClass("alert-danger");
+				$("#pw2Div").text("비밀번호와 일치하지 않습니다.");
+			}
+			else {
+				$("#pw2Div").removeClass("alert-success alert-danger")
+					.addClass("alert-success");
+				$("#pw2Div").text("비밀번호와 일치합니다.");
+			}
+		}
+	});
+	// end 비밀번호와 비밀번호확인 체크하는 코드
 	
 });
 </script>
