@@ -18,6 +18,7 @@ import com.gyshop.member.service.GradeListService;
 import com.gyshop.member.service.GradeUpdateService;
 import com.gyshop.member.service.GradeWriteService;
 import com.gyshop.member.service.MemberCheckIdService;
+import com.gyshop.member.service.MemberListService;
 import com.gyshop.member.service.MemberLoginService;
 import com.gyshop.member.service.MemberWriteService;
 
@@ -74,11 +75,13 @@ public class Init {
 		daoMap.put("memberDAO", new MemberDAO());
 		
 		// 2. service 생성
+		serviceMap.put("/member/list.do", new MemberListService());
 		serviceMap.put("/member/write.do", new MemberWriteService());
 		serviceMap.put("/ajax/checkId.do", new MemberCheckIdService());
 		serviceMap.put("/member/login.do", new MemberLoginService());
 		
 		// 3. 조립 : service 에 dao 할당
+		serviceMap.get("/member/list.do").setDAO(daoMap.get("memberDAO"));
 		serviceMap.get("/member/write.do").setDAO(daoMap.get("memberDAO"));
 		serviceMap.get("/ajax/checkId.do").setDAO(daoMap.get("memberDAO"));
 		serviceMap.get("/member/login.do").setDAO(daoMap.get("memberDAO"));

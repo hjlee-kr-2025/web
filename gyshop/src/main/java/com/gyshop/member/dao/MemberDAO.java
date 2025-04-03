@@ -1,5 +1,8 @@
 package com.gyshop.member.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.gyshop.main.dao.DAO;
 import com.gyshop.member.vo.LoginVO;
 import com.gyshop.member.vo.MemberVO;
@@ -7,6 +10,54 @@ import com.gyshop.util.db.DB;
 
 public class MemberDAO extends DAO {
 
+	// 1. 회원리스트(관리자만 볼 수 있습니다.)
+	public List<MemberVO> list() throws Exception {
+		// 결과저장변수 선언 및 초기화
+		List<MemberVO> list = null;
+		
+		try {
+			// 1. 드라이버확인: JDBC - MySQL사용을 위한
+			// 2. DB연결(Connection con)
+			con = DB.getConnection();
+			// 개발자가 연결되었는지 확인하는 메시지
+			if (con != null) System.out.println("2. DB가 연결되었습니다.");
+			// 3. SQL 작성 - LIST - 클래스 하단 상수
+			System.out.println(LIST);
+			// 4. 실행객체(pstmt) SQL + 데이터세팅(?: 0개)
+			pstmt = con.prepareStatement(LIST);
+			// 5. 실행 및 결과 리턴
+			rs = pstmt.executeQuery();
+			// 6. 결과 저장
+			if (rs != null) {
+				while(rs.next()) {
+					if (list == null) list = new ArrayList<MemberVO>();
+					
+					MemberVO vo = new MemberVO();
+					vo.setId(rs.getString("id"));
+					vo.setName(rs.getString("name"));
+					vo.setBirth(rs.getString("birth"));
+					vo.setTel(rs.getString("tel"));
+					vo.setGradeNo(rs.getInt("gradeNo"));
+					vo.setGradeName(rs.getString("gradeName"));
+					vo.setStatus(rs.getString("status"));
+					
+					list.add(vo);
+				}
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			
+		}
+		
+		// 결과 리턴
+		return list;
+	} // end of list()
+	
+	
+	
 	// 3. 회원가입
 	public Integer write(MemberVO vo) throws Exception {
 		// 결과 저장 변수 선언 및 초기화
@@ -123,6 +174,16 @@ public class MemberDAO extends DAO {
 	
 	
 	// SQL
+	private static final String LIST = ""
+			+ "select m.id, m.name, "
+			+ " date_format(m.birth, '%Y-%m-%d') as birth, "
+			+ " m.tel, "
+			+ " m.gradeNo, g.gradeName, m.status "
+			+ " from member m, grade g "
+			+ " where m.gradeNo = g.gradeNo "
+			+ " order by m.regDate desc";
+	
+	
 	private static final String WRITE = ""
 			+ "insert into member "
 			+ " (id, pw, name, gender, birth, "

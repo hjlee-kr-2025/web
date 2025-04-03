@@ -102,6 +102,19 @@ public class MemberController {
 				// 페이지 이동
 				jsp = "redirect:/board/list.do";
 				break;
+			case "/member/list.do":
+				System.out.println("회원 리스트 ---");
+				// 서비스로 넘어가는 데이터 세팅
+				// 현재는 없습니다.
+				
+				// 서비스를 실행
+				result = Execute.execute(Init.get(uri), null);
+				// 결과값을 request에 담습니다.
+				request.setAttribute("list", result);
+				// 이동할 jsp 페이지 설정
+				jsp = "member/list";
+				// "WEB-INF/views/member/list.jsp"
+				break;
 			case "/member/writeForm.do":
 				System.out.println("회원가입 폼 ---");
 				jsp = "member/writeForm";
