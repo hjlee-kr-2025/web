@@ -18,6 +18,7 @@ import com.gyshop.member.service.GradeListService;
 import com.gyshop.member.service.GradeUpdateService;
 import com.gyshop.member.service.GradeWriteService;
 import com.gyshop.member.service.MemberCheckIdService;
+import com.gyshop.member.service.MemberLoginService;
 import com.gyshop.member.service.MemberWriteService;
 
 public class Init {
@@ -75,10 +76,12 @@ public class Init {
 		// 2. service 생성
 		serviceMap.put("/member/write.do", new MemberWriteService());
 		serviceMap.put("/ajax/checkId.do", new MemberCheckIdService());
+		serviceMap.put("/member/login.do", new MemberLoginService());
 		
 		// 3. 조립 : service 에 dao 할당
 		serviceMap.get("/member/write.do").setDAO(daoMap.get("memberDAO"));
 		serviceMap.get("/ajax/checkId.do").setDAO(daoMap.get("memberDAO"));
+		serviceMap.get("/member/login.do").setDAO(daoMap.get("memberDAO"));
 	}
 	
 	// 어느 서비스를 실행할지 리턴하는 메서드(할당된 서비스 주소 리턴)

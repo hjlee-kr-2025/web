@@ -1,6 +1,7 @@
 package com.gyshop.member.dao;
 
 import com.gyshop.main.dao.DAO;
+import com.gyshop.member.vo.LoginVO;
 import com.gyshop.member.vo.MemberVO;
 import com.gyshop.util.db.DB;
 
@@ -76,7 +77,49 @@ public class MemberDAO extends DAO {
 		
 		// 결과 리턴
 		return result;
-	}
+	} // end of checkId(String id)
+	
+	// 6. 로그인 처리
+	public LoginVO login(LoginVO vo) throws Exception {
+		// 결과 저장 변수 선언 및 초기화
+		LoginVO login = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL작성 - LOGIN - 클래스하단 상수
+			System.out.println(LOGIN);
+			// 4. 실행객체 - SQL과 데이터세팅 (?: 2개)
+			System.out.println("id: " + vo.getId() +", pw: "+ vo.getPw());
+			pstmt = con.prepareStatement(LOGIN);
+			pstmt.setString(1, vo.getId());
+			pstmt.setString(2, vo.getPw());
+			System.out.println("4. 실행객체 세팅 완료---");
+			// 5. 실행 및 결과 리턴
+			rs = pstmt.executeQuery();
+			System.out.println("5. 실행종료 ----");
+			// 6. 결과 저장
+			if (rs != null && rs.next()) {
+				login = new LoginVO();
+				login.setId(rs.getString("id"));
+				login.setPw(rs.getString("pw"));
+				login.setName(rs.getString("name"));
+				login.setGradeNo(rs.getInt("gradeNo"));
+				login.setGradeName(rs.getString("gradeName"));
+				login.setPhoto(rs.getString("photo"));
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			
+		}
+		
+		// 결과 리턴
+		return login;
+	} // end of login(LoginVO vo)
 	
 	
 	// SQL
@@ -91,6 +134,15 @@ public class MemberDAO extends DAO {
 	
 	private static final String CHECKID = ""
 			+ "select id from member where id = ?";
+	
+	private static final String LOGIN = ""
+			+ "select m.id, m.pw, m.name, m.gradeNo, "
+			+ " g.gradeName, m.photo "
+			+ " from member m, grade g "//as는 생략가능
+			+ " where " // 조건을 물어봅니다.
+			+ " (id = ? and pw = ? and status='정상') "//일반조건
+			+ " and (m.gradeNo = g.gradeNo)";//조인조건(테이블결합)
+	
 }
 
 

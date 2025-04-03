@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.gyshop.main.controller.Init;
+import com.gyshop.member.vo.LoginVO;
 import com.gyshop.member.vo.MemberVO;
 import com.gyshop.util.exe.Execute;
 import com.oreilly.servlet.MultipartRequest;
@@ -59,6 +60,48 @@ public class MemberController {
 		
 		try {
 			switch (uri) {
+			case "/member/loginForm.do":
+				System.out.println("로그인 폼 ---");
+				jsp = "member/loginForm";
+				// "/WEB-INF/views/member/loginForm.jsp"
+				break;
+			case "/member/login.do":
+				System.out.println("로그인 처리 ---");
+				// 로그인 데이터 수집 (서비스로 넘어갑니다)
+				LoginVO login = new LoginVO();
+				login.setId(request.getParameter("id"));
+				login.setPw(request.getParameter("pw"));
+				// getParameter 안에 문자열로 적힌 값은
+				// form태그안 input태그의 name 속성값과 같아야 합니다.
+				
+				// 서비스를 실행
+				result = Execute.execute(Init.get(uri), login);
+				
+				// 결과 확인
+				if (result == null) {
+					session.setAttribute("msg",
+						"로그인이 실패했습니다. 아이디와 패스워드를 확인해주세요.");
+				}
+				else {
+					session.setAttribute("msg",
+						"로그인이 되었습니다.");
+					session.setAttribute("login", result);
+				}
+				
+				// 로그인 후에 넘어갈 페이지 지정
+				jsp = "redirect:/board/list.do";
+				break;
+			case "/member/logout.do":
+				System.out.println("로그아웃 처리 ---");
+				// 우리가 로그인을 하면 session에 로그인정보를 담았습니다.
+				// 로그아웃에서는 session 저장된 로그인정보를 제거하면 됩니다.
+				session.removeAttribute("login");
+				
+				session.setAttribute("msg",
+					"로그아웃 되었습니다.");
+				// 페이지 이동
+				jsp = "redirect:/board/list.do";
+				break;
 			case "/member/writeForm.do":
 				System.out.println("회원가입 폼 ---");
 				jsp = "member/writeForm";
