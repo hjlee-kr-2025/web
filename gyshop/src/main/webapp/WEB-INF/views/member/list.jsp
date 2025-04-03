@@ -14,7 +14,7 @@ $(function(){
 		console.log("id = ", id);
 		
 		// 상세보기 페이지로 이동
-	//	location = "view.do?id=" + id;
+		location = "view.do?id=" + id;
 	});
 });
 </script>

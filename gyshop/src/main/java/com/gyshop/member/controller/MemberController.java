@@ -115,6 +115,22 @@ public class MemberController {
 				jsp = "member/list";
 				// "WEB-INF/views/member/list.jsp"
 				break;
+			case "/member/view.do":
+				System.out.println("회원정보 또는 내정보보기 ---");
+				
+				// 주소창에 view.do?id=xxx 통해서 id값이  request에
+				// 담겨져서 이곳으로 넘어옵니다.
+				String id = request.getParameter("id");
+				
+				// 서비스실행 (id가 넘어갑니다)
+				result = Execute.execute(Init.get(uri), id);
+				
+				// DB에서 가져온 데이터를 request에 담습니다.
+				request.setAttribute("vo", result);
+				// jsp 로 이동합니다.
+				jsp = "member/view";
+				// "/WEB-INF/views/member/view.jsp"
+				break;
 			case "/member/writeForm.do":
 				System.out.println("회원가입 폼 ---");
 				jsp = "member/writeForm";
@@ -134,7 +150,7 @@ public class MemberController {
 				 * */
 				
 				// 서비스로 전송하는 데이터 수집
-				String id = multi.getParameter("id");
+				id = multi.getParameter("id");
 				String pw = multi.getParameter("pw");
 				String name = multi.getParameter("name");
 				String gender = multi.getParameter("gender");
@@ -175,6 +191,23 @@ public class MemberController {
 				// 일단 일반게시판의 리스트로 보냅니다.
 				// 메인페이지가 완성되면 메인페이지의 경로로 변경합니다.
 				jsp = "redirect:/board/list.do";
+				break;
+			case "/member/updateForm.do":
+				System.out.println("내정보 수정 ---");
+				// 기존정보를 가져와야 합니다. - MemberViewService()
+				// 필요한정보 : id
+				id = request.getParameter("id");
+				
+				// 서비스 실행
+				result = Execute.execute(Init.get("/member/view.do"), id);
+				
+				// 받아온 정보 request 담아서 updateForm.jsp 파일로 넘깁니다.
+				request.setAttribute("vo", result);
+				jsp = "member/updateForm";
+				// "/WEB-INF/views/member/updateForm.jsp"
+				break;
+			case "/member/update.do":
+				System.out.println("내정보 수정 처리 ---");
 				break;
 			default:
 			}

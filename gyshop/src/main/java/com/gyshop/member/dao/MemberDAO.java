@@ -76,6 +76,21 @@ public class MemberDAO extends DAO {
 			if (rs != null && rs.next()) {
 				vo = new MemberVO();
 				vo.setId(rs.getString("id"));
+				vo.setPw(rs.getString("pw"));
+				vo.setName(rs.getString("name"));
+				vo.setGender(rs.getString("gender"));
+				vo.setBirth(rs.getString("birth"));
+				vo.setTel(rs.getString("tel"));
+				vo.setEmail(rs.getString("email"));
+				vo.setZipcode(rs.getString("zipcode"));
+				vo.setAddr1(rs.getString("addr1"));
+				vo.setAddr2(rs.getString("addr2"));
+				vo.setPhoto(rs.getString("photo"));
+				vo.setRegDate(rs.getString("regDate"));
+				vo.setConDate(rs.getString("conDate"));
+				vo.setStatus(rs.getString("status"));
+				vo.setGradeNo(rs.getInt("gradeNo"));
+				vo.setGradeName(rs.getString("gradeName"));
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
