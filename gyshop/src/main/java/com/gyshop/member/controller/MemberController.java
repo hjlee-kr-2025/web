@@ -193,7 +193,7 @@ public class MemberController {
 				jsp = "redirect:/board/list.do";
 				break;
 			case "/member/updateForm.do":
-				System.out.println("내정보 수정 ---");
+				System.out.println("내정보 수정 폼---");
 				// 기존정보를 가져와야 합니다. - MemberViewService()
 				// 필요한정보 : id
 				id = request.getParameter("id");
@@ -208,6 +208,44 @@ public class MemberController {
 				break;
 			case "/member/update.do":
 				System.out.println("내정보 수정 처리 ---");
+				// updateForm에서 넘어온 데이터를 수집합니다.
+				// update(수정)시 id와 pw로 수정대상을 확인합니다.
+				// request에 담겨저 이곳에 넘어왔습니다.
+				id = request.getParameter("id");
+				pw = request.getParameter("pw");
+				name = request.getParameter("name");
+				gender = request.getParameter("gender");
+				birth = request.getParameter("birth");
+				tel = request.getParameter("tel");
+				email = request.getParameter("email");
+				zipcode = request.getParameter("zipcode");
+				addr1 = request.getParameter("addr1");
+				addr2 = request.getParameter("addr2");
+				
+				vo = new MemberVO();
+				vo.setId(id);
+				vo.setPw(pw);
+				vo.setName(name);
+				vo.setGender(gender);
+				vo.setBirth(birth);
+				vo.setTel(tel);
+				vo.setEmail(email);
+				vo.setZipcode(zipcode);
+				vo.setAddr1(addr1);
+				vo.setAddr2(addr2);
+				// 서비스 실행
+				result = Execute.execute(Init.get(uri), vo);
+				// 결과를 메시지로 보여줍니다.
+				if ((Integer)result == 0) {
+					session.setAttribute("msg",
+						"수정되지 않았습니다. 다시 확인하시고 진행해주세요");
+				}
+				else {
+					session.setAttribute("msg",
+						"내정보가 수정되었습니다.");
+				}
+				// 내정보보기로 이동합니다.
+				jsp = "redirect:view.do?id=" + vo.getId();
 				break;
 			default:
 			}

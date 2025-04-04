@@ -20,6 +20,7 @@ import com.gyshop.member.service.GradeWriteService;
 import com.gyshop.member.service.MemberCheckIdService;
 import com.gyshop.member.service.MemberListService;
 import com.gyshop.member.service.MemberLoginService;
+import com.gyshop.member.service.MemberUpdateService;
 import com.gyshop.member.service.MemberViewService;
 import com.gyshop.member.service.MemberWriteService;
 
@@ -79,6 +80,7 @@ public class Init {
 		serviceMap.put("/member/list.do", new MemberListService());
 		serviceMap.put("/member/view.do", new MemberViewService());
 		serviceMap.put("/member/write.do", new MemberWriteService());
+		serviceMap.put("/member/update.do", new MemberUpdateService());
 		serviceMap.put("/ajax/checkId.do", new MemberCheckIdService());
 		serviceMap.put("/member/login.do", new MemberLoginService());
 		
@@ -86,6 +88,7 @@ public class Init {
 		serviceMap.get("/member/list.do").setDAO(daoMap.get("memberDAO"));
 		serviceMap.get("/member/view.do").setDAO(daoMap.get("memberDAO"));
 		serviceMap.get("/member/write.do").setDAO(daoMap.get("memberDAO"));
+		serviceMap.get("/member/update.do").setDAO(daoMap.get("memberDAO"));
 		serviceMap.get("/ajax/checkId.do").setDAO(daoMap.get("memberDAO"));
 		serviceMap.get("/member/login.do").setDAO(daoMap.get("memberDAO"));
 	}

@@ -13,12 +13,15 @@
 	<div class="card">
 		<div class="card-header">
 			<div>
-				<c:if test="${empty vo.photo }">
-					<i class="fa fa-user-circle" style="font-size:50px;"></i>
-				</c:if>
-				<c:if test="${!empty vo.photo }">
-					<img src="${vo.photo }" style="width:50px;height:50px;">
-				</c:if>
+				<button type="button" style="border:none;"
+					data-toggle="modal" data-target="#imageChangeModal">
+					<c:if test="${empty vo.photo }">
+						<i class="fa fa-user-circle" style="font-size:50px;"></i>
+					</c:if>
+					<c:if test="${!empty vo.photo }">
+						<img src="${vo.photo }" style="width:50px;height:50px;">
+					</c:if>
+				</button>
 				${vo.name } (${vo.id })
 			</div>
 		</div>

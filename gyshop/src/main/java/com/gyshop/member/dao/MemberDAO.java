@@ -174,6 +174,55 @@ public class MemberDAO extends DAO {
 		return result;
 	} // end of checkId(String id)
 	
+	// 4. 내정보 수정
+	public Integer update(MemberVO vo) throws Exception {
+		// 결과 저장 변수 선언 및 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버확인 - mySQL의 드라이버를 찾는것
+			/* Class.forName("com.mysql.cj.jdbc.Driver");
+			 * 이것을 DB클래스에 static메서드에 구현했고
+			 * DB클래스를 DispatcherServlet의 init()메서드에서
+			 * 호출했습니다.
+			 * web.xml에서 init()메서드가 웹서버가 시작시 실행되도록 설정
+			 */
+			// 2. DB연결
+			/* DriverManager.getConnection("DB경로", "접속id", "pw");
+			 * ==> 리턴값으로 Connection 자료형의 주소가 넘어옵니다.
+			 * 그값은 con 변수에 담아놓고 사용합니다.
+			 */
+			con = DB.getConnection();
+			// 3. SQL 작성 - UPDATE - 클래스하단 상수
+			System.out.println(UPDATE);
+			// 4. 실행객체에 SQL과 데이터를 세팅 (?: 10개)
+			pstmt = con.prepareStatement(UPDATE);
+			pstmt.setString(1, vo.getName());
+			pstmt.setString(2, vo.getGender());
+			pstmt.setString(3, vo.getBirth());
+			pstmt.setString(4, vo.getTel());
+			pstmt.setString(5, vo.getEmail());
+			pstmt.setString(6, vo.getZipcode());
+			pstmt.setString(7, vo.getAddr1());
+			pstmt.setString(8, vo.getAddr2());
+			pstmt.setString(9, vo.getId());
+			pstmt.setString(10, vo.getPw());
+			// 5. 실행 및 결과리턴
+			result = pstmt.executeUpdate();
+			// 6. 결과확인 controller에 진행
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		
+		// 결과리턴
+		return result;
+	} // end of update(MemberVO vo)
+	
 	// 6. 로그인 처리
 	public LoginVO login(LoginVO vo) throws Exception {
 		// 결과 저장 변수 선언 및 초기화
@@ -250,6 +299,15 @@ public class MemberDAO extends DAO {
 	
 	private static final String CHECKID = ""
 			+ "select id from member where id = ?";
+	
+	
+	private static final String UPDATE = ""
+			+ "update member set name = ?, gender = ?, "
+			+ " birth = ?, tel = ?, email = ?, zipcode = ?, "
+			+ " addr1 = ?, addr2 = ? "
+			+ " where id = ? and pw = ?";
+	
+	
 	
 	private static final String LOGIN = ""
 			+ "select m.id, m.pw, m.name, m.gradeNo, "
