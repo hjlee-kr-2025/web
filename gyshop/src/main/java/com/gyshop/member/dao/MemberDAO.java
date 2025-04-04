@@ -265,6 +265,37 @@ public class MemberDAO extends DAO {
 		return login;
 	} // end of login(LoginVO vo)
 	
+	// 7. 사진바꾸기(회원정보의 사진교체)
+	public Integer changePhoto(MemberVO vo) throws Exception {
+		// 결과 저장 변수 선언 및 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL - CHANGEPHOTO - 클래스하단 상수
+			System.out.println(CHANGEPHOTO);
+			// 4. 실행객체에 SQL + 데이터 세팅 (?: 3개-photo, id, pw)
+			pstmt = con.prepareStatement(CHANGEPHOTO);
+			pstmt.setString(1, vo.getPhoto());
+			pstmt.setString(2, vo.getId());
+			pstmt.setString(3, vo.getPw());
+			// 5. 실행 및 결과리턴받기
+			result = pstmt.executeUpdate();
+			// 6. 결과는 controller에서 처리
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		
+		// 결과리턴
+		return result;
+	} // end of changePhoto(MemberVO vo)
 	
 	// SQL
 	private static final String LIST = ""
@@ -317,6 +348,9 @@ public class MemberDAO extends DAO {
 			+ " (id = ? and pw = ? and status='정상') "//일반조건
 			+ " and (m.gradeNo = g.gradeNo)";//조인조건(테이블결합)
 	
+	private static final String CHANGEPHOTO = ""
+			+ "update member set photo = ? "
+			+ " where id = ? and pw = ?";
 }
 
 
