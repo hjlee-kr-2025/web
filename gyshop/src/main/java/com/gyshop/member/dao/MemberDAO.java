@@ -223,6 +223,36 @@ public class MemberDAO extends DAO {
 		return result;
 	} // end of update(MemberVO vo)
 	
+	// 5. 탈퇴 (데이터삭제하지 않고 회원정보를 "탈퇴"로 수정)
+	public Integer delete(MemberVO vo) throws Exception {
+		// 결과 저장 변수 선언 및 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL - DELETE - 클래스하단 상수
+			System.out.println(DELETE);
+			// 4. 실행객체에 SQL + 데이터 세팅(?: 2개- id, pw)
+			pstmt = con.prepareStatement(DELETE);
+			pstmt.setString(1, vo.getId());
+			pstmt.setString(2, vo.getPw());
+			// 5. 실행 및 결과리턴
+			result = pstmt.executeUpdate();
+			// 6. 결과처리 controller에서
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		
+		// 결과 리턴
+		return result;
+	} // end of delete(MemberVO vo)
+	
 	// 6. 로그인 처리
 	public LoginVO login(LoginVO vo) throws Exception {
 		// 결과 저장 변수 선언 및 초기화
@@ -258,7 +288,8 @@ public class MemberDAO extends DAO {
 			// TODO: handle exception
 			e.printStackTrace();
 		} finally {
-			
+			// 7. DB닫기
+			DB.close(con, pstmt, rs);
 		}
 		
 		// 결과 리턴
@@ -338,7 +369,9 @@ public class MemberDAO extends DAO {
 			+ " addr1 = ?, addr2 = ? "
 			+ " where id = ? and pw = ?";
 	
-	
+	private static final String DELETE = ""
+			+ "update member set status = '탈퇴' "
+			+ "	where id = ? and pw = ?";
 	
 	private static final String LOGIN = ""
 			+ "select m.id, m.pw, m.name, m.gradeNo, "

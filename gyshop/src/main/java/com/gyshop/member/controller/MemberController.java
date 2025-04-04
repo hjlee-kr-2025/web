@@ -247,6 +247,79 @@ public class MemberController {
 				// 내정보보기로 이동합니다.
 				jsp = "redirect:view.do?id=" + vo.getId();
 				break;
+			case "/member/changePhoto.do":
+				System.out.println("회원정보 사진(이미지) 교체 ----");
+				/* 이미지 업로드 처리
+				 * new MultipartRequest
+				 * (request, 실제저장위치, 사이즈제한, encoding,
+				 * 중복처리객체 - 다른이름으로)
+				 */
+				// request 를 MultipartRequest 에 담으면
+				// request 정보가 multi로 넘어가고 request에는 삭제됩니다.
+				multi =
+					new MultipartRequest(request, realSavePath,
+						sizeLimit, "utf-8",
+						new DefaultFileRenamePolicy());
+				// 데이터 수집
+				id = multi.getParameter("id");
+				pw = multi.getParameter("pw");
+				photo = multi.getFilesystemName("imageFile");
+				String deleteFileName = multi.getParameter("deleteFileName");
+				
+				vo = new MemberVO();
+				vo.setId(id);
+				vo.setPw(pw);
+				vo.setPhoto(savePath + "/" + photo);
+				
+				// 서비스를 실행합니다. 서비스에 vo객체를 전달합니다.
+				result = Execute.execute(Init.get(uri), vo);
+				
+				if ((Integer)result == 0) {
+					// 사진 바꾸기 실패
+					photo = vo.getPhoto();
+					// upload한 파일을 지운다.
+					File deleteFile = new File(request.getServletContext()
+							.getRealPath(photo));
+					if (deleteFile.exists()) deleteFile.delete();
+					session.setAttribute("msg",
+						"사진 바꾸기가 실패했습니다. 다시 시도해 주세요.");
+				}
+				else {
+					// 사진 바꾸기 성공
+					// 기존파일을 지웁니다.
+					File deleteFile = new File(request.getServletContext()
+							.getRealPath(deleteFileName));
+					if (deleteFile.exists()) deleteFile.delete();
+					session.setAttribute("msg",
+						"사진 바꾸기가 성공했습니다.");
+				}
+				// 정보보기로 이동
+				jsp = "redirect:view.do?id=" + vo.getId();	
+				break;
+			case "/member/delete.do":
+				System.out.println("회원 탈퇴 처리 ----");
+				System.out.println("회원상태를 탈퇴로 변경");
+				// 정보수집
+				id = request.getParameter("id");
+				pw = request.getParameter("pw");
+				vo = new MemberVO();
+				vo.setId(id);
+				vo.setPw(pw);
+				// 서비스를 실행합니다.
+				result = Execute.execute(Init.get(uri), vo);
+				// 결과 확인 메시지
+				if ((Integer)result == 0) {
+					session.setAttribute("msg",
+						"탈퇴 처리가 실패하였습니다. 확인 후 시도해주세요.");
+				}
+				else {
+					session.setAttribute("msg",
+						"탈퇴 처리가 되었습니다.");
+					// 로그아웃
+					session.removeAttribute("login");
+				}
+				jsp = "redirect:/board/list.do";
+				break;
 			default:
 			}
 			

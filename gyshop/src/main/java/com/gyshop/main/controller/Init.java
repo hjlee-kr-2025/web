@@ -17,7 +17,9 @@ import com.gyshop.member.service.GradeDeleteService;
 import com.gyshop.member.service.GradeListService;
 import com.gyshop.member.service.GradeUpdateService;
 import com.gyshop.member.service.GradeWriteService;
+import com.gyshop.member.service.MemberChangePhotoService;
 import com.gyshop.member.service.MemberCheckIdService;
+import com.gyshop.member.service.MemberDeleteService;
 import com.gyshop.member.service.MemberListService;
 import com.gyshop.member.service.MemberLoginService;
 import com.gyshop.member.service.MemberUpdateService;
@@ -81,16 +83,21 @@ public class Init {
 		serviceMap.put("/member/view.do", new MemberViewService());
 		serviceMap.put("/member/write.do", new MemberWriteService());
 		serviceMap.put("/member/update.do", new MemberUpdateService());
+		serviceMap.put("/member/delete.do", new MemberDeleteService());
 		serviceMap.put("/ajax/checkId.do", new MemberCheckIdService());
 		serviceMap.put("/member/login.do", new MemberLoginService());
+		serviceMap.put("/member/changePhoto.do",
+				new MemberChangePhotoService());
 		
 		// 3. 조립 : service 에 dao 할당
 		serviceMap.get("/member/list.do").setDAO(daoMap.get("memberDAO"));
 		serviceMap.get("/member/view.do").setDAO(daoMap.get("memberDAO"));
 		serviceMap.get("/member/write.do").setDAO(daoMap.get("memberDAO"));
 		serviceMap.get("/member/update.do").setDAO(daoMap.get("memberDAO"));
+		serviceMap.get("/member/delete.do").setDAO(daoMap.get("memberDAO"));
 		serviceMap.get("/ajax/checkId.do").setDAO(daoMap.get("memberDAO"));
 		serviceMap.get("/member/login.do").setDAO(daoMap.get("memberDAO"));
+		serviceMap.get("/member/changePhoto.do").setDAO(daoMap.get("memberDAO"));
 	}
 	
 	// 어느 서비스를 실행할지 리턴하는 메서드(할당된 서비스 주소 리턴)

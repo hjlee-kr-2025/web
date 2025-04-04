@@ -76,7 +76,7 @@
 			<a href="/member/updateForm.do?id=${vo.id }"
 				class="btn btn-primary">수정</a>
 			<button type="button" class="btn btn-danger"
-				id="deleteBtn">탈퇴</button>
+				data-toggle="modal" data-target="#deleteModal">탈퇴</button>
 			<button class="btn btn-success"
 				onclick="history.back();">되돌아가기</button>
 		</div>
@@ -124,6 +124,41 @@
 		      <!-- Modal footer -->
 		      <div class="modal-footer">
 		      	<button class="btn btn-primary">바꾸기</button>
+		        <button type="button" class="btn btn-secondary"
+		        	data-dismiss="modal">취소</button>
+		      </div>
+				</form>
+	    </div>
+	  </div>
+	</div>
+	
+	<!-- The Modal -->
+	<div class="modal" id="deleteModal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	
+	      <!-- Modal Header -->
+	      <div class="modal-header">
+	        <h4 class="modal-title">탈퇴를 위한 비밀번호를 확인합니다.</h4>
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      </div>
+
+				<!-- 서버에 전송되는 데이터는 form 태그안에 구성합니다. -->
+				<form action="delete.do" method="post">
+					<!-- 숨겨서 넘길 데이터: id -->
+					<input type="hidden" name="id" value="${vo.id }">
+		      <!-- Modal body -->
+		      <div class="modal-body">
+		        <div class="form-group">
+		        	<label for="pw">비밀번호확인</label>
+		        	<input type="password" class="form-control"
+		        		id="pw" name="pw" required>
+		        </div>
+		      </div>
+		
+		      <!-- Modal footer -->
+		      <div class="modal-footer">
+		      	<button class="btn btn-danger">탈퇴</button>
 		        <button type="button" class="btn btn-secondary"
 		        	data-dismiss="modal">취소</button>
 		      </div>
