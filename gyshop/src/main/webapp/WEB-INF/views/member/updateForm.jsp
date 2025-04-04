@@ -91,93 +91,6 @@ $(function(){
 	});
 	// end : 다음 우편번호 검색 서비스
 	
-	// 사진(이미지) 미리보기
-	$("#photo").change(function(){
-		console.log(this);
-		
-		let file = this.files[0];
-		let reader = new FileReader();
-		// 화일의 로딩(읽기)이 끝났을때 하는 일을 세팅
-		reader.onloadend = function() {
-			console.log("reader.result: ",reader.result);
-			$("#image").attr("src", reader.result);
-		}
-		// 화일을 읽어옴
-		reader.readAsDataURL(file);
-	});
-	
-	// 아이디를 체크하는 코드
-	$("#id").keyup(function(){
-		console.log("#id, keyup event");
-		let id = $("#id").val();
-		if (id.length < 3) {
-			$("#checkIdDiv").removeClass("alert-success alert-danger")
-				.addClass("alert-danger");
-			// 글자를 바꿉니다. (최초글자)
-			$("#checkIdDiv").text("아이디는 필수입력입니다. 3글자에서 20자까지 사용합니다.");
-		}
-		else {
-			/* 중복아이디를 체크
-				DB 서버에 가서 id가 있는지 확인하고 결과를 jsp(checkid.jsp)로 가져옵니다.
-				ajax -> 페이지를 이동하지 않고 데이터만 가져오는 기법
-				jquery에서는 load() 메서드를 사용합니다.
-			*/
-			console.log("중복id체크");
-			$("#checkIdDiv").load("/ajax/checkId.do?id=" + id,
-					function(result){
-						console.log("ajax result: ",result);
-						if (result.indexOf("중복") >= 0) {
-							$("#checkIdDiv").removeClass("alert-success alert-danger")
-								.addClass("alert-danger");
-						}
-						else {
-							$("#checkIdDiv").removeClass("alert-success alert-danger")
-							.addClass("alert-success");
-						}
-			});
-		}
-	});
-	// end 아이디를 체크하는 코드
-	
-	// 비밀번호와 비밀번호확인 체크하는 코드
-	$("#pw, #pw2").keyup(function(){
-		let pw = $("#pw").val();
-		let pw2 = $("#pw2").val();
-		
-		// 비밀번호 길이체크, 5자이상
-		if (pw.length < 5) {
-			$("#pwDiv").removeClass("alert-success alert-danger")
-				.addClass("alert-danger");
-			$("#pwDiv").text("비밀번호는 필수입력입니다. 5자이상 입력하세요.");
-		}
-		else {
-			$("#pwDiv").removeClass("alert-success alert-danger")
-				.addClass("alert-success");
-			$("#pwDiv").text("사용할 수 있는 비밀번호 입니다.");
-		}
-		
-		// 비밀번호 확인 길이 체크, 5자 이상
-		if (pw2.length < 5) {
-			$("#pw2Div").removeClass("alert-success alert-danger")
-				.addClass("alert-danger");
-			$("#pw2Div").text("비밀번호확인은 필수입력입니다. 5자이상 입력하세요.");
-		}
-		else {
-			// 비밀번호와 비밀번호확인이 같은지 체크합니다.
-			if (pw != pw2) {
-				$("#pw2Div").removeClass("alert-success alert-danger")
-					.addClass("alert-danger");
-				$("#pw2Div").text("비밀번호와 일치하지 않습니다.");
-			}
-			else {
-				$("#pw2Div").removeClass("alert-success alert-danger")
-					.addClass("alert-success");
-				$("#pw2Div").text("비밀번호와 일치합니다.");
-			}
-		}
-	});
-	// end 비밀번호와 비밀번호확인 체크하는 코드
-	
 });
 </script>
 </head>
@@ -226,22 +139,24 @@ $(function(){
 	  <div class="form-group">
 	  	<label for="birth">생년월일: </label>
 	  	<input type="text" class="form-control datepicker" required
-	  		id="birth" name="birth" readonly style="background:white;">
+	  		id="birth" name="birth" readonly style="background:white;"
+	  		value="${vo.birth }">
 	  </div>
 	  <div class="form-group">
 	  	<label for="tel">연락처: </label>
 	  	<input type="text" class="form-control"
-	  		id="tel" name="tel">
+	  		id="tel" name="tel" value="${vo.tel }">
 	  </div>
 	  <div class="form-group">
 	  	<label for="email">이메일: </label>
 	  	<input type="text" class="form-control"
-	  		id="email" name="email">
+	  		id="email" name="email" value="${vo.email }">
 	  </div>
 	  <!-- 우편번호서비스: https://postcode.map.daum.net/guide 이용 -->
 	  <div class="input-group mb-3">
 		  <input type="text" class="form-control" style="background:white;"
-		  	readonly id="zipcode" placeholder="우편번호" name="zipcode">
+		  	readonly id="zipcode" placeholder="우편번호" name="zipcode"
+		  	value="${vo.zipcode }">
 		  <div class="input-group-append">
 		    <button class="btn btn-success" id="searchPostcode"
 		    	type="button">우편번호찾기</button>
@@ -249,35 +164,26 @@ $(function(){
 		</div>
 	  <div class="form-group">
 			<input type="text" id="addr1" name="addr1" style="background:white;"
-				readonly class="form-control" placeholder="주소">
+				readonly class="form-control" placeholder="주소" value="${vo.addr1 }">
 			<input type="text" id="addr2" name="addr2"
-				class="form-control" placeholder="상세주소">
+				class="form-control" placeholder="상세주소" value="${vo.addr2 }">
 	  </div>
 	  <div class="form-group">
-	  	<label for="photo">사진:</label>
-	  	<input type="file" class="form-control" id="photo" name="photo">
+	    <label for="pw">비밀번호확인:</label>
+	    <input type="password" class="form-control" maxlength="20"
+	    	pattern="^.{5,20}$"
+	    	placeholder="수정을 위해 비밀번호를 입력해주세요"
+	    	id="pw" name="pw" required>
 	  </div>
 	  <div>
-	  	<img id="image" src="">
-	  </div>
-	  <div>
-	  	<button type="submit" class="btn btn-primary">가입</button>
+	  	<button type="submit" class="btn btn-primary">수정</button>
 	  	<button type="reset" class="btn btn-secondary">다시입력</button>
 	  	<button type="button" class="btn btn-warning"
 	  		onclick="history.back()">취소</button>
 	  	<!-- history.back()은 이전페이지로 돌아가는 명령입니다. -->
 	  </div>
 	  
-	  <div class="form-group">
-	    <label for="pw">비밀번호:</label>
-	    <input type="password" class="form-control" maxlength="20"
-	    	pattern="^.{5,20}$"
-	    	placeholder="비밀번호는 5-20자"
-	    	id="pw" name="pw" required>
-	  </div>
-	  <div class="alert alert-danger" id="pwDiv">
-	  	비밀번호는 필수입력입니다. 5글자에서 20자까지 사용합니다.
-	  </div>
+	  
 	  
 	</form>
 </div>
