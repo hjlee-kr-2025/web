@@ -92,7 +92,6 @@
 	        <h4 class="modal-title">바꿀사진(이미지) 선택하기</h4>
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	      </div>
-	
 
 				<!-- 서버에 전송되는 데이터는 form 태그안에 구성합니다. -->
 				<!-- 사진을 교체하려면 어떤데이터가 서버로 전송되어야 할까요?
