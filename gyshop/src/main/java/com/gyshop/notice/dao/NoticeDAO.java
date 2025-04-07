@@ -169,7 +169,7 @@ public class NoticeDAO extends DAO {
 		try {
 			// 1. 드라이버확인
 			// 2. DB연결
-			DB.getConnection();
+			con = DB.getConnection();
 			// 3. SQL - UPDATE
 			System.out.println(UPDATE);
 			// 4. 실행객체에 SQL + 데이터 세팅(?: 6개)

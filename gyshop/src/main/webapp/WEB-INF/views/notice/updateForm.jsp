@@ -85,7 +85,7 @@ $(function(){
 	  <div class="form-group">
 	    <label for="title">제목:</label>
 	    <input type="text" class="form-control"
-	    	placeholder="제목을 입력하세요" id="title" ${vo.title }
+	    	placeholder="제목을 입력하세요" id="title" value="${vo.title }"
 	    	name="title" required>
 	  </div>
 	  <div class="form-group">
