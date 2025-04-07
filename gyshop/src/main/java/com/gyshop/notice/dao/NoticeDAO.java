@@ -59,6 +59,74 @@ public class NoticeDAO extends DAO {
 		return list;
 	} // end of list()
 	
+	// 2-1. 조회수 증가
+	public Integer increase(Long no) throws Exception {
+		// 결과저장변수 선언 및 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL 작성 - INCREASE
+			System.out.println(INCREASE);
+			// 4. 실행객체에 SQL + 데이터세팅(?: 1개, no)
+			pstmt = con.prepareStatement(INCREASE);
+			pstmt.setLong(1, no);
+			// 5. 실행 및 결과 리턴
+			result = pstmt.executeUpdate();
+			// 6. 체크안함
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		// 결과 리턴
+		return result;
+	}
+	
+	// 2-2. 공지사항 상세보기
+	public NoticeVO view(Long no) throws Exception {
+		// 결과저장변수 선언 및 초기화(null)
+		NoticeVO vo = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL쿼리 - VIEW
+			System.out.println(VIEW);
+			// 4. 실행객체: SQL쿼리 + 데이터 세팅 (?: 1개, no)
+			pstmt = con.prepareStatement(VIEW);
+			pstmt.setLong(1, no);
+			// 5. 실행 및 결과리턴
+			rs = pstmt.executeQuery();
+			// 6. 결과 저장
+			if (rs != null && rs.next()) {
+				vo = new NoticeVO();
+				vo.setNo(rs.getLong("no"));
+				vo.setTitle(rs.getString("title"));
+				vo.setContent(rs.getString("content"));
+				vo.setImage(rs.getString("image"));
+				vo.setStartDate(rs.getString("startDate"));
+				vo.setEndDate(rs.getString("endDate"));
+				vo.setWriteDate(rs.getString("writeDate"));
+				vo.setHit(rs.getLong("hit"));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt, rs);
+		}
+		
+		// 결과 리턴
+		return vo;
+	}
+	
 	
 	// 3. 공지사항 글쓰기
 	public Integer write(NoticeVO vo) throws Exception {
@@ -101,6 +169,17 @@ public class NoticeDAO extends DAO {
 			+ " date_format(endDate, '%Y-%m-%d') as endDate, "
 			+ " date_format(writeDate, '%Y-%m-%d') as writeDate, hit "
 			+ " from notice order by startDate desc";
+	
+	private static final String INCREASE = ""
+			+ "update notice set hit = hit + 1 where no = ?";
+	
+	private static final String VIEW = ""
+			+ "select no, title, content, image, "
+			+ " date_format(startDate, '%Y-%m-%d') as startDate, "
+			+ " date_format(endDate, '%Y-%m-%d') as endDate, "
+			+ " date_format(writeDate, '%Y-%m-%d') as writeDate, hit "
+			+ " from notice "
+			+ " where no = ?";
 	
 	private static final String WRITE = ""
 			+ "insert into notice "

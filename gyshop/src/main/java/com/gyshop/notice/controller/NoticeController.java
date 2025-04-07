@@ -6,7 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.gyshop.main.controller.Init;
+import com.gyshop.notice.vo.NoticeVO;
 import com.gyshop.util.exe.Execute;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 public class NoticeController {
 
@@ -55,6 +58,20 @@ public class NoticeController {
 				jsp = "notice/list";
 				// "WEB-INF/views/notice/list.jsp"
 				break;
+			case "/notice/view.do":
+				System.out.println("공지사항 글보기 -----");
+				// 상세보기할 글번호 수집(request)->서비스로 넘어감
+				Long no = Long.parseLong(request.getParameter("no"));
+				Long inc = Long.parseLong(request.getParameter("inc"));
+				// 서비스실행
+				result = Execute.execute(Init.get(uri), new Long[] {no, inc});
+				// DB에서 받은 데이터를 jsp 보내기 위해
+				// request에 저장
+				request.setAttribute("vo", result);
+				// jsp 로딩
+				jsp = "notice/view";
+				// "/WEB-INF/views/notice/view.jsp"
+				break;
 			case "/notice/writeForm.do":
 				System.out.println("공지사항 글쓰기 폼 -----");
 				jsp = "notice/writeForm";
@@ -62,6 +79,62 @@ public class NoticeController {
 				break;
 			case "/notice/write.do":
 				System.out.println("공지사항 글쓰기 처리 -----");
+				
+				// 데이터를 받습니다.
+				MultipartRequest multi
+					= new MultipartRequest(request,
+							realSavePath, sizeLimit,
+							"utf-8",
+							new DefaultFileRenamePolicy());
+				// MultipartRequest 클래스는 cos 라이브러리 안에 구현되어있습니다.
+				// 사용전 프로젝트 lib폴더에 cos.jar파일을 포함시켜야 합니다.
+				
+				/* form 태그에 enctype="multipart/form-data"를 사용하면
+				 * 데이터 전송시 2진(binary)으로 전송됩니다.(텍스트가 아님)
+				 * MultipartReuest 클래스를 통해서 바이너리파일이 우리가 볼수 있는
+				 * 텍스트 형태로 구성을 해 줍니다.
+				*/
+				// 서비스로 넘어가는 데이터를 수집
+				String title = multi.getParameter("title");
+				String content = multi.getParameter("content");
+				String image = multi.getFilesystemName("imageFile");
+				String startDate = multi.getParameter("startDate");
+				String endDate = multi.getParameter("endDate");
+				NoticeVO vo = new NoticeVO();
+				vo.setTitle(title);
+				vo.setContent(content);
+				if (image != null && !image.equals("")) {
+					vo.setImage(savePath + "/" + image);
+				}
+				vo.setStartDate(startDate);
+				vo.setEndDate(endDate);
+				
+				// 서비스를 실행합니다.
+				result = Execute.execute(Init.get(uri), vo);
+				
+				// 결과를 확인합니다.
+				if ((Integer)result != 0) {
+					session.setAttribute("msg",
+						"공지사항이 등록되었습니다.");
+				}
+				
+				// 공지사항 리스트로 이동합니다.
+				jsp = "redirect:list.do";
+				break;
+			case "/notice/updateForm.do":
+				System.out.println("공지사항 수정 폼 -----");
+				// 데이터를 가져와서 request에 담고
+				// updateForm.jsp 파일을 로딩합니다.
+				// 수정할 글번호 받기
+				no = Long.parseLong(request.getParameter("no"));
+				// 글번호로 기존데이터 받기
+				result = Execute.execute(Init.get("/notice/view.do"), vo)
+				
+				
+				
+				break;
+			case "/notice/update.do":
+				System.out.println("공지사항 수정 처리 -----");
 				break;
 			default:
 			}

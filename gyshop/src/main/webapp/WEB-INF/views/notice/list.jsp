@@ -27,7 +27,7 @@ $(function(){
 		
 		// 페이지를 이동합니다. location에 주소를 입력합니다.
 		location = "view.do?no="+no+"&inc=1";
-		// ==> view.do?no=글번호
+		// ==> view.do?no=글번호&inc=1
 	});
 	
 	// 글쓰기 버튼 이벤트
@@ -69,7 +69,7 @@ $(function(){
     </tbody>
     <tfoot>
     	<tr>
-    		<td colspan="5" style="text-align:right;">
+    		<td colspan="6" style="text-align:right;">
     			<button class="btn btn-primary" id="writeBtn">글쓰기</button>
     		</td>
     	<tr>
