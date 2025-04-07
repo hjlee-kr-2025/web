@@ -128,13 +128,55 @@ public class NoticeController {
 				// 수정할 글번호 받기
 				no = Long.parseLong(request.getParameter("no"));
 				// 글번호로 기존데이터 받기
-				result = Execute.execute(Init.get("/notice/view.do"), vo)
-				
-				
-				
+				result = Execute.execute(Init.get("/notice/view.do"),
+						new Long[] {no, 0L});
+				request.setAttribute("vo", result);
+				jsp = "notice/updateForm";
+				// "/WEB-INF/views/notice/updateForm.jsp"
 				break;
 			case "/notice/update.do":
 				System.out.println("공지사항 수정 처리 -----");
+				
+				multi = new MultipartRequest(request,
+							realSavePath, sizeLimit, "utf-8",
+							new DefaultFileRenamePolicy());
+				
+				no = Long.parseLong(multi.getParameter("no"));
+				title = multi.getParameter("title");
+				content = multi.getParameter("content");
+				image = multi.getFilesystemName("imageFile");
+				startDate = multi.getParameter("startDate");
+				endDate = multi.getParameter("endDate");
+				String deleteImage = multi.getParameter("image");
+				vo = new NoticeVO();
+				vo.setNo(no);
+				vo.setTitle(title);
+				vo.setContent(content);
+				if (image != null && !image.equals("")) {
+					vo.setImage(savePath + "/" + image);
+				}
+				vo.setStartDate(startDate);
+				vo.setEndDate(endDate);
+				// 서비스 실행
+				result = Execute.execute(Init.get(uri), vo);
+				if ((Integer)result == 0L) {
+					// 수정이 실패
+					image = vo.getImage();
+					// upload한 파일을 지웁니다.
+					File deleteFile =
+						new File(request.getServletContext().getRealPath(image));
+					if (deleteFile.exists()) deleteFile.delete();
+					session.setAttribute("msg",
+						"공지사항 수정이 실패했습니다. 다시 확인하시고 시도해주세요");
+				}
+				else {
+					File deleteFile =
+							new File(request.getServletContext().getRealPath(deleteImage));
+						if (deleteFile.exists()) deleteFile.delete();
+						session.setAttribute("msg",
+							"공지사항이 수정되었습니다.");
+				}
+				jsp = "redirect:view.do?no"+no+"&inc=0";
 				break;
 			default:
 			}

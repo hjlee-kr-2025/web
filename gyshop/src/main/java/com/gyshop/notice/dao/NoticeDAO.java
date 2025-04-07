@@ -161,6 +161,39 @@ public class NoticeDAO extends DAO {
 		return result;
 	} // end of write(NoticeVO vo)
 	
+	// 4. 공지사항 글 수정
+	public Integer update(NoticeVO vo) throws Exception {
+		// 결과저장변수 선언 및 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			DB.getConnection();
+			// 3. SQL - UPDATE
+			System.out.println(UPDATE);
+			// 4. 실행객체에 SQL + 데이터 세팅(?: 6개)
+			pstmt = con.prepareStatement(UPDATE);
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getContent());
+			pstmt.setString(3, vo.getImage());
+			pstmt.setString(4, vo.getStartDate());
+			pstmt.setString(5, vo.getEndDate());
+			pstmt.setLong(6, vo.getNo());
+			// 5. 실행 및 결과 리턴
+			result = pstmt.executeUpdate();
+			// 6. 결과확인은 controller에서
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		
+		// 결과 리턴
+		return result;
+	} // end of update(NoticeVO vo)
 	
 	// SQL
 	private static final String LIST = ""
@@ -185,6 +218,12 @@ public class NoticeDAO extends DAO {
 			+ "insert into notice "
 			+ " (title, content, image, startDate, endDate) "
 			+ " values (?, ?, ?, ?, ?)";
+	
+	private static final String UPDATE = ""
+			+ "update notice "
+			+ " set title = ?, content = ?, image = ?, "
+			+ " startDate = ?, endDate = ? "
+			+ " where no = ?";
 }
 
 
