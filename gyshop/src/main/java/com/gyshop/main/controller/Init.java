@@ -25,6 +25,8 @@ import com.gyshop.member.service.MemberLoginService;
 import com.gyshop.member.service.MemberUpdateService;
 import com.gyshop.member.service.MemberViewService;
 import com.gyshop.member.service.MemberWriteService;
+import com.gyshop.notice.dao.NoticeDAO;
+import com.gyshop.notice.service.NoticeListService;
 
 public class Init {
 
@@ -98,6 +100,16 @@ public class Init {
 		serviceMap.get("/ajax/checkId.do").setDAO(daoMap.get("memberDAO"));
 		serviceMap.get("/member/login.do").setDAO(daoMap.get("memberDAO"));
 		serviceMap.get("/member/changePhoto.do").setDAO(daoMap.get("memberDAO"));
+		
+		// 공지사항
+		// 1. dao 생성
+		daoMap.put("noticeDAO", new NoticeDAO());
+		
+		// 2. 서비스 생성
+		serviceMap.put("/notice/list.do", new NoticeListService());
+		
+		// 3. 조립: 서비스에 dao 할당
+		serviceMap.get("/notice/list.do").setDAO(daoMap.get("noticeDAO"));
 	}
 	
 	// 어느 서비스를 실행할지 리턴하는 메서드(할당된 서비스 주소 리턴)
