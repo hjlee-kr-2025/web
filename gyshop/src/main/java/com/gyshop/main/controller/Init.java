@@ -27,6 +27,7 @@ import com.gyshop.member.service.MemberViewService;
 import com.gyshop.member.service.MemberWriteService;
 import com.gyshop.notice.dao.NoticeDAO;
 import com.gyshop.notice.service.NoticeListService;
+import com.gyshop.notice.service.NoticeWriteService;
 
 public class Init {
 
@@ -107,9 +108,11 @@ public class Init {
 		
 		// 2. 서비스 생성
 		serviceMap.put("/notice/list.do", new NoticeListService());
+		serviceMap.put("/notice/write.do", new NoticeWriteService());
 		
 		// 3. 조립: 서비스에 dao 할당
 		serviceMap.get("/notice/list.do").setDAO(daoMap.get("noticeDAO"));
+		serviceMap.get("/notice/write.do").setDAO(daoMap.get("noticeDAO"));
 	}
 	
 	// 어느 서비스를 실행할지 리턴하는 메서드(할당된 서비스 주소 리턴)

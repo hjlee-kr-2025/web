@@ -12,6 +12,7 @@ import com.gyshop.ajax.controller.AjaxController;
 import com.gyshop.board.controller.BoardController;
 import com.gyshop.member.controller.GradeController;
 import com.gyshop.member.controller.MemberController;
+import com.gyshop.notice.controller.NoticeController;
 
 /* 1. webserver 가 로딩될때 init()가 실행되도록 구성
  * 		(web.xml에 load-on-startup 를 1로 세팅)
@@ -33,6 +34,7 @@ public class DispatcherServlet extends HttpServlet {
 	private GradeController gradeController = new GradeController();
 	private MemberController memberController = new MemberController();
 	private AjaxController ajaxController = new AjaxController();
+	private NoticeController noticeController = new NoticeController();
 	
 
 	/* [shift]+[alt]+[s] -> override/implements method 클릭
@@ -87,6 +89,9 @@ public class DispatcherServlet extends HttpServlet {
 			break;
 		case "/ajax":
 			jsp = ajaxController.execute(request);
+			break;
+		case "/notice":
+			jsp = noticeController.execute(request);
 			break;
 		default:
 			request.setAttribute("uri", uri);

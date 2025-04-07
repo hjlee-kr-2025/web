@@ -60,6 +60,40 @@ public class NoticeDAO extends DAO {
 	} // end of list()
 	
 	
+	// 3. 공지사항 글쓰기
+	public Integer write(NoticeVO vo) throws Exception {
+		// 결과 저장 변수 선언 및 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL 작성 - WRITE
+			System.out.println(WRITE);
+			// 4. 실행객체(pstmt)에 SQL + 데이터세팅(?: 5개)
+			pstmt = con.prepareStatement(WRITE);
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getContent());
+			pstmt.setString(3, vo.getImage());
+			pstmt.setString(4, vo.getStartDate());
+			pstmt.setString(5, vo.getEndDate());
+			// 5. 실행 및 결과 리턴
+			result = pstmt.executeUpdate();
+			// 6. 결과확인은 컨트롤러에서 체크
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		
+		// 결과 리턴
+		return result;
+	} // end of write(NoticeVO vo)
+	
+	
 	// SQL
 	private static final String LIST = ""
 			+ "select no, title, "
@@ -67,6 +101,11 @@ public class NoticeDAO extends DAO {
 			+ " date_format(endDate, '%Y-%m-%d') as endDate, "
 			+ " date_format(writeDate, '%Y-%m-%d') as writeDate, hit "
 			+ " from notice order by startDate desc";
+	
+	private static final String WRITE = ""
+			+ "insert into notice "
+			+ " (title, content, image, startDate, endDate) "
+			+ " values (?, ?, ?, ?, ?)";
 }
 
 
