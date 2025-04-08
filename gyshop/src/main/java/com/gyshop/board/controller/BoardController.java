@@ -102,7 +102,11 @@ public class BoardController {
 						"새로운 글이 등록되었습니다.");
 				}
 				
-				jsp = "redirect:list.do";
+				String orderStyle = request.getParameter("orderStyle");
+				String perPageNum = request.getParameter("perPageNum");
+				
+				jsp = "redirect:list.do?orderStyle=" + orderStyle
+						+ "&perPageNum=" + perPageNum;
 				break;
 			case "/board/updateForm.do":
 				System.out.println("4-1. 일반게시판 글수정 폼");

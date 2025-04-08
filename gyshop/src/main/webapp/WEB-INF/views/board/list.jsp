@@ -32,7 +32,9 @@ $(function(){
 	
 	// 글쓰기 버튼 이벤트
 	$("#writeBtn").click(function(){
-		location = "writeForm.do";
+		location = "writeForm.do" +
+				"?orderStyle=${pageObject.orderStyle}" +
+				"&perPageNum=${pageObject.perPageNum}";
 	});
 	
 	// 이벤트
@@ -59,7 +61,7 @@ $(function(){
 	<form id="searchForm" action="list.do">
 		<div class="row">
 			<div class="col-sm-6">
-				<div class="input-group mb-3">
+				<div class="input-group mb-3 mt-3">
 					<div class="input-group-prepend">
 						<select class="form-control" id="key" name="key">
 							<option value="t">제목</option>
@@ -81,7 +83,7 @@ $(function(){
 			</div>
 			<div class="col-sm-3">
 				<!-- 게시글 정렬 방식 지정 -->
-				<div class="input-group mb-3">
+				<div class="input-group mb-3 mt-3">
 			    <div class="input-group-prepend">
 			      <span class="input-group-text">정렬방법</span>
 			    </div>
@@ -94,7 +96,7 @@ $(function(){
 			</div>
 			<div class="col-sm-3">
 				<!-- 한페이지의 게시글수 지정 -->
-				<div class="input-group mb-3">
+				<div class="input-group mb-3 mt-3">
 			    <div class="input-group-prepend">
 			      <span class="input-group-text">Rows/page</span>
 			    </div>

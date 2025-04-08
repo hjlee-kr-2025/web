@@ -127,6 +127,8 @@ $(function(){
 <div class="container topbox">
 	<h2><i class="fa fa-edit"></i> 일반게시판 글쓰기</h2>
 	<form action="write.do" method="post" id="writeForm">
+		<input type="hidden" name="orderStyle" value="${param.orderStyle }">
+		<input type="hidden" name="perPageNum" value="${param.perPageNum }">
 	  <div class="form-group">
 	    <label for="title">제목:</label>
 	    <input type="text" class="form-control"
