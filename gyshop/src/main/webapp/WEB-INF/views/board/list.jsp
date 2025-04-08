@@ -35,13 +35,20 @@ $(function(){
 		location = "writeForm.do";
 	});
 	
-	$("#perPageNum").change(function(){
+	// 이벤트
+	$("#perPageNum, #orderStyle").change(function(){
 		$("#searchForm").submit();
 	});
 	
+	// 이벤트
+
 	// 초기데이터 세팅
 	$("#perPageNum")
 		.val("${(empty pageObject.perPageNum)?'10':pageObject.perPageNum}");
+	$("#orderStyle")
+		.val("${(empty pageObject.orderStyle)?'1':pageObject.orderStyle}");
+	$("#key")
+		.val("${(empty pageObject.key)?'t':pageObject.key}");
 	
 });
 </script>
@@ -52,6 +59,25 @@ $(function(){
 	<form id="searchForm" action="list.do">
 		<div class="row">
 			<div class="col-sm-6">
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+						<select class="form-control" id="key" name="key">
+							<option value="t">제목</option>
+							<option value="c">내용</option>
+							<option value="w">작성자</option>
+							<option value="tc">제목/내용</option>
+							<option value="tw">제목/작성자</option>
+							<option value="cw">내용/작성자</option>
+							<option value="tcw">모두</option>
+						</select>
+					</div>
+				  <input type="text" class="form-control" placeholder="Search"
+				  	id="word" name="word">
+				  <div class="input-group-append">
+				    <button class="btn btn-primary" type="submit"
+				    	value="${pageObject.word }"><i class="fa fa-search"></i></button>
+				  </div>
+				</div>
 			</div>
 			<div class="col-sm-3">
 				<!-- 게시글 정렬 방식 지정 -->

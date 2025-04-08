@@ -20,6 +20,10 @@ public class PageObject {
 	// 정렬을 위한 정보
 	private Long orderStyle;
 	
+	// 검색을 위한 정보
+	private String key;
+	private String word;
+	
 	// 생성자
 	public PageObject() {
 		this.page = 1L;
@@ -56,6 +60,15 @@ public class PageObject {
 		if (strPerPageNum != null && !strPerPageNum.equals("")) {
 			pageObject.setPerPageNum(Long.parseLong(strPerPageNum));
 		}
+		// 정렬 순서에 대한 정보
+		String strOrderStyle = request.getParameter("orderStyle");
+		if (strOrderStyle != null && !strOrderStyle.equals("")) {
+			pageObject.setOrderStyle(Long.parseLong(strOrderStyle));
+		}
+		
+		// 검색에 대한 정보 세팅
+		pageObject.setKey(request.getParameter("key"));
+		pageObject.setWord(request.getParameter("word"));
 		
 		// PageObject 객체 리턴
 		return pageObject;
@@ -63,6 +76,22 @@ public class PageObject {
 
 	// getter, setter를 구성 후 수정해서 사용할 예정입니다.
 	// 그래서 lombok 라이브러리를 사용하지 않고 자동완성으로 구성합니다.
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public String getWord() {
+		return word;
+	}
+
+	public void setWord(String word) {
+		this.word = word;
+	}
+
 	public Long getPage() {
 		return page;
 	}
