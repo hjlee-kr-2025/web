@@ -26,7 +26,7 @@ $(function(){
 		//alert("클릭한 no : " + no);
 		
 		// 페이지를 이동합니다. location에 주소를 입력합니다.
-		location = "view.do?no="+no+"&inc=1";
+		location = "view.do?no="+no+"&inc=1&${pageObject.pageQuery}";
 		// ==> view.do?no=글번호
 	});
 	

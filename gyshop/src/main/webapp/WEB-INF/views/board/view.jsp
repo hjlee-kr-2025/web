@@ -50,7 +50,7 @@ $(function(){
 	  		<div>작성일: ${vo.writeDate }</div>
 	  	</div>
 	  	<div style="margin-top: 15px;">
-			  <a href="updateForm.do?no=${vo.no }">
+			  <a href="updateForm.do?no=${vo.no }&page=${param.page}&perPageNum">
 			  	<button class="btn btn-primary">수정</button>
 			  </a>
 			  <button class="btn btn-danger" id="deleteBtn">삭제</button>

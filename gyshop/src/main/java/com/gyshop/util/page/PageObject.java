@@ -205,9 +205,25 @@ public class PageObject {
 	public String toString() {
 		return "PageObject [page=" + page + ", perPageNum=" + perPageNum + ", startRow=" + startRow + ", endRow="
 				+ endRow + ", perGroupPageNum=" + perGroupPageNum + ", startPage=" + startPage + ", endPage=" + endPage
-				+ ", totalPage=" + totalPage + ", totalRow=" + totalRow + "]";
+				+ ", totalPage=" + totalPage + ", totalRow=" + totalRow + ", orderStyle=" + orderStyle + ", key=" + key
+				+ ", word=" + word + "]";
+	}
+
+	// url에 붙여서 사용할 데이터 세팅
+	public String getNotPageQuery() throws Exception {
+		return ""
+			+ "perPageNum=" + perPageNum
+			+ "&orderStyle=" + orderStyle
+			+ "&key=" + key
+			+ "&word=" + word;
 	}
 	
+	public String getPageQuery() throws Exception {
+		return ""
+			+ "page=" + page
+			+ "&" + getNotPageQuery();
+	}
+
 	
 	
 }

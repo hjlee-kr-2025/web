@@ -1,5 +1,7 @@
 package com.gyshop.board.dao;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,8 +66,10 @@ public class BoardDAO extends DAO {
 			pstmt = con.prepareStatement(getList(pageObject)); // SQL 세팅
 			// 데이터세팅은 없습니다. (?가 없기 때문에)
 			// 페이지 처리후에 세팅하는 값이 2개 들어갑니다.
-			pstmt.setLong(1, pageObject.getStartRow());
-			pstmt.setLong(2, pageObject.getEndRow());
+			int idx = 0;
+			idx = setSearchData(pageObject, pstmt, idx);
+			pstmt.setLong(++idx, pageObject.getStartRow());
+			pstmt.setLong(++idx, pageObject.getEndRow());
 			System.out.println("4. 실행객체 세팅 완료 ---");
 			// 5. 실행 + 결과리턴
 			rs = pstmt.executeQuery();
@@ -294,9 +298,36 @@ public class BoardDAO extends DAO {
 	}	// end of delete(BoardVO vo)
 	
 	
+	// 검색관련 쿼리를 정리하는 함수
+	private String getSearch(PageObject pageObject) {
+		String sql = "";
+		
+		String key = pageObject.getKey();
+		String word = pageObject.getWord();
+		
+		// 검색어가 존재하는 여부에 따라 구성을 합니다.
+		if (word != null && !word.equals("")) {
+			// 세가지 조건이 or 로 묶입니다.
+			// 여러개의 조건을 or로 묶을때 시작을 where 1=0 으로 진행합니다.
+			// or 일때는 거짓값을 만들어서 시작
+			// and 일때는 참값을 만들어서 시작
+			sql += " where 1=0 ";
+			if (key.indexOf("t") >= 0) sql += " or title like ? ";
+			if (key.indexOf("c") >= 0) sql += " or content like ? ";
+			if (key.indexOf("w") >= 0) sql += " or writer like ? ";
+		}
+		
+		
+		return sql;
+	}
+	
+	
 	// LIST쿼리를 작성하는 함수
 	private String getList(PageObject pageObject) {
 		String sql = LIST1;
+		// 검색관련 쿼리구성
+		sql += getSearch(pageObject);
+		// 정렬관련 쿼리구성
 		if (pageObject.getOrderStyle() == 2L) {
 			sql += " order by no ";
 		}
@@ -309,6 +340,22 @@ public class BoardDAO extends DAO {
 		sql += LIST2;
 		return sql;
 	}
+	
+	// pstmt(실행객체) 에 검색 데이터 세팅하는 함수
+	private int setSearchData(PageObject pageObject,
+		PreparedStatement pstmt, int idx) throws SQLException {
+		String key = pageObject.getKey();
+		String word = pageObject.getWord();
+		if (word != null && !word.equals("")) {
+			if (key.indexOf("t") >= 0) pstmt.setString(++idx, "%"+word+"%");
+			if (key.indexOf("c") >= 0) pstmt.setString(++idx, "%"+word+"%");
+			if (key.indexOf("w") >= 0) pstmt.setString(++idx, "%"+word+"%");
+		}
+		
+		return idx;
+	}
+	
+	
 	
 	
 	
