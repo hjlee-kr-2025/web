@@ -74,6 +74,13 @@ $(function(){
 	
 				<form action="delete.do" method="post" id="deleteForm">
 					<input type="hidden" name="no" value="${vo.no }">
+					<!-- 정렬방법과 페이지당 데이터수를 유지하기 위한 데이터세팅 -->
+					<input type="hidden" name="orderStyle" value="${param.orderStyle }">
+					<input type="hidden" name="perPageNum" value="${param.perPageNum }">
+					<!-- 아래데이터는 비밀번호가 틀려서 지워지지 않았을때 필요한 정보입니다.0 -->
+					<input type="hidden" name="page" value="${param.page }">
+					<input type="hidden" name="key" value="${param.key }">
+					<input type="hidden" name="word" value="${param.word }">
 	      	<!-- Modal body -->
 		      <div class="modal-body">
 		        <input type="password" name="pw" id="pw"

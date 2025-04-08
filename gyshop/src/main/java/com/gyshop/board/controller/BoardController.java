@@ -158,15 +158,20 @@ public class BoardController {
 				// 서비스 실행
 				result = Execute.execute(Init.get(uri), vo);
 				// 실행 결과 확인
+				pageObject = PageObject.getInstance(request);
+				
 				if ((Integer)result == 0) {
 					session.setAttribute("msg",
 							"비밀번호가 맞지않습니다. 다시확인하시고 시도해주세요");
-					jsp = "redirect:view.do?no="+vo.getNo()+"&inc=0";
+					jsp = "redirect:view.do?no="+vo.getNo()+"&inc=0&"
+						+ pageObject.getPageQuery();
 				}
 				else {
 					session.setAttribute("msg",
 							vo.getNo() + "번 게시글이 삭제되었습니다.");
-					jsp = "redirect:list.do";
+					jsp = "redirect:list.do"
+							+ "?orderStyle=" + pageObject.getOrderStyle()
+							+ "&perPageNum=" + pageObject.getPerPageNum();
 				}
 				break;
 			default:

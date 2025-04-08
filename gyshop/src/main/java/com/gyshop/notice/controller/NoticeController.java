@@ -155,6 +155,9 @@ public class NoticeController {
 				if (image != null && !image.equals("")) {
 					vo.setImage(savePath + "/" + image);
 				}
+				else {
+					vo.setImage(deleteImage);
+				}
 				vo.setStartDate(startDate);
 				vo.setEndDate(endDate);
 				// 서비스 실행
@@ -170,11 +173,17 @@ public class NoticeController {
 						"공지사항 수정이 실패했습니다. 다시 확인하시고 시도해주세요");
 				}
 				else {
-					File deleteFile =
-							new File(request.getServletContext().getRealPath(deleteImage));
-						if (deleteFile.exists()) deleteFile.delete();
-						session.setAttribute("msg",
-							"공지사항이 수정되었습니다.");
+					System.out.println("image :" + image + "--");
+					System.out.println("deleteImage :" + deleteImage + "--");
+					// 새로올린 이미지가 있을때만 기존이미지를 지우도록 합니다.
+					if (image != null && !image.equals("")) {
+						File deleteFile =
+								new File(request.getServletContext()
+									.getRealPath(deleteImage));
+							if (deleteFile.exists()) deleteFile.delete();
+					}
+					session.setAttribute("msg",
+						"공지사항이 수정되었습니다.");
 				}
 				jsp = "redirect:view.do?no="+no+"&inc=0";
 				break;
