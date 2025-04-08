@@ -26,6 +26,7 @@ import com.gyshop.member.service.MemberUpdateService;
 import com.gyshop.member.service.MemberViewService;
 import com.gyshop.member.service.MemberWriteService;
 import com.gyshop.notice.dao.NoticeDAO;
+import com.gyshop.notice.service.NoticeDeleteService;
 import com.gyshop.notice.service.NoticeListService;
 import com.gyshop.notice.service.NoticeUpdateService;
 import com.gyshop.notice.service.NoticeViewService;
@@ -113,12 +114,14 @@ public class Init {
 		serviceMap.put("/notice/view.do", new NoticeViewService());
 		serviceMap.put("/notice/write.do", new NoticeWriteService());
 		serviceMap.put("/notice/update.do", new NoticeUpdateService());
+		serviceMap.put("/notice/delete.do", new NoticeDeleteService());
 		
 		// 3. 조립: 서비스에 dao 할당
 		serviceMap.get("/notice/list.do").setDAO(daoMap.get("noticeDAO"));
 		serviceMap.get("/notice/view.do").setDAO(daoMap.get("noticeDAO"));
 		serviceMap.get("/notice/write.do").setDAO(daoMap.get("noticeDAO"));
 		serviceMap.get("/notice/update.do").setDAO(daoMap.get("noticeDAO"));
+		serviceMap.get("/notice/delete.do").setDAO(daoMap.get("noticeDAO"));
 	}
 	
 	// 어느 서비스를 실행할지 리턴하는 메서드(할당된 서비스 주소 리턴)

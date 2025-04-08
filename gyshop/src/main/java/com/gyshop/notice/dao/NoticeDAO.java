@@ -195,6 +195,35 @@ public class NoticeDAO extends DAO {
 		return result;
 	} // end of update(NoticeVO vo)
 	
+	// 5. 공지사항 글삭제
+	public Integer delete(Long no) throws Exception {
+		// 결과저장변수 선언 및 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL - DELETE
+			System.out.println(DELETE);
+			// 4. 실행객체에 SQL + 데이터 세팅(?: 1개, no)
+			pstmt = con.prepareStatement(DELETE);
+			pstmt.setLong(1, no);
+			// 5. 실행 및 결과리턴
+			result = pstmt.executeUpdate();
+			// 6. 결과는 controller에서 처리합니다.
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		
+		// 결과 리턴
+		return result;
+	} // end of delete(Long no)
+	
 	// SQL
 	private static final String LIST = ""
 			+ "select no, title, "
@@ -224,6 +253,9 @@ public class NoticeDAO extends DAO {
 			+ " set title = ?, content = ?, image = ?, "
 			+ " startDate = ?, endDate = ? "
 			+ " where no = ?";
+	
+	private static final String DELETE = ""
+			+ "delete from notice where no = ?";
 }
 
 

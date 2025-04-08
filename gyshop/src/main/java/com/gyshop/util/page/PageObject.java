@@ -17,6 +17,9 @@ public class PageObject {
 	private Long totalPage;	// 전체 페이지 수
 	private Long totalRow;	// 전체 데이터 수
 	
+	// 정렬을 위한 정보
+	private Long orderStyle;
+	
 	// 생성자
 	public PageObject() {
 		this.page = 1L;
@@ -27,6 +30,8 @@ public class PageObject {
 		this.perGroupPageNum = 10L;
 		this.startPage = 1L;
 		this.endPage = 1L;
+		
+		this.orderStyle = 1L;//최신글
 	}
 	
 	// 실제 페이지 처리를 위한 세팅시 호출하는 메서드
@@ -157,6 +162,14 @@ public class PageObject {
 		System.out.println("totalPage = " + totalPage);
 		System.out.println("startPage = " + startPage);
 		System.out.println("endPage = " + endPage);
+	}
+
+	public Long getOrderStyle() {
+		return orderStyle;
+	}
+
+	public void setOrderStyle(Long orderStyle) {
+		this.orderStyle = orderStyle;
 	}
 
 	@Override

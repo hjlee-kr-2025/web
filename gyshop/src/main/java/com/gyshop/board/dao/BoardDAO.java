@@ -58,10 +58,10 @@ public class BoardDAO extends DAO {
 			// 2. DB 연결
 			con = DB.getConnection();
 			System.out.println("----- 2. DB연결완료 -----");
-			// 3. SQL 작성 - 클래스하단 LIST 상수로 구현
-			System.out.println("3. SQL(LIST) : " + LIST);
+			// 3. SQL 작성 - 클래스하단 상수와 메서드로 구현
+			System.out.println("3. SQL: " + getList(pageObject));
 			// 4. 실행객체에 SQL + 데이터세팅(?: 0 -> 2)
-			pstmt = con.prepareStatement(LIST); // SQL 세팅
+			pstmt = con.prepareStatement(getList(pageObject)); // SQL 세팅
 			// 데이터세팅은 없습니다. (?가 없기 때문에)
 			// 페이지 처리후에 세팅하는 값이 2개 들어갑니다.
 			pstmt.setLong(1, pageObject.getStartRow());
@@ -294,6 +294,24 @@ public class BoardDAO extends DAO {
 	}	// end of delete(BoardVO vo)
 	
 	
+	// LIST쿼리를 작성하는 함수
+	private String getList(PageObject pageObject) {
+		String sql = LIST1;
+		if (pageObject.getOrderStyle() == 2L) {
+			sql += " order by no ";
+		}
+		else if (pageObject.getOrderStyle() == 3L) {
+			sql += " order by hit desc, no desc ";
+		}
+		else {
+			sql += " order by no desc ";
+		}
+		sql += LIST2;
+		return sql;
+	}
+	
+	
+	
 	// SQL ==================
 	/* LIST 기본쿼리
 	  private final String LIST = ""
@@ -308,7 +326,7 @@ public class BoardDAO extends DAO {
 	private final String GETTOTALROW = ""
 		+ "select count(*) from board";
 	
-	private final String LIST = ""
+	private final String LIST1 = ""
 		+ "select "
 		+ "	no, title, writer, writeDate, hit "
 		+ " from "
@@ -316,8 +334,10 @@ public class BoardDAO extends DAO {
 		+ " @rownum := @rownum + 1 as rnum, "
 		+ "	no, title, writer, "
 		+ " date_format(writeDate, '%Y-%m-%d') as writeDate, hit " 
-		+ " from board, (select @rownum := 0) as rn "
-		+ " order by no desc) as pageBoard " 
+		+ " from board, (select @rownum := 0) as rn ";
+	
+	private final String LIST2 = ""
+		+ " ) as pageBoard " 
 		+ " where rnum >= ? and rnum <= ?";
 	// ===> 일반게시판의 리스트 전체를 rnum으로 1번부터 순서대로 번호를 매긴
 	// 가상의 테이블을 만들고

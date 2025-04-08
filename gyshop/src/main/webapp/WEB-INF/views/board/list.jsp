@@ -35,12 +35,53 @@ $(function(){
 		location = "writeForm.do";
 	});
 	
+	$("#perPageNum").change(function(){
+		$("#searchForm").submit();
+	});
+	
+	// 초기데이터 세팅
+	$("#perPageNum")
+		.val("${(empty pageObject.perPageNum)?'10':pageObject.perPageNum}");
+	
 });
 </script>
 </head>
 <body>
 <div class="container topbox">
 	<h2><i class="fa fa-list"></i> 일반게시판 리스트</h2>
+	<form id="searchForm" action="list.do">
+		<div class="row">
+			<div class="col-sm-6">
+			</div>
+			<div class="col-sm-3">
+				<!-- 게시글 정렬 방식 지정 -->
+				<div class="input-group mb-3">
+			    <div class="input-group-prepend">
+			      <span class="input-group-text">정렬방법</span>
+			    </div>
+			    <select class="form-control" id="orderStyle" name="orderStyle">
+			    	<option value="1">최신글</option>
+			    	<option value="2">과거글</option>
+			    	<option value="3">조회수</option>
+			    </select>
+			  </div>
+			</div>
+			<div class="col-sm-3">
+				<!-- 한페이지의 게시글수 지정 -->
+				<div class="input-group mb-3">
+			    <div class="input-group-prepend">
+			      <span class="input-group-text">Rows/page</span>
+			    </div>
+			    <select class="form-control" id="perPageNum" name="perPageNum">
+			    	<option>10</option>
+			    	<option>15</option>
+			    	<option>20</option>
+			    	<option>25</option>
+			    </select>
+			  </div>
+			</div>
+		</div>
+	</form>
 	<table class="table table-hover">
     <thead><!-- 칼럼의 제목 -->
       <tr>

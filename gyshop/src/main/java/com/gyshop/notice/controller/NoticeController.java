@@ -176,7 +176,25 @@ public class NoticeController {
 						session.setAttribute("msg",
 							"공지사항이 수정되었습니다.");
 				}
-				jsp = "redirect:view.do?no"+no+"&inc=0";
+				jsp = "redirect:view.do?no="+no+"&inc=0";
+				break;
+			case "/notice/delete.do":
+				System.out.println("공지사항 글삭제 -----");
+				// 삭제에 필요한 글번호가 request에 담겨져 이곳으로 넘어옵니다.
+				no = Long.parseLong(request.getParameter("no"));
+				// 글번호를 서비스로 넘기고 실행합니다.
+				result = Execute.execute(Init.get(uri), no);
+				// 처리결과를 화면에 표시
+				if ((Integer)result == 0) {
+					session.setAttribute("msg",
+						"공지사항이 삭제되지 않았습니다. 다시 시도해 주세요.");
+				}
+				else {
+					session.setAttribute("msg", 
+						"공지사항이 삭제되었습니다.");
+				}
+				// 공지사항 리스트로 이동
+				jsp = "redirect:list.do";
 				break;
 			default:
 			}
