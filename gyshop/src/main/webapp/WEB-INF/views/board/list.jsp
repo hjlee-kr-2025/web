@@ -72,10 +72,10 @@ $(function(){
 						</select>
 					</div>
 				  <input type="text" class="form-control" placeholder="Search"
-				  	id="word" name="word">
+				  	id="word" name="word" value="${pageObject.word }">
 				  <div class="input-group-append">
 				    <button class="btn btn-primary" type="submit"
-				    	value="${pageObject.word }"><i class="fa fa-search"></i></button>
+				    	><i class="fa fa-search"></i></button>
 				  </div>
 				</div>
 			</div>

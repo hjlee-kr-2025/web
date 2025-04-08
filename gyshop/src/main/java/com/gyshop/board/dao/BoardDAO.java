@@ -25,9 +25,12 @@ public class BoardDAO extends DAO {
 			// 2. DB 연결
 			con = DB.getConnection();
 			// 3. SQL 쿼리 작성 - GETTOTALROW - 클래스 하단 상수
-			System.out.println(GETTOTALROW);
+			String SQL = GETTOTALROW + getSearch(pageObject);
+			System.out.println(SQL);
 			// 4. 실행객체에 SQL + 데이터세팅(? 없음)
-			pstmt = con.prepareStatement(GETTOTALROW);
+			pstmt = con.prepareStatement(SQL);
+			int idx = 0;
+			idx = setSearchData(pageObject, pstmt, idx);
 			// 5. 실행 + 결과 리턴 (select문은 ReseultSet에 결과를 담는다)
 			rs = pstmt.executeQuery();
 			// 6. 결과 저장
@@ -346,6 +349,7 @@ public class BoardDAO extends DAO {
 		PreparedStatement pstmt, int idx) throws SQLException {
 		String key = pageObject.getKey();
 		String word = pageObject.getWord();
+		System.out.println("key = " + key + ", word = " + word);
 		if (word != null && !word.equals("")) {
 			if (key.indexOf("t") >= 0) pstmt.setString(++idx, "%"+word+"%");
 			if (key.indexOf("c") >= 0) pstmt.setString(++idx, "%"+word+"%");

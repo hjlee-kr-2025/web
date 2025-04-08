@@ -20,7 +20,9 @@ public class BoardListService implements Service {
 		PageObject pageObject = (PageObject) obj;
 		
 		// 전체 데이터 정보를 DB에서 가져오고 페이지세팅을 합니다.
-		pageObject.setTotalRow(dao.getTotalRow(pageObject));
+		Long totalRow = dao.getTotalRow(pageObject);
+		if (totalRow == null) totalRow = 0L;
+		pageObject.setTotalRow(totalRow);
 		
 		return dao.list(pageObject);
 	}

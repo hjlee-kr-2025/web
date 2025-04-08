@@ -138,8 +138,12 @@ public class BoardController {
 						vo.getNo() + "번 게시글이 수정되었습니다.");
 				}
 				
+				// 페이지 정보를 받아서 view.do 뒤에 붙입니다.
+				pageObject = PageObject.getInstance(request);
+				
 				// 페이지이동, 수정글의 상세페이지
-				jsp = "redirect:view.do?no="+vo.getNo()+"&inc=0";
+				jsp = "redirect:view.do?no="+vo.getNo()+"&inc=0&"
+						+pageObject.getPageQuery();
 				break;
 			case "/board/delete.do":
 				System.out.println("5. 일반게시판 글삭제");

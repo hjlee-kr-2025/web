@@ -127,6 +127,11 @@ $(function(){
 <div class="container topbox">
 	<h2><i class="fa fa-edit"></i> 일반게시판 글수정</h2>
 	<form action="update.do" method="post" id="updateForm">
+		<input type="hidden" name="page" value="${param.page }">
+		<input type="hidden" name="perPageNum" value="${param.perPageNum }">
+		<input type="hidden" name="orderStyle" value="${param.orderStyle }">
+		<input type="hidden" name="key" value="${param.key }">
+		<input type="hidden" name="word" value="${param.word }">
 	  <div class="form-group">
 	    <label for="no">번호:</label>
 	    <input type="text" class="form-control"

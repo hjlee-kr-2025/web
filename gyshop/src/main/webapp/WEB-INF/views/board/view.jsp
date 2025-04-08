@@ -50,11 +50,11 @@ $(function(){
 	  		<div>작성일: ${vo.writeDate }</div>
 	  	</div>
 	  	<div style="margin-top: 15px;">
-			  <a href="updateForm.do?no=${vo.no }&page=${param.page}&perPageNum">
+			  <a href="updateForm.do?no=${vo.no }&page=${param.page}&perPageNum=${param.perPageNum}&orderStyle=${param.orderStyle}&key=${param.key}&word=${param.word}">
 			  	<button class="btn btn-primary">수정</button>
 			  </a>
 			  <button class="btn btn-danger" id="deleteBtn">삭제</button>
-			  <a href="list.do">
+			  <a href="list.do?page=${param.page}&perPageNum=${param.perPageNum}&orderStyle=${param.orderStyle}&key=${param.key}&word=${param.word}">
 			  	<button class="btn btn-success">리스트</button>
 			  </a>
 		  </div>

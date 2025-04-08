@@ -22,7 +22,7 @@
 			class="page-item">
 		<c:if test="${pageObject.page > 1 }">
 			<a class="page-link" 
-				href="${listURI }?page=1&perPageNum=${pageObject.perPageNum}"
+				href="${listURI }?page=1&${pageObject.notPageQuery}"
 	  		title="click to move first page!!" ${tooltip }
 	  		><i class="fa fa-angle-double-left"></i></a>
 		</c:if>
@@ -36,7 +36,7 @@
   <li data-page="${pageObject.startPage - 1 }" class="page-item">
   	<c:if test="${pageObject.startPage > 1 }">
 	  	<a class="page-link"
-	  		href="${listURI }?page=${pageObject.startPage - 1}&perPageNum=${pageObject.perPageNum}"
+	  		href="${listURI }?page=${pageObject.startPage - 1}&${pageObject.notPageQuery}"
 	  		title="click to move previous page group!!" ${tooltip }
 	  		><i class="fa fa-angle-left"></i></a>
   	</c:if>
@@ -54,7 +54,7 @@
 	  <li data-page="${cnt }"
 	  	${(pageObject.page == cnt)?"class=\"page-item active\"":"class=\"page-item\"" }>
 	  	<a class="page-link"
-	  		href="${listURI }?page=${cnt}&perPageNum=${pageObject.perPageNum}"
+	  		href="${listURI }?page=${cnt}&${pageObject.notPageQuery}"
 	  		>${cnt }</a>
 	  </li>
   </c:forEach>
@@ -62,7 +62,7 @@
   <li data-page="${pageObject.endPage + 1 }" class="page-item">
   	<c:if test="${pageObject.endPage < pageObject.totalPage }">
   		<a class="page-link"
-  			href="${listURI }?page=${pageObject.endPage + 1}&perPageNum=${pageObject.perPageNum}"
+  			href="${listURI }?page=${pageObject.endPage + 1}&${pageObject.notPageQuery}"
   			title="click to move next page group!!" ${tooltip }
   			><i class="fa fa-angle-right"></i></a>
   	</c:if>
@@ -79,7 +79,7 @@
   		class="page-item">
   	<c:if test="${pageObject.page < pageObject.totalPage }">
   		<a class="page-link"
-  			href="${listURI }?page=${pageObject.totalPage}&perPageNum=${pageObject.perPageNum}"
+  			href="${listURI }?page=${pageObject.totalPage}&${pageObject.notPageQuery}"
   			title="click to move last page!!" ${tooltip }
   			><i class="fa fa-angle-double-right"></i></a>
   	</c:if>
