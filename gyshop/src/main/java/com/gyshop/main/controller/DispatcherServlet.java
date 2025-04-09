@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.gyshop.ajax.controller.AjaxController;
 import com.gyshop.board.controller.BoardController;
+import com.gyshop.boardreply.controller.BoardReplyController;
 import com.gyshop.member.controller.GradeController;
 import com.gyshop.member.controller.MemberController;
 import com.gyshop.notice.controller.NoticeController;
@@ -35,6 +36,8 @@ public class DispatcherServlet extends HttpServlet {
 	private MemberController memberController = new MemberController();
 	private AjaxController ajaxController = new AjaxController();
 	private NoticeController noticeController = new NoticeController();
+	private BoardReplyController boardReplyController
+		= new BoardReplyController();
 	
 
 	/* [shift]+[alt]+[s] -> override/implements method 클릭
@@ -92,6 +95,9 @@ public class DispatcherServlet extends HttpServlet {
 			break;
 		case "/notice":
 			jsp = noticeController.execute(request);
+			break;
+		case "/boardreply":
+			jsp = boardReplyController.execute(request);
 			break;
 		default:
 			request.setAttribute("uri", uri);

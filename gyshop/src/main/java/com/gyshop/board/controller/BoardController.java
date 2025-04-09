@@ -68,6 +68,11 @@ public class BoardController {
 				// DB에서 가져온 데이터를 담는다.
 				request.setAttribute("vo", result);
 				
+				// 댓글 데이터를 가져옵니다.
+				result = Execute.execute(Init.get("/boardreply/list.do"), no);
+				// 가져온 댓글 데이터를 담습니다.(request)
+				request.setAttribute("replyList", result);
+				
 				// jsp 파일로 이동
 				jsp = "board/view";
 				break;

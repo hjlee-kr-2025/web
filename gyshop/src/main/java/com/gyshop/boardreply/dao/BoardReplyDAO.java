@@ -41,7 +41,8 @@ public class BoardReplyDAO extends DAO {
 			// TODO: handle exception
 			e.printStackTrace();
 		} finally {
-			
+			// 7. DB닫기
+			DB.close(con, pstmt, rs);
 		}
 		
 		// 결과 리턴

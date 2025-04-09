@@ -9,6 +9,8 @@ import com.gyshop.board.service.BoardListService;
 import com.gyshop.board.service.BoardUpdateService;
 import com.gyshop.board.service.BoardViewService;
 import com.gyshop.board.service.BoardWriteService;
+import com.gyshop.boardreply.dao.BoardReplyDAO;
+import com.gyshop.boardreply.service.BoardReplyListService;
 import com.gyshop.main.dao.DAO;
 import com.gyshop.main.service.Service;
 import com.gyshop.member.dao.GradeDAO;
@@ -122,6 +124,14 @@ public class Init {
 		serviceMap.get("/notice/write.do").setDAO(daoMap.get("noticeDAO"));
 		serviceMap.get("/notice/update.do").setDAO(daoMap.get("noticeDAO"));
 		serviceMap.get("/notice/delete.do").setDAO(daoMap.get("noticeDAO"));
+		
+		// 일반게시판댓글
+		// 1. dao 생성
+		daoMap.put("boardReplyDAO", new BoardReplyDAO());
+		// 2. service 생성
+		serviceMap.put("/boardreply/list.do", new BoardReplyListService());
+		// 3. 조립 : service 에 dao 할당
+		serviceMap.get("/boardreply/list.do").setDAO(daoMap.get("boardReplyDAO"));
 	}
 	
 	// 어느 서비스를 실행할지 리턴하는 메서드(할당된 서비스 주소 리턴)

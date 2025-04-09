@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- "/WEB-INF/views/board/view.jsp -->
 <!DOCTYPE html>
 <html>
@@ -102,6 +103,36 @@ $(function(){
 	    </div>
 	  </div>
 	</div>
+	
+	<!-- 댓글처리시작 -->
+	<div class="card">
+		<div class="card-header">
+			<h5><i class="fa fa-comment-o"></i> 댓글 리스트</h5>
+		</div>
+		<div class="card-body">
+			<c:if test="${empty replyList }">
+				등록된 댓글이 없습니다.
+			</c:if>
+			<c:if test="${!empty replyList }">
+				<!-- 댓글리스트에 있는 만큼 반복처리 -->
+				<c:forEach items="${replyList }" var="replyVO">
+					<div class="card replyDataRow" data-rno="${replyVO.rno }">
+						<div class="card-header">
+							<b class="replyId">${replyVO.id }</b>
+						</div>
+						<div class="card-body">
+							<pre class="replyContent">${replyVO.content }</pre>
+						</div>
+						<div class="card-footer">
+						</div>
+					</div>
+				</c:forEach>
+			</c:if>
+		</div>
+		<div class="card-footer">
+		</div>
+	</div>
+	<!-- 댓글처리끝 -->
 	
 </div><!-- end of class="container" -->
 </body>
