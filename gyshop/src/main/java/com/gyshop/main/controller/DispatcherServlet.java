@@ -66,7 +66,9 @@ public class DispatcherServlet extends HttpServlet {
 		if (pos == -1) {
 			// 두번째 인덱스가 없다는 의미입니다.
 			request.setAttribute("uri", uri);
-			request.getRequestDispatcher("").forward(request, response);
+			// 모듈이 없을때 모듈이 없다는 안내페이지로 이동
+			request.getRequestDispatcher("/WEB-INF/views/error/404.jsp")
+				.forward(request, response);
 			return;
 		}
 		
@@ -101,7 +103,8 @@ public class DispatcherServlet extends HttpServlet {
 			break;
 		default:
 			request.setAttribute("uri", uri);
-			request.getRequestDispatcher("").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/error/404.jsp")
+				.forward(request, response);
 			return;
 		}
 		

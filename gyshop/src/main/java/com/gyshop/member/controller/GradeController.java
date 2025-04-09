@@ -81,6 +81,9 @@ public class GradeController {
 				jsp = "redirect:list.do";
 				break;
 			default:
+				request.setAttribute("uri", uri);
+				jsp = "error/404";
+				// "/WEB-INF/views/error/404.jsp"
 			}
 			
 		} catch (Exception e) {

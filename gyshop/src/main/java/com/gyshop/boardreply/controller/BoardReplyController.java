@@ -18,11 +18,9 @@ public class BoardReplyController {
 		// 로그인정보
 		HttpSession session = request.getSession();
 		
-		// TEST를 위한 로그인 정보 입력 시작 ===
-		LoginVO loginVO = new LoginVO();
-		loginVO.setId("kim");
-		String id = loginVO.getId();
-		// TEST를 위한 로그인 정보 입력 끝 ===
+		LoginVO loginVO = (LoginVO)session.getAttribute("login");
+		String id = null;
+		if (loginVO != null) id = loginVO.getId();
 		
 		// 결과 담을 변수
 		Object result = null;
@@ -52,6 +50,24 @@ public class BoardReplyController {
 					session.setAttribute("msg",
 						"댓글이 등록되었습니다.");
 				}
+				
+				// view로 이동합니다.
+				jsp = "redirect:/board/view.do?no=" + no + "&inc=0";
+				break;
+			case "/boardreply/update.do":
+				System.out.println("일반게시판 댓글 수정 처리 -----");
+				// 데이터 수집
+				Long rno = Long.parseLong(request.getParameter("rno"));
+				content = request.getParameter("content");
+				no = Long.parseLong(request.getParameter("no"));
+				// id는 로그인한 아이디 사용
+				replyVO = new BoardReplyVO();
+				replyVO.setRno(rno);
+				replyVO.setContent(content);
+				replyVO.setId(id);
+				
+				// 서비스 실행
+				result = Execute.execute(Init.get(uri), replyVO);
 				
 				// view로 이동합니다.
 				jsp = "redirect:/board/view.do?no=" + no + "&inc=0";

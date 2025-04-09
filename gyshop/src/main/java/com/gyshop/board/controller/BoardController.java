@@ -180,6 +180,9 @@ public class BoardController {
 				}
 				break;
 			default:
+				request.setAttribute("uri", uri);
+				jsp = "error/404";
+				// "/WEB-INF/views/error/404.jsp"
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

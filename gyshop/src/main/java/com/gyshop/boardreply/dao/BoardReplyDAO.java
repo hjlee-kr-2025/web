@@ -83,6 +83,37 @@ public class BoardReplyDAO extends DAO {
 		return result;
 	} // end of write(BoardReplyVO vo)
 	
+	// 4. 댓글 수정 (내용만 수정, 댓글번호, id확인 후)
+	public Integer update(BoardReplyVO vo) throws Exception {
+		// 결과 저장 변수 선언 및 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버 확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL - UPDATE
+			System.out.println(UPDATE);
+			// 4. 실행객체 - SQL + 데이터세팅(?: 3개, content, rno, id)
+			pstmt = con.prepareStatement(UPDATE);
+			pstmt.setString(1, vo.getContent());
+			pstmt.setLong(2, vo.getRno());
+			pstmt.setString(3, vo.getId());
+			// 5. 실행 및 결과 리턴
+			result = pstmt.executeUpdate();
+			// 6. 결과확인은 controller에서
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		
+		// 결과 리턴
+		return result;
+	} // end of update(BoardReplyVO vo)
+	
 	// SQL 문
 	private static final String LIST = ""
 			+ "select rno, content, id "
@@ -94,6 +125,11 @@ public class BoardReplyDAO extends DAO {
 			+ "insert into boardreply "
 			+ " (no, content, id) "
 			+ " values (?, ?, ?)";
+	
+	private static final String UPDATE = ""
+			+ "update boardreply set content = ? "
+			+ " where rno = ? and id = ?";
+	// 댓글번호와 로그인한 id를 가지고 수정을 진행합니다.
 }
 
 
