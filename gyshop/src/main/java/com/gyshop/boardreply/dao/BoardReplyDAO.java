@@ -63,11 +63,20 @@ public class BoardReplyDAO extends DAO {
 			con = DB.getConnection();
 			// 3. SQL - WRITE
 			System.out.println(WRITE);
+			// 4. 실행객체 - SQL + 데이터세팅(?: 3개, no, content, id)
+			pstmt = con.prepareStatement(WRITE);
+			pstmt.setLong(1, vo.getNo());
+			pstmt.setString(2, vo.getContent());
+			pstmt.setString(3, vo.getId());
+			// 5. 실행 및 결과리턴
+			result = pstmt.executeUpdate();
+			// 6. 결과는 controller에서 체크
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		} finally {
-			
+			// 7. DB닫기
+			DB.close(con, pstmt);
 		}
 		
 		// 결과리턴

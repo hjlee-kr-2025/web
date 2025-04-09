@@ -3,8 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	<div class="card mt-3">
 		<div class="card-header">
-			<span class="btn btn-primary float-right"
-				id="replyWriteBtn">등록</span>
+			<c:if test="${!empty login }">
+				<span class="btn btn-primary float-right"
+					id="replyWriteBtn">등록</span>
+			</c:if>
 			<h5><i class="fa fa-comment-o"></i> 댓글 리스트</h5>
 		</div>
 		<div class="card-body">
@@ -14,14 +16,18 @@
 			<c:if test="${!empty replyList }">
 				<!-- 댓글리스트에 있는 만큼 반복처리 -->
 				<c:forEach items="${replyList }" var="replyVO">
-					<div class="card replyDataRow" data-rno="${replyVO.rno }">
+					<div class="card replyDataRow mb-1" data-rno="${replyVO.rno }">
 						<div class="card-header">
+							<c:if test="${replyVO.id == login.id }">
+								<span class="btn btn-danger float-right"
+									id="replyDeleteBtn">삭제</span>
+								<span class="btn btn-success float-right mr-1"
+									id="replyUpdateBtn">수정</span>
+							</c:if>
 							<b class="replyId">${replyVO.id }</b>
 						</div>
 						<div class="card-body">
 							<pre class="replyContent">${replyVO.content }</pre>
-						</div>
-						<div class="card-footer">
 						</div>
 					</div>
 				</c:forEach>
