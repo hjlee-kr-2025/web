@@ -49,7 +49,30 @@ public class BoardReplyDAO extends DAO {
 		return list;
 	} // end of list(Long no)
 	
+	// 댓글에는 글보기가 별도로 없습니다.
+	// 리스트 보여줄 때 내용이 보여집니다.
 	
+	// 3. 댓글 등록
+	public Integer write(BoardReplyVO vo) throws Exception {
+		// 결과저장변수 선언 및 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버 확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL - WRITE
+			System.out.println(WRITE);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			
+		}
+		
+		// 결과리턴
+		return result;
+	} // end of write(BoardReplyVO vo)
 	
 	// SQL 문
 	private static final String LIST = ""
@@ -57,4 +80,14 @@ public class BoardReplyDAO extends DAO {
 			+ " from boardreply "
 			+ " where no = ? "
 			+ " order by rno desc ";
+	
+	private static final String WRITE = ""
+			+ "insert into boardreply "
+			+ " (no, content, id) "
+			+ " values (?, ?, ?)";
 }
+
+
+
+
+
