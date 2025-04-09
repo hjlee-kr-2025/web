@@ -107,7 +107,8 @@ $(function(){
 		// 수집된 내용을 모달창에 보여줍니다.
 		$("#content").val(content);
 		// 댓글 번호 수집
-		let rno = $(this).closest(".replyDateRow").data("rno");
+		let rno = $(this).closest(".replyDataRow").data("rno");
+		console.log("rno = ",rno);
 		// 수집된 정보를 모달창에 전달(form태그)
 		$("#rno").val(rno);
 		

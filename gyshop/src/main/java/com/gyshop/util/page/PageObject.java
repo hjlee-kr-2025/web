@@ -214,8 +214,8 @@ public class PageObject {
 		return ""
 			+ "perPageNum=" + perPageNum
 			+ "&orderStyle=" + orderStyle
-			+ "&key=" + key
-			+ "&word=" + word;
+			+ "&key=" + ((key == null)?"":key)
+			+ "&word=" + ((word == null)?"":word);
 	}
 	
 	public String getPageQuery() throws Exception {
