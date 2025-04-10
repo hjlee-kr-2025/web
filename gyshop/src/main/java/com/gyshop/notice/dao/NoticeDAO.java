@@ -6,6 +6,7 @@ import java.util.List;
 import com.gyshop.main.dao.DAO;
 import com.gyshop.notice.vo.NoticeVO;
 import com.gyshop.util.db.DB;
+import com.gyshop.util.page.PageObject;
 
 // DAO를 만들어 상속받아 사용하는 이유
 // 1. 데이터베이스 사용에 필요한 공통변수의 선언이 편하도록
@@ -16,7 +17,7 @@ public class NoticeDAO extends DAO {
 	/* 번호, 제목, 게시시작일, 게시종료일, 작성일, 조회수
 	 * 
 	 */
-	public List<NoticeVO> list() throws Exception {
+	public List<NoticeVO> list(PageObject pageObject) throws Exception {
 		// 결과저장변수 선언 및 초기화
 		List<NoticeVO> list = null;
 		
@@ -226,12 +227,19 @@ public class NoticeDAO extends DAO {
 	
 	// SQL
 	private static final String LIST = ""
-			+ "select no, title, "
-			+ " date_format(startDate, '%Y-%m-%d') as startDate, "
+			+ "select "
+			+ " no, title, startDate, endDate, writeDate, hit " 
+			+ " from "
+			+ " (select " 
+			+ " @rownum := @rownum + 1 as rnum, "
+			+ " no, title, "
+			+ " date_format(startDate, '%Y-%m-%d') as startDate, " 
 			+ " date_format(endDate, '%Y-%m-%d') as endDate, "
 			+ " date_format(writeDate, '%Y-%m-%d') as writeDate, hit "
-			+ " from notice order by startDate desc";
-	
+			+ " from notice, (select @rownum := 0) as rn "
+		    + " order by startDate desc) as pageNotice "
+		    + " where rnum >= ? and rnum <= ? ";
+
 	private static final String INCREASE = ""
 			+ "update notice set hit = hit + 1 where no = ?";
 	

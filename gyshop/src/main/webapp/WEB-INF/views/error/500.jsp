@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!-- /WEB-INF/views/error/authority.jsp -->
+<!-- /WEB-INF/views/error/500.jsp -->
 <!DOCTYPE html>
 <html>
 <head>

@@ -67,13 +67,15 @@ $(function(){
     		</tr>
     	</c:forEach>
     </tbody>
-    <tfoot>
-    	<tr>
-    		<td colspan="6" style="text-align:right;">
-    			<button class="btn btn-primary" id="writeBtn">글쓰기</button>
-    		</td>
-    	<tr>
-    </tfoot>
+    <c:if test="${login.gradeNo == 99 }">
+	    <tfoot>
+	    	<tr>
+	    		<td colspan="6" style="text-align:right;">
+	    			<button class="btn btn-primary" id="writeBtn">글쓰기</button>
+	    		</td>
+	    	</tr>
+	    </tfoot>
+    </c:if>
   </table>
   <div>
   	<pageNav:pageNav listURI="list.do" pageObject="${pageObject }"></pageNav:pageNav>

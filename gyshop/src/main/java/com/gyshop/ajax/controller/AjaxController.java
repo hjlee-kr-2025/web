@@ -28,6 +28,10 @@ public class AjaxController {
 				// 로드할 jsp경로 표시
 				jsp = "member/checkId";
 				break;
+			default:
+				request.setAttribute("uri", uri);
+				jsp = "error/noModule_404";
+				// "/WEB-INF/views/error/noModule_404.jsp"
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

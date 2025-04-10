@@ -105,7 +105,19 @@ public class AuthorityFilter extends HttpFilter implements Filter {
 		// TODO Auto-generated method stub
 		System.out.println("AuthorityFilter.init() ------");
 		// 권한지정
+		
+		// 공지사항의 글등록, 수정, 삭제 권한을 관리자만
+		// 접근할 수 있도록 등록했습니다.
 		authMap.put("/notice/writeForm.do", 99);
+		authMap.put("/notice/write.do", 99);
+		authMap.put("/notice/updateForm.do", 99);
+		authMap.put("/notice/update.do", 99);
+		authMap.put("/notice/delete.do", 99);
+		
+		// 일반게시판 댓글의 등록,수정,삭제 권한은 로그인사용자만 허용합니다.
+		authMap.put("/boardreply/write.do", 1);
+		authMap.put("/boardreply/update.do", 1);
+		authMap.put("/boardreply/delete.do", 1);
 	}
 
 }

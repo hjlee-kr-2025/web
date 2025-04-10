@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import com.gyshop.main.controller.Init;
 import com.gyshop.notice.vo.NoticeVO;
 import com.gyshop.util.exe.Execute;
+import com.gyshop.util.page.PageObject;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -48,9 +49,11 @@ public class NoticeController {
 				System.out.println("공지사항 리스트 ---");
 				// 서비스로 넘길 데이터 수집
 				// 리스트는 현재는 없습니다.
+				// 페이지 처리를 위한 정보를 만들고 넘겨줍니다.
+				PageObject pageObject = PageObject.getInstance(request);
 				
-				// 서비스 실행
-				result = Execute.execute(Init.get(uri), null);
+				// 서비스 실행 - 페이지처리를 위해서 pageObject 가 전달됩니다.
+				result = Execute.execute(Init.get(uri), pageObject);
 				
 				// DB에서 넘어온 데이터를 담습니다.
 				request.setAttribute("list", result);

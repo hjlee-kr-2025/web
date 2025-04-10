@@ -3,6 +3,7 @@ package com.gyshop.notice.service;
 import com.gyshop.main.dao.DAO;
 import com.gyshop.main.service.Service;
 import com.gyshop.notice.dao.NoticeDAO;
+import com.gyshop.util.page.PageObject;
 
 public class NoticeListService implements Service {
 
@@ -11,7 +12,7 @@ public class NoticeListService implements Service {
 	@Override
 	public Object service(Object obj) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.list();
+		return dao.list((PageObject)obj);
 	}
 
 	@Override
