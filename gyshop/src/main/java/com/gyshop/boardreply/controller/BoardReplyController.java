@@ -78,10 +78,44 @@ public class BoardReplyController {
 				// 서비스 실행
 				result = Execute.execute(Init.get(uri), replyVO);
 				
+				// 실행결과 확인
+				if ((Integer)result != 0) {
+					session.setAttribute("msg",
+						"댓글이 수정되었습니다.");
+				}
+				
 				// view로 이동합니다.
 				jsp = "redirect:/board/view.do?no=" + no + "&inc=0";
 				break;
+			case "/boardreply/delete.do":
+				System.out.println("일반게시판 댓글 삭제 처리 -----");
+				// 데이터 수집
+				rno = Long.parseLong(request.getParameter("rno"));
+				// id는 로그인정보
+				no = Long.parseLong(request.getParameter("no"));
+				
+				// rno, id : 댓글삭제를 위한 정보
+				// no : 원래페이지로 이동하기 위한 정보
+				replyVO = new BoardReplyVO();
+				replyVO.setRno(rno);
+				replyVO.setId(id);
+				
+				// 서비스 실행
+				result = Execute.execute(Init.get(uri), replyVO);
+				
+				// 실행결과 확인
+				if ((Integer)result != 0) {
+					session.setAttribute("msg",
+						"댓글이 삭제되었습니다.");
+				}
+				
+				// 원래페이지로 이동
+				jsp = "redirect:/board/view.do?no=" + no + "&inc=0";
+				break;
 			default:
+				request.setAttribute("uri", uri);
+				jsp = "error/404";
+				// "/WEB-INF/views/error/404.jsp"
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

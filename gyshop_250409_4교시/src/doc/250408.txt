@@ -1,0 +1,16 @@
+select 	no, title, writer, writeDate, hit  from
+  (select  @rownum := @rownum + 1 as rnum, 	no, title, writer,
+   date_format(writeDate, '%Y-%m-%d') as writeDate, hit  from board, 
+   (select @rownum := 0) as rn  
+
+  ===> 이부분에 검색관련 데이터를 가져오도록 쿼리를 구성합니다. 
+  
+   order by no 
+    ) as pageBoard 
+    where rnum >= ? and rnum <= ?
+    
+    
+select 열이름
+	from 테이블이름
+	where 조건
+	order by 정렬순서

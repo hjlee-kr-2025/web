@@ -177,6 +177,15 @@ $(function(){
 		// 데이터 전송을 실행
 		$("#boardReplyForm").submit();
 	});
+	
+	// 모달창의 삭제버튼 클리시 이벤트 처리
+	$("#replyModalDeleteBtn").click(function(){
+		// 댓글 삭제 처리를 위한 경로 지정
+		$("#boardReplyForm").attr("action", "/boardreply/delete.do");
+		// 데이터 전송을 실행
+		$("#boardReplyForm").submit();
+	});
+	
 });
 </script>
 

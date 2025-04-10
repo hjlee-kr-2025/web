@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>gyshop</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  
+  <!-- 서블릿을 등록합니다. : servlet, servlet-mapping -->
+  <servlet>
+  	<description>설명 : FrontController 의 역할 - DispatcherServlet 등록</description>
+  	<servlet-name>dispatcherServlet</servlet-name>
+  	<servlet-class>com.gyshop.main.controller.DispatcherServlet</servlet-class>
+  	<!-- 서버가 실행될 떄 확인해서 시작해 주세요. init()실행 -->
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <!-- servlet과 servlet-mapping의 <servlet-name>이 같아야 합니다. -->
+  <servlet-mapping>
+  	<servlet-name>dispatcherServlet</servlet-name>
+  	<url-pattern>*.do</url-pattern>
+  	<!-- url 끝에 .do로 끝나는 것만 servlet의 service로 들어오도록
+  	만들어 줍니다. -->
+  </servlet-mapping>
+  
+  <!-- Filter 등록 -->
+  <!-- <filter>, <filter-mapping> 태그가 쌍으로 설정됩니다. -->
+  <!-- <filter-name> 태그를 동일하게 설정해 줍니다. -->
+  <!-- <filter> -> <filter-class> : Filter class의 패키지이름+클래스이름 -->
+  <!-- <filter-mapping> -> <url-pattern> : filter를 사용할 url -->
+  <filter>
+  	<filter-name>sitemesh</filter-name>
+  	<filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>sitemesh</filter-name>
+  	<url-pattern>*.do</url-pattern>
+  </filter-mapping>
+  
+  <filter>
+  	<filter-name>encoding</filter-name>
+  	<filter-class>com.gyshop.util.filter.EncodingFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>encoding</filter-name>
+  	<url-pattern>*.do</url-pattern>
+  </filter-mapping>
+  
+  
+</web-app>
+
+
+
+
+
