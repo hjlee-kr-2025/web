@@ -12,6 +12,13 @@ public class NoticeListService implements Service {
 	@Override
 	public Object service(Object obj) throws Exception {
 		// TODO Auto-generated method stub
+		PageObject pageObject = (PageObject)obj;
+		
+		// 전체데이터수를 가져와서 페이지세팅을 진행합니다.
+		Long totalRow = dao.getTotalRow(pageObject);
+		// pageObject에 totalRow로 페이지 세팅 진행
+		pageObject.setTotalRow(totalRow);
+		
 		return dao.list((PageObject)obj);
 	}
 

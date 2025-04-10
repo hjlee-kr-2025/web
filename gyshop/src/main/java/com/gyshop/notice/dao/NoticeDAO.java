@@ -13,6 +13,42 @@ import com.gyshop.util.page.PageObject;
 // 2. 서비스생성후 dao를 할당할 때의 보관되는 map자료형을 같이 사용하기 위해(다형성)
 public class NoticeDAO extends DAO {
 	
+	// 1-1. 리스트 데이터 전체 수
+	public Long getTotalRow(PageObject pageObject) throws Exception {
+		// 결과저장변수 선언 및 초기화
+		// 데이터가 없다는 것은 0과 동일하다.
+		Long totalRow = 0L;
+		System.out.println("NoticeDAO.getTotalRow() -----");
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL - GETTOTALROW
+			System.out.println(GETTOTALROW);
+			// 4. 실행객체에 SQL세팅 + 데이터세팅(x)
+			pstmt = con.prepareStatement(GETTOTALROW);
+			// 5. 실행 및 결과리턴 (select 문은 ResultSet 자료형에 결과를 담습니다)
+			rs = pstmt.executeQuery();
+			// 6. 결과저장 (ResultSet 자료형에 담긴 데이터를
+			// 우리가 사용할 데이터 자료형으로 옮깁니다.)
+			if (rs != null && rs.next()) {
+				totalRow = rs.getLong(1);// 첫번째 나오는 데이터
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt, rs);
+		}
+		
+		// 결과 리턴
+		return totalRow;
+	} // end of getTotalRow(PageObject pageObject)
+	
+	
 	// 1. 리스트
 	/* 번호, 제목, 게시시작일, 게시종료일, 작성일, 조회수
 	 * 
@@ -27,8 +63,10 @@ public class NoticeDAO extends DAO {
 			con = DB.getConnection();
 			// 3. SQL 작성 - LIST - 클래스 하단 상수
 			System.out.println(LIST);
-			// 4. 실행객체에 SQL + 데이터 세팅 (?: 0개)
+			// 4. 실행객체에 SQL + 데이터 세팅 (?: 2개, startRow, EndRow)
 			pstmt = con.prepareStatement(LIST);
+			pstmt.setLong(1, pageObject.getStartRow());
+			pstmt.setLong(2, pageObject.getEndRow());
 			// 5. 실행 및 결과리턴
 			rs = pstmt.executeQuery();
 			// 6. 결과저장
@@ -226,6 +264,9 @@ public class NoticeDAO extends DAO {
 	} // end of delete(Long no)
 	
 	// SQL
+	private static final String GETTOTALROW = ""
+			+ "select count(*) from notice";
+	
 	private static final String LIST = ""
 			+ "select "
 			+ " no, title, startDate, endDate, writeDate, hit " 

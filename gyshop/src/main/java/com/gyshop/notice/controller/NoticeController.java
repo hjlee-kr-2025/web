@@ -57,6 +57,9 @@ public class NoticeController {
 				
 				// DB에서 넘어온 데이터를 담습니다.
 				request.setAttribute("list", result);
+				// 페이지처리를 위해서 pageObject로 request에 담습니다.
+				request.setAttribute("pageObject", pageObject);
+				
 				// 리스트 jsp로 이동
 				jsp = "notice/list";
 				// "WEB-INF/views/notice/list.jsp"
