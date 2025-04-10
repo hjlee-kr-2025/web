@@ -18,9 +18,14 @@ public class BoardReplyController {
 		// 로그인정보
 		HttpSession session = request.getSession();
 		
+		// "/member/login.do" 에서 처리하고 session에 저장한 로그인정보를
+		// 꺼내오는 부분입니다.
 		LoginVO loginVO = (LoginVO)session.getAttribute("login");
+		// loginVO에는 로그인을 했다면 6가지(id,pw,name,grade,gradeName,photo)
+		// 값이 세팅이 됩니다.
 		String id = null;
 		if (loginVO != null) id = loginVO.getId();
+		// 로그인한 사람이 글을 작성/수정/삭제하도록 했습니다.
 		
 		// 결과 담을 변수
 		Object result = null;
@@ -60,11 +65,15 @@ public class BoardReplyController {
 				Long rno = Long.parseLong(request.getParameter("rno"));
 				content = request.getParameter("content");
 				no = Long.parseLong(request.getParameter("no"));
+				// 일반게시판 글번호(no)는 원래 페이지로 이동하기 위해 수집했습니다.
+				
 				// id는 로그인한 아이디 사용
 				replyVO = new BoardReplyVO();
 				replyVO.setRno(rno);
 				replyVO.setContent(content);
 				replyVO.setId(id);
+				// switch문 전에 session 에서 login 정보를 가져와
+				// id를 미리 세팅해놨습니다.
 				
 				// 서비스 실행
 				result = Execute.execute(Init.get(uri), replyVO);

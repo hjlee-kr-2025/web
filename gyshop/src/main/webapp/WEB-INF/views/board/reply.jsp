@@ -57,9 +57,12 @@
 	      <!-- Modal body -->
 	      <div class="modal-body">
 	        <div class="form-group" id="contentDiv">
-	        	<label for="content">댓글내용</label>
-	        	<textarea rows="3" class="form-control"
-	        		id="content" name="content" required></textarea>
+	        	<div id="comment">
+		        	<label for="content">댓글내용</label>
+		        	<textarea rows="3" class="form-control"
+		        		id="content" name="content" required></textarea>
+	        	</div>	
+	        	<div id="deleteMsg">삭제하시겠습니까?</div>
 	        </div>
 	      </div>
 	
@@ -88,6 +91,9 @@ $(function(){
 		// 모달창의 내용을 지웁니다.
 		$("#content").val("");
 		
+		$("#comment").show();
+		$("#deleteMsg").hide();
+		
 		// 버튼이 전부 보이도록 설정
 		$("#boardReplyForm button").show();
 		// 필요없는 버튼은 안보이도록 설정
@@ -100,7 +106,7 @@ $(function(){
 	// 댓글리스트에서 수정버튼 클릭시 이벤트 처리
 	$("#replyUpdateBtn").click(function(){
 		// 모달창 제목 등록
-		$("#boardReplyModal").find(".modal-title").text("댓글 수정")
+		$("#boardReplyModal").find(".modal-title").text("댓글 수정");
 		// 댓글내용 수집
 		let content = $(this).closest(".replyDataRow")
 				.find(".replyContent").text();
@@ -112,6 +118,9 @@ $(function(){
 		// 수집된 정보를 모달창에 전달(form태그)
 		$("#rno").val(rno);
 		
+		$("#comment").show();
+		$("#deleteMsg").hide();
+		
 		// 버튼이 전부 보이도록 설정
 		$("#boardReplyForm button").show();
 		// 필요없는 버튼은 안보이도록 설정
@@ -120,6 +129,37 @@ $(function(){
 		// 모달창을 보여줍니다.
 		$("#boardReplyModal").modal("show");
 	});
+	
+	// 댓글리스트에서 삭제버튼 클릭시 이벤트
+	$("#replyDeleteBtn").click(function(){
+		// 모달창 제목 등록 - 댓글삭제
+		$("#boardReplyModal").find(".modal-title").text("댓글 삭제");
+		// 댓글내용 수집
+		let content = $(this).closest(".replyDataRow")
+				.find(".replyContent").text();
+		// 수집된 내용을 모달창에 보여줍니다.
+		$("#content").val(content);
+
+		// 댓글 번호 수집
+		let rno = $(this).closest(".replyDataRow").data("rno");
+		console.log("rno = ",rno);
+		// 수집된 정보를 모달창에 전달(form태그)
+		$("#rno").val(rno);
+
+		// 댓글 내용 창은 없애고, 삭제를 묻는 메시지를 보여줍니다.
+		$("#comment").hide();
+		$("#deleteMsg").show();
+		
+		// 버튼이 전부 보이도록 설정
+		$("#boardReplyForm button").show();
+		// 필요없는 버튼은 안보이도록 설정
+		$("#replyModalWriteBtn, #replyModalUpdateBtn").hide();
+		
+		// 모달창을 보여줍니다.
+		$("#boardReplyModal").modal("show");
+	});
+	
+	
 	
 	
 	// 모달창의 등록버튼 클릭시 이벤트 처리

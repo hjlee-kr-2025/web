@@ -86,6 +86,9 @@ public class MemberController {
 					session.setAttribute("msg",
 						"로그인이 되었습니다.");
 					session.setAttribute("login", result);
+					// 로그인이 되면 LoginVO 자료형의 데이터가
+					// session에 login 키값으로 저장되도록 구성했습니다.
+					// id, pw, name, grade, gradeName, photo
 				}
 				
 				// 로그인 후에 넘어갈 페이지 지정
