@@ -1,5 +1,7 @@
 package com.gyshop.notice.dao;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,11 +64,15 @@ public class NoticeDAO extends DAO {
 			// 2. DB연결
 			con = DB.getConnection();
 			// 3. SQL 작성 - LIST - 클래스 하단 상수
-			System.out.println(LIST);
+			// 조건이 들어가면서 쿼리를 작성하는 함수를 사용했습니다.
+			String sql = getList(pageObject);
+			System.out.println(sql);
 			// 4. 실행객체에 SQL + 데이터 세팅 (?: 2개, startRow, EndRow)
-			pstmt = con.prepareStatement(LIST);
-			pstmt.setLong(1, pageObject.getStartRow());
-			pstmt.setLong(2, pageObject.getEndRow());
+			pstmt = con.prepareStatement(sql);
+			int idx = 0;
+			idx = setSearchData(pageObject, pstmt, idx);
+			pstmt.setLong(++idx, pageObject.getStartRow());
+			pstmt.setLong(++idx, pageObject.getEndRow());
 			// 5. 실행 및 결과리턴
 			rs = pstmt.executeQuery();
 			// 6. 결과저장
@@ -263,11 +269,70 @@ public class NoticeDAO extends DAO {
 		return result;
 	} // end of delete(Long no)
 	
+	// 실행객체에 검색데이터 세팅하는 함수
+	private int setSearchData(PageObject pageObject,
+		PreparedStatement pstmt, int idx) throws SQLException {
+		// 어떤항목에서 검색할 것인가?
+		String key = pageObject.getKey();
+		// 무엇을 검색할 것인가?
+		String word = pageObject.getWord();
+			
+		if (word != null && !word.equals("")) {
+			if (key.indexOf("t")>=0) pstmt.setString(++idx, "%"+word+"%");
+			if (key.indexOf("c")>=0) pstmt.setString(++idx, "%"+word+"%");
+		}
+		return idx;
+	}
+	
+	// 검색관련 쿼리를 작성하는 함수
+	private String getSearch(PageObject pageObject) {
+		String sql = "";
+		
+		// 어떤항목에서 검색할 것인가?
+		String key = pageObject.getKey();
+		// 무엇을 검색할 것인가?
+		String word = pageObject.getWord();
+		
+		if (word != null && !word.equals("")) {
+			// 2가지 조건 (제목, 내용) or (false 값으로 세팅후 여러조건을 붙인다)
+			// false는 or 연산자 사용시 다른 항목에 영향을 주지 않습니다.
+			sql += " where 1=0 ";
+			if (key.indexOf("t")>=0) sql += " or title like ? ";
+			if (key.indexOf("c")>=0) sql += " or content like ? ";
+		}
+		
+		return sql;
+	}
+	
+	// LIST 쿼리를 작성하는 함수
+	private String getList(PageObject pageObject) {
+		String sql = LIST1;
+		// 검색에 관련된 쿼리는 from 과 order 사이에 작성합니다.
+		sql += getSearch(pageObject);
+		
+		// 정렬관련 쿼리를 구성합니다.
+		if (pageObject.getOrderStyle() == 2) {
+			// 2: 게시종료일로 정렬
+			sql += " order by endDate desc ";
+		}
+		else if (pageObject.getOrderStyle() == 3) {
+			// 3: 조회수로 정렬
+			sql += " order by hit desc ";
+		}
+		else {
+			// orderStyle=1 : 게시시작일로 정렬
+			sql += " order by startDate desc ";
+		}
+	
+		sql += LIST2;
+		return sql;
+	}
+	
 	// SQL
 	private static final String GETTOTALROW = ""
 			+ "select count(*) from notice";
 	
-	private static final String LIST = ""
+	private static final String LIST1 = ""
 			+ "select "
 			+ " no, title, startDate, endDate, writeDate, hit " 
 			+ " from "
@@ -277,8 +342,10 @@ public class NoticeDAO extends DAO {
 			+ " date_format(startDate, '%Y-%m-%d') as startDate, " 
 			+ " date_format(endDate, '%Y-%m-%d') as endDate, "
 			+ " date_format(writeDate, '%Y-%m-%d') as writeDate, hit "
-			+ " from notice, (select @rownum := 0) as rn "
-		    + " order by startDate desc) as pageNotice "
+			+ " from notice, (select @rownum := 0) as rn ";
+
+	private static final String LIST2 = ""
+		    + " ) as pageNotice "
 		    + " where rnum >= ? and rnum <= ? ";
 
 	private static final String INCREASE = ""

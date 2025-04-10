@@ -35,12 +35,79 @@ $(function(){
 		location = "writeForm.do";
 	});
 	
+	// Rows/page 드랍다운 메뉴값을 변경했을때 이벤트 처리
+	// 정렬방법 메뉴값 변경했을때 이벤트처리 추가
+	$("#perPageNum, #orderStyle").change(function(){
+		// form 안에 기록된 데이터를 서버로 전송하고, 페이지 이동합니다.
+		$("#searchForm").submit();
+	});
+	
+	
+	// 초기데이터 세팅 (searchForm 안에 데이터)
+	// 세팅하고자 하는 변수가 없으면 초기값을 세팅합니다.
+	$("#perPageNum")
+		.val("${(empty pageObject.perPageNum)?'10':pageObject.perPageNum}");
+
+	$("#orderStyle")
+		.val("${(empty pageObject.orderStyle)?'1':pageObject.orderStyle}");
+	
+	$("#key")
+		.val("${(empty pageObject.key)?'t':pageObject.key}");
 });
 </script>
 </head>
 <body>
 <div class="container topbox">
 	<h2><i class="fa fa-list"></i> 공지사항 리스트</h2>
+	<form id="searchForm" action="list.do">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="input-group mb-3 mt-3">
+					<div class="input-group-prepend">
+						<select class="form-control" id="key" name="key">
+							<option value="t">제목</option>
+							<option value="c">내용</option>
+							<option value="tc">제목/내용</option>
+						</select>
+					</div>
+				  <input type="text" class="form-control" placeholder="Search"
+				  	id="word" name="word" value="${pageObject.word }">
+				  <div class="input-group-append">
+				    <button class="btn btn-primary" type="submit"
+				    	><i class="fa fa-search"></i></button>
+				  </div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<!-- 게시글 정렬 방식 지정 -->
+				<div class="input-group mb-3 mt-3">
+			    <div class="input-group-prepend">
+			      <span class="input-group-text">정렬방법</span>
+			    </div>
+			    <select class="form-control" id="orderStyle" name="orderStyle">
+			    	<option value="1">게시시작일</option>
+			    	<option value="2">게시종료일</option>
+			    	<option value="3">조회수</option>
+			    </select>
+			  </div>
+			</div>
+			<div class="col-sm-3">
+				<!-- 한페이지의 게시글수 지정 -->
+				<div class="input-group mb-3 mt-3">
+			    <div class="input-group-prepend">
+			      <span class="input-group-text">Rows/page</span>
+			    </div>
+			    <select class="form-control" id="perPageNum" name="perPageNum">
+			    	<option>10</option>
+			    	<option>15</option>
+			    	<option>20</option>
+			    	<option>25</option>
+			    </select>
+			  </div>
+			</div>
+		</div>
+	</form>
+	
 	<table class="table table-hover">
     <thead><!-- 칼럼의 제목 -->
       <tr>
