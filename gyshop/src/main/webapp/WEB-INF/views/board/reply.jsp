@@ -19,10 +19,10 @@
 					<div class="card replyDataRow mb-1" data-rno="${replyVO.rno }">
 						<div class="card-header">
 							<c:if test="${replyVO.id == login.id }">
-								<span class="btn btn-danger float-right"
-									id="replyDeleteBtn">삭제</span>
-								<span class="btn btn-success float-right mr-1"
-									id="replyUpdateBtn">수정</span>
+								<span class="btn btn-danger float-right replyDeleteBtn"
+									>삭제</span>
+								<span class="btn btn-success float-right mr-1 replyUpdateBtn"
+									>수정</span>
 							</c:if>
 							<b class="replyId">${replyVO.id }</b>
 						</div>
@@ -54,6 +54,13 @@
 				<input type="hidden" name="no" value="${param.no }">
 				<input type="hidden" name="id" value="${login.id }">
 				<input type="hidden" name="rno" id="rno">
+				<!-- 페이지, 정렬, 검색에 관련 정보를 수집 -->
+				<!-- &page=1&perPageNum=10&orderStyle=1&key=&word= -->
+				<input type="hidden" name="page" value="${param.page }">
+				<input type="hidden" name="perPageNum" value="${param.perPageNum }">
+				<input type="hidden" name="orderStyle" value="${param.orderStyle }">
+				<input type="hidden" name="key" value="${param.key }">
+				<input type="hidden" name="word" value="${param.word }">
 	      <!-- Modal body -->
 	      <div class="modal-body">
 	        <div class="form-group" id="contentDiv">
@@ -104,7 +111,7 @@ $(function(){
 	});
 	
 	// 댓글리스트에서 수정버튼 클릭시 이벤트 처리
-	$("#replyUpdateBtn").click(function(){
+	$(".replyUpdateBtn").click(function(){
 		// 모달창 제목 등록
 		$("#boardReplyModal").find(".modal-title").text("댓글 수정");
 		// 댓글내용 수집
@@ -131,7 +138,7 @@ $(function(){
 	});
 	
 	// 댓글리스트에서 삭제버튼 클릭시 이벤트
-	$("#replyDeleteBtn").click(function(){
+	$(".replyDeleteBtn").click(function(){
 		// 모달창 제목 등록 - 댓글삭제
 		$("#boardReplyModal").find(".modal-title").text("댓글 삭제");
 		// 댓글내용 수집

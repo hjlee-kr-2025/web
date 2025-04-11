@@ -7,6 +7,7 @@ import com.gyshop.boardreply.vo.BoardReplyVO;
 import com.gyshop.main.controller.Init;
 import com.gyshop.member.vo.LoginVO;
 import com.gyshop.util.exe.Execute;
+import com.gyshop.util.page.PageObject;
 
 public class BoardReplyController {
 
@@ -48,6 +49,9 @@ public class BoardReplyController {
 				replyVO.setContent(content);
 				replyVO.setId(id);
 				
+				// 페이지, 검색, 정렬에 관련 정보 세팅
+				PageObject pageObject = PageObject.getInstance(request);
+				
 				// 서비스 실행
 				result = Execute.execute(Init.get(uri), replyVO);
 				
@@ -57,7 +61,8 @@ public class BoardReplyController {
 				}
 				
 				// view로 이동합니다.
-				jsp = "redirect:/board/view.do?no=" + no + "&inc=0";
+				jsp = "redirect:/board/view.do?no=" + no + "&inc=0&"
+						+ pageObject.getPageQuery();
 				break;
 			case "/boardreply/update.do":
 				System.out.println("일반게시판 댓글 수정 처리 -----");
@@ -75,6 +80,9 @@ public class BoardReplyController {
 				// switch문 전에 session 에서 login 정보를 가져와
 				// id를 미리 세팅해놨습니다.
 				
+				// 페이지, 검색, 정렬에 관련 정보 세팅
+				pageObject = PageObject.getInstance(request);
+				
 				// 서비스 실행
 				result = Execute.execute(Init.get(uri), replyVO);
 				
@@ -85,7 +93,8 @@ public class BoardReplyController {
 				}
 				
 				// view로 이동합니다.
-				jsp = "redirect:/board/view.do?no=" + no + "&inc=0";
+				jsp = "redirect:/board/view.do?no=" + no + "&inc=0&"
+						+ pageObject.getPageQuery();
 				break;
 			case "/boardreply/delete.do":
 				System.out.println("일반게시판 댓글 삭제 처리 -----");
@@ -100,6 +109,9 @@ public class BoardReplyController {
 				replyVO.setRno(rno);
 				replyVO.setId(id);
 				
+				// 페이지, 검색, 정렬에 관련 정보 세팅
+				pageObject = PageObject.getInstance(request);
+				
 				// 서비스 실행
 				result = Execute.execute(Init.get(uri), replyVO);
 				
@@ -110,7 +122,8 @@ public class BoardReplyController {
 				}
 				
 				// 원래페이지로 이동
-				jsp = "redirect:/board/view.do?no=" + no + "&inc=0";
+				jsp = "redirect:/board/view.do?no=" + no + "&inc=0&"
+						+ pageObject.getPageQuery();
 				break;
 			default:
 				request.setAttribute("uri", uri);
