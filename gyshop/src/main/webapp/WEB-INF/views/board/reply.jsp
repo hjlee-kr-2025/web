@@ -25,6 +25,8 @@
 									>수정</span>
 							</c:if>
 							<b class="replyId">${replyVO.id }</b>
+							<br>
+							<span>작성일 : ${replyVO.writeDate }</span>
 						</div>
 						<div class="card-body">
 							<pre class="replyContent">${replyVO.content }</pre>

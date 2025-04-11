@@ -9,4 +9,5 @@ public class BoardReplyVO {
 	private String content;
 	private String id;
 	private Long no;
+	private String writeDate;
 }

@@ -33,6 +33,7 @@ public class BoardReplyDAO extends DAO {
 					vo.setRno(rs.getLong("rno"));
 					vo.setContent(rs.getString("content"));
 					vo.setId(rs.getString("id"));
+					vo.setWriteDate(rs.getString("writeDate"));
 					
 					list.add(vo);
 				}
@@ -144,9 +145,77 @@ public class BoardReplyDAO extends DAO {
 		return result;
 	} // end of delete(BoardReplyVO vo)
 	
+	// 댓글수를 저장하는 메서드
+	// boardreply테이블을 검색해서 데이터를 가져오고
+	// board테이블에 저장합니다.
+	// boardreply에서는 댓글수 가져오기 메서드 작성합니다.
+	public Long getCommentCount(Long no) throws Exception {
+		// 결과저장변수 선언 및 초기화
+		Long count = 0L; // 기본은 댓글이 없는것이어서 0을 넣었습니다.
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL - GETCOMMENTCOUNT
+			System.out.println(GETCOMMENTCOUNT);
+			// 4. 실행객체 세팅
+			pstmt = con.prepareStatement(GETCOMMENTCOUNT);
+			pstmt.setLong(1, no);
+			// 5. 실행 및 결과리턴
+			rs = pstmt.executeQuery();
+			// 6. 결과 저장
+			if (rs != null && rs.next()) {
+				count = rs.getLong(1);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB 닫기
+			DB.close(con, pstmt, rs);
+		}
+		
+		// 결과 리턴
+		return count;
+	} // end of getCommentCount(Long no)
+	
+	
+	// board 테이블의 comment 수정 (글번호[1]와 댓글수[0])
+	public Integer updateComment(Long[] obj) throws Exception {
+		// 결과저장 변수 선언 및 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL - UPDATECOMMENT
+			System.out.println(UPDATECOMMENT);
+			// 4. 실행객체 세팅
+			pstmt = con.prepareStatement(UPDATECOMMENT);
+			pstmt.setLong(1, obj[0]);
+			pstmt.setLong(2, obj[1]);
+			// 5. 실행 및 결과 리턴
+			result = pstmt.executeUpdate();
+			// 6. 생략
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		
+		
+		// 결과리턴
+		return result;
+	}
+	
 	// SQL 문
 	private static final String LIST = ""
-			+ "select rno, content, id "
+			+ "select rno, content, id,"
+			+ " date_format(writeDate, '%Y-%m-%d %H:%i:%s') as writeDate "
 			+ " from boardreply "
 			+ " where no = ? "
 			+ " order by rno desc ";
@@ -164,6 +233,14 @@ public class BoardReplyDAO extends DAO {
 	private static final String DELETE = ""
 			+ "delete from boardreply "
 			+ "	where rno = ? and id = ?";
+	
+	private static final String GETCOMMENTCOUNT = ""
+			+ "select count(*) from boardreply "
+			+ " where no = ?";
+	
+	private static final String UPDATECOMMENT = ""
+			+ "update board set comment = ? "
+			+ " where no = ?";
 }
 
 

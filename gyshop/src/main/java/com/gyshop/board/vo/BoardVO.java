@@ -15,4 +15,5 @@ public class BoardVO {
 	private String writeDate;
 	private Long hit;
 	private String pw;
+	private Long comment;
 }

@@ -118,6 +118,7 @@ $(function(){
         <th>작성자</th>
         <th>작성일</th>
         <th>조회수</th>
+        <th>댓글수</th>
       </tr>
     </thead>
     <tbody>
@@ -127,16 +128,21 @@ $(function(){
 					<!-- class 를 사용한 이유는 같은 종류의 여러데이터 중 하나를
 						처리해야하기때문에 사용했습니다. id는 하나만 처리가능 -->
     			<td class="no">${vo.no }</td>
-    			<td>${vo.title }</td>
+    			<td>${vo.title }
+    				<c:if test="${vo.comment != 0 }">
+    			 		&nbsp;&nbsp;(${vo.comment})
+    			 	</c:if>
+    			 </td>
     			<td>${vo.writer }</td>
     			<td>${vo.writeDate }</td>
     			<td>${vo.hit }</td>
+    			<td>${vo.comment }</td>
     		</tr>
     	</c:forEach>
     </tbody>
     <tfoot>
     	<tr>
-    		<td colspan="5" style="text-align:right;">
+    		<td colspan="6" style="text-align:right;">
     			<button class="btn btn-primary" id="writeBtn">글쓰기</button>
     		</td>
     	<tr>

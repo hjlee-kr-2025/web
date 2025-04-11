@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS `gyshop`.`board` (
   `writeDate` DATETIME NULL DEFAULT now(),
   `hit` BIGINT NULL DEFAULT 0,
   `pw` VARCHAR(20) NOT NULL,
+  `comment` BIGINT NULL DEFAULT 0,
   PRIMARY KEY (`no`))
 ENGINE = InnoDB;
 
@@ -102,6 +103,7 @@ CREATE TABLE IF NOT EXISTS `gyshop`.`boardreply` (
   `content` VARCHAR(800) NOT NULL,
   `id` VARCHAR(20) NOT NULL,
   `no` BIGINT NOT NULL,
+  `writeDate` DATETIME NOT NULL DEFAULT now(),
   PRIMARY KEY (`rno`),
   INDEX `fk_boardreply_member1_idx` (`id` ASC) VISIBLE,
   INDEX `fk_boardreply_board1_idx` (`no` ASC) VISIBLE,

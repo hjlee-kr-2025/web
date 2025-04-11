@@ -108,6 +108,7 @@ public class BoardReplyController {
 				replyVO = new BoardReplyVO();
 				replyVO.setRno(rno);
 				replyVO.setId(id);
+				replyVO.setNo(no);// 조회수 업데이트를 위해서
 				
 				// 페이지, 검색, 정렬에 관련 정보 세팅
 				pageObject = PageObject.getInstance(request);

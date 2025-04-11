@@ -91,6 +91,7 @@ public class BoardDAO extends DAO {
 					vo.setWriter(rs.getString("writer"));
 					vo.setWriteDate(rs.getString("writeDate"));
 					vo.setHit(rs.getLong("hit"));
+					vo.setComment(rs.getLong("comment"));
 					
 					// BoardVO에 담은 데이터를 list에 추가
 					list.add(vo);
@@ -379,12 +380,13 @@ public class BoardDAO extends DAO {
 	
 	private final String LIST1 = ""
 		+ "select "
-		+ "	no, title, writer, writeDate, hit "
+		+ "	no, title, writer, writeDate, hit, comment "
 		+ " from "
 		+ " (select "
 		+ " @rownum := @rownum + 1 as rnum, "
 		+ "	no, title, writer, "
-		+ " date_format(writeDate, '%Y-%m-%d') as writeDate, hit " 
+		+ " date_format(writeDate, '%Y-%m-%d') as writeDate, hit, "
+		+ " comment " 
 		+ " from board, (select @rownum := 0) as rn ";
 	
 	private final String LIST2 = ""
