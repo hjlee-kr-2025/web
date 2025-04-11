@@ -19,7 +19,7 @@ public class NoticeListService implements Service {
 		// pageObject에 totalRow로 페이지 세팅 진행
 		pageObject.setTotalRow(totalRow);
 		
-		return dao.list((PageObject)obj);
+		return dao.list(pageObject);
 	}
 
 	@Override
