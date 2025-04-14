@@ -46,12 +46,45 @@ public class ImageDAO extends DAO {
 			// TODO: handle exception
 			e.printStackTrace();
 		} finally {
-			
+			// 7. DB닫기
+			DB.close(con, pstmt, rs);
 		}
 		
 		// 결과리턴
 		return list;
 	} // end of list()
+	
+	// 3. 이미지 글등록
+	public Integer write(ImageVO vo) throws Exception {
+		// 결과저장변수 선언 및 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL - WRITE
+			System.out.println(WRITE);
+			// 4. 실행객체에 SQL + 데이터세팅(?: 4개, title,content,fileName,id)
+			pstmt = con.prepareStatement(WRITE);
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getContent());
+			pstmt.setString(3, vo.getFileName());
+			pstmt.setString(4, vo.getId());
+			// 5. 실행 및 결과리턴
+			result = pstmt.executeUpdate();
+			// 6. 실행결과는 controller에서 체크
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		
+		// 결과리턴
+		return result; 
+	}
 	
 	// SQL 작성
 	private static final String LIST = ""
@@ -62,4 +95,7 @@ public class ImageDAO extends DAO {
 			+ " where (i.id = m.id) "
 			+ " order by no desc";
 	
+	private static final String WRITE = ""
+			+ "inset into image (title, content, fileName, id) "
+			+ "	values (?, ?, ? ,?)";
 }

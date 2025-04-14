@@ -8,6 +8,8 @@ import javax.servlet.http.HttpSession;
 import com.gyshop.main.controller.Init;
 import com.gyshop.member.vo.LoginVO;
 import com.gyshop.util.exe.Execute;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 public class ImageController {
 
@@ -56,6 +58,20 @@ public class ImageController {
 				// 페이지이동 (로딩할 jsp파일 설정)
 				jsp = "image/list";
 				// "/WEB-INF/views/image/list.jsp"
+				break;
+			case "/image/writeForm.do":
+				System.out.println("이미지게시판 글등록 폼 -----");
+				jsp = "image/writeForm";
+				// "/WEB-INF/views/image/writeForm.jsp"
+				break;
+			case "/image/write.do":
+				System.out.println("이미지게시판 글등록 처리 -----");
+				// 파일이 있으면 MultipartRequest를 사용합니다.
+				MultipartRequest multi =
+					new MultipartRequest(request, realSavePath,
+							sizeLimit, "utf-8",
+							new DefaultFileRenamePolicy());
+				
 				break;
 			default:
 				request.setAttribute("uri", uri);
