@@ -54,6 +54,75 @@ public class ImageDAO extends DAO {
 		return list;
 	} // end of list()
 	
+	// 2-1. 조회수 증가
+	public Integer increase(Long no) throws Exception {
+		// 결과저장변수 선언 및 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버 확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL - INCREASE
+			System.out.println(INCREASE);
+			// 4. 실행객체에 SQL + 데이터 세팅(?: 1개, no)
+			pstmt = con.prepareStatement(INCREASE);
+			pstmt.setLong(1, no);
+			// 5. 실행 및 결과리턴
+			result = pstmt.executeUpdate();
+			// 6. 결과확인 - controller에서
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		
+		// 결과 리턴
+		return result;
+	}
+	
+	// 2-2. 갤러리 글 보기
+	public ImageVO view(Long no) throws Exception {
+		// 결과저장변수 선언 및 초기화
+		ImageVO vo = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL - VIEW
+			System.out.println(VIEW);
+			// 4. 실행객체 - SQL + 데이터세팅(?: 1,no)
+			pstmt = con.prepareStatement(VIEW);
+			pstmt.setLong(1, no);
+			// 5. 실행 및 결과리턴
+			rs = pstmt.executeQuery();
+			// 6. 결과저장
+			if (rs != null && rs.next()) {
+				vo = new ImageVO();
+				vo.setNo(rs.getLong("no"));
+				vo.setTitle(rs.getString("title"));
+				vo.setContent(rs.getString("content"));
+				vo.setFileName(rs.getString("fileName"));
+				vo.setId(rs.getString("id"));
+				vo.setName(rs.getString("name"));
+				vo.setWriteDate(rs.getString("writeDate"));
+				vo.setHit(rs.getLong("hit"));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt, rs);
+		}
+		
+		// 결과리턴
+		return vo;
+	}
+	
 	// 3. 이미지 글등록
 	public Integer write(ImageVO vo) throws Exception {
 		// 결과저장변수 선언 및 초기화
@@ -94,6 +163,16 @@ public class ImageDAO extends DAO {
 			+ " from image as i, member as m "// as 는 생략가능합니다.
 			+ " where (i.id = m.id) "
 			+ " order by no desc";
+	
+	private static final String INCREASE = ""
+			+ "update image set hit = hit + 1 where no = ?";
+	
+	private static final String VIEW = ""
+			+ "select i.no, i.title, i.content, i.fileName, i.id, m.name,"
+			+ " date_format(i.writeDate, '%Y-%m-d') as writeDate, i.hit "
+			+ " from image as i, member as m "
+			+ " where no = ? "
+			+ " and (i.id = m.id)";
 	
 	private static final String WRITE = ""
 			+ "insert into image (title, content, fileName, id) "

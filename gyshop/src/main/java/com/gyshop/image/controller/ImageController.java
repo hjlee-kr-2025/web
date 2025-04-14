@@ -60,6 +60,9 @@ public class ImageController {
 				jsp = "image/list";
 				// "/WEB-INF/views/image/list.jsp"
 				break;
+			case "/image/view.do":
+				System.out.println("이미지게시판 글보기 -----");
+				break;
 			case "/image/writeForm.do":
 				System.out.println("이미지게시판 글등록 폼 -----");
 				jsp = "image/writeForm";

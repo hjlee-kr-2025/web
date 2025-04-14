@@ -33,6 +33,15 @@ $(function(){
 		}
 	});
 	
+	// 리스트 클릭 이벤트
+	$(".dataRow").click(function(){
+		// 글번호 수집
+		let no = $(this).find(".no").text();
+		console.log("no: ", no);
+		// 갤러리글 상세보기로 이동
+		location = "view.do?no=" + no + "&inc=1";
+	});
+	
 });
 </script>
 </head>
