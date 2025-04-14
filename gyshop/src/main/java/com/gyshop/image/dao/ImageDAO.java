@@ -169,7 +169,7 @@ public class ImageDAO extends DAO {
 	
 	private static final String VIEW = ""
 			+ "select i.no, i.title, i.content, i.fileName, i.id, m.name,"
-			+ " date_format(i.writeDate, '%Y-%m-d') as writeDate, i.hit "
+			+ " date_format(i.writeDate, '%Y-%m-%d') as writeDate, i.hit "
 			+ " from image as i, member as m "
 			+ " where no = ? "
 			+ " and (i.id = m.id)";

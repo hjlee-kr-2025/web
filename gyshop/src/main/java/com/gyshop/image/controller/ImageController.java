@@ -62,6 +62,18 @@ public class ImageController {
 				break;
 			case "/image/view.do":
 				System.out.println("이미지게시판 글보기 -----");
+				// 데이터수집
+				Long no = Long.parseLong(request.getParameter("no"));
+				Long inc = Long.parseLong(request.getParameter("inc"));
+				// 서비스로 넘어갈 데이터 세팅 (service 파라메터에서 바로 만들어주겠습니다.)
+				// 서비스 실행
+				result = Execute.execute(Init.get(uri),
+						new Long[] {no, inc});
+				// 서비스로 받은 데이터를 request에 저장합니다.
+				request.setAttribute("vo", result);
+				// jsp파일 로딩
+				jsp = "image/view";
+				// "/WEB-INF/views/image/view.jsp"
 				break;
 			case "/image/writeForm.do":
 				System.out.println("이미지게시판 글등록 폼 -----");
@@ -108,6 +120,15 @@ public class ImageController {
 				// gallery list로 이동
 				jsp = "redirect:list.do";
 				// "/image/list.do"
+				break;
+			case "/image/updateForm.do":
+				System.out.println("이미지게시판 수정 폼 -----");
+				break;
+			case "/image/update.do":
+				System.out.println("이미지게시판 수정 처리 -----");
+				break;
+			case "/image/delete.do":
+				System.out.println("이미지게시판 삭제 처리 -----");
 				break;
 			default:
 				request.setAttribute("uri", uri);
