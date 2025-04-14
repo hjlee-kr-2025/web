@@ -96,6 +96,6 @@ public class ImageDAO extends DAO {
 			+ " order by no desc";
 	
 	private static final String WRITE = ""
-			+ "inset into image (title, content, fileName, id) "
+			+ "insert into image (title, content, fileName, id) "
 			+ "	values (?, ?, ? ,?)";
 }

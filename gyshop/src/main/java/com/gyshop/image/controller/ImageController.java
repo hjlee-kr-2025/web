@@ -5,6 +5,7 @@ import java.io.File;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.gyshop.image.vo.ImageVO;
 import com.gyshop.main.controller.Init;
 import com.gyshop.member.vo.LoginVO;
 import com.gyshop.util.exe.Execute;
@@ -67,11 +68,43 @@ public class ImageController {
 			case "/image/write.do":
 				System.out.println("이미지게시판 글등록 처리 -----");
 				// 파일이 있으면 MultipartRequest를 사용합니다.
+				// MultipartRequest()생성자 파라매터
+				// 1. request (HTTPServletRequest 자료형)
+				// 2. 파일이 저장될 실제(서버의 실제)경로
+				// 3. 파일사이즈 (MAX)
+				// 4. encoding (한글지원, utf-8)
+				// 5. 중복파일처리 : new DefaultFileRenamePolicy()
+				// 				는 파일이 중복되면 파일이름뒤에 숫자를 붙입니다.
 				MultipartRequest multi =
 					new MultipartRequest(request, realSavePath,
 							sizeLimit, "utf-8",
 							new DefaultFileRenamePolicy());
+				// => 파일이 서버에 저장됩니다.
 				
+				// 데이터수집
+				String title = multi.getParameter("title");
+				String content = multi.getParameter("content");
+				String fileName = multi.getFilesystemName("imageFile");
+				// => writeForm.jsp에서 위 3가지 데이터를 받아옵니다.
+				
+				// 서비스로 넘어갈 데이터를 세팅
+				ImageVO vo = new ImageVO();
+				vo.setTitle(title);
+				vo.setContent(content);
+				vo.setFileName(savePath + "/" +fileName);
+				// 파일은 경로를 포함하여 DB에 저장
+				vo.setId(id);// session안의 login(LoginVO)에서 받아온 id변수를 사용
+				
+				// 서비스 실행
+				result = Execute.execute(Init.get(uri), vo);
+				
+				if ((Integer)result != 0L) {
+					 session.setAttribute("msg", 
+						"이미지글이 등록되었습니다.");
+				}
+				// gallery list로 이동
+				jsp = "redirect:list.do";
+				// "/image/list.do"
 				break;
 			default:
 				request.setAttribute("uri", uri);
