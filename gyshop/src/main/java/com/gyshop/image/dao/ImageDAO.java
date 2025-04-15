@@ -1,16 +1,49 @@
 package com.gyshop.image.dao;
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.gyshop.image.vo.ImageVO;
 import com.gyshop.main.dao.DAO;
 import com.gyshop.util.db.DB;
+import com.gyshop.util.page.PageObject;
 
 public class ImageDAO extends DAO {
 
+	// 1-1. image테이블의 전체 데이터 수
+	public Long getTotalRow(PageObject pageObject) throws Exception {
+		// 결과저장변수 선언 및 초기화
+		Long totalRow = 0L;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL - GETTOTALROW
+			System.out.println(GETTOTALROW);
+			// 4. 실행객체에 SQL + 데이터세팅
+			pstmt = con.prepareStatement(GETTOTALROW);
+			// 5. 실행 및 결과리턴
+			rs = pstmt.executeQuery();
+			// 6. 결과저장
+			if (rs != null && rs.next()) {
+				totalRow = rs.getLong(1);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt, rs);
+		}
+		
+		// 결과 리턴
+		return totalRow;
+	} // end of getTotalRow(PageObject pageObject)
+	
 	// 1-2. LIST
-	public List<ImageVO> list() throws Exception {
+	public List<ImageVO> list(PageObject pageObject) throws Exception {
 		// 결과저장변수 선언 및 초기화
 		List<ImageVO> list = null;
 		
@@ -22,9 +55,13 @@ public class ImageDAO extends DAO {
 			// 를 통해서 이루어집니다. 그 내용을 DB클래스에 구현했습니다.
 			con = DB.getConnection();
 			// 3. SQL 작성 - LIST
-			System.out.println(LIST);
-			// 4. 실행객체에 SQL + 데이터세팅
-			pstmt = con.prepareStatement(LIST);
+			System.out.println(getList(pageObject));
+			// 4. 실행객체에 SQL + 데이터세팅(rnum 2개)
+			pstmt = con.prepareStatement(getList(pageObject));
+			int idx = 0;
+			idx = setSearchData(pageObject, pstmt, idx);
+			pstmt.setLong(++idx, pageObject.getStartRow());
+			pstmt.setLong(++idx, pageObject.getEndRow());
 			// 5. 실행 및 결과리턴
 			rs = pstmt.executeQuery();
 			// 6. 결과저장
@@ -218,14 +255,78 @@ public class ImageDAO extends DAO {
 		return result;
 	}
 	
+	private int setSearchData(PageObject pageObject,
+			PreparedStatement pstmt, int idx) throws Exception {
+		String key = pageObject.getKey();
+		String word = pageObject.getWord();
+		
+		System.out.println("key: " + key + ", word: " + word);
+		
+		if (word != null && !word.equals("")) {
+			if (key.indexOf("t")>=0) pstmt.setString(++idx, "%" + word + "%");
+			if (key.indexOf("c")>=0) pstmt.setString(++idx, "%" + word + "%");
+			if (key.indexOf("w")>=0) pstmt.setString(++idx, "%" + word + "%");
+		}
+		
+		return idx;
+	}
+	
+	
 	// SQL 작성
-	private static final String LIST = ""
-			+ "select i.no, i.title, i.fileName, m.name,"
+	private static final String GETTOTALROW = ""
+			+ "select count(*) from image";
+
+	private static final String LIST1 = ""
+			+ "select no, title, fileName, name, writeDate, hit "
+			+ " from "
+			+ "(select "
+			+ " @rownum := @rownum + 1 as rnum, "
+			+ " i.no, i.title, i.fileName, m.name,"
 			+ " date_format(i.writeDate, '%Y-%m-%d') as writeDate,"
 			+ " i.hit "
-			+ " from image as i, member as m "// as 는 생략가능합니다.
-			+ " where (i.id = m.id) "
-			+ " order by no desc";
+			+ " from image as i, member as m, "
+			+ " (select @rownum := 0) as rn ";
+
+	
+	private String getSearch(PageObject pageObject) {
+		String sql = "";
+		
+		String key = pageObject.getKey();
+		String word = pageObject.getWord();
+		
+		sql += " where ";
+		
+		if (word != null && !word.equals("")) {
+			sql += " ((1=0) ";
+			if (key.indexOf("t")>=0) sql += " or title like ? ";
+			if (key.indexOf("c")>=0) sql += " or content like ? ";
+			if (key.indexOf("w")>=0) sql += " or name like ? ";
+			
+			sql += " ) and ";
+		}
+		sql += " (i.id = m.id) ";// 조인조건은 일반조건이 완료된 후 사용
+		return sql;
+	}
+	
+	private String getList(PageObject pageObject) {
+		String str = LIST1;
+		str += getSearch(pageObject);
+		if (pageObject.getOrderStyle() == 2) {
+			str += " order by no ";
+		}
+		else if (pageObject.getOrderStyle() == 3) {
+			str += " order by hit desc, no desc ";
+		}
+		else {
+			str += " order by no desc ";
+		}
+		str += LIST2;
+		return str;
+	}
+			
+	private static final String LIST2 = ""
+			+ " ) as pageImage "
+			+ " where rnum >= ? and rnum <= ?";
 	
 	private static final String INCREASE = ""
 			+ "update image set hit = hit + 1 where no = ?";

@@ -9,6 +9,7 @@ import com.gyshop.image.vo.ImageVO;
 import com.gyshop.main.controller.Init;
 import com.gyshop.member.vo.LoginVO;
 import com.gyshop.util.exe.Execute;
+import com.gyshop.util.page.PageObject;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -51,11 +52,21 @@ public class ImageController {
 				System.out.println("이미지게시판 리스트 ----");
 				// 웹브라우저에서 주소이동후 구현되는 프로그램구현순서
 				// 데이터 가져오기 (request)
+				// 페이지 관련 정보 수집
+				PageObject pageObject = PageObject.getInstance(request);
+				if (pageObject.getPerPageNum() == 10) {
+					pageObject.setPerPageNum(6L);
+					// Gallery 게시판 리스트는 한줄에 3개씩 구성되어있어서
+					// 초기값을 6으로 사용했습니다.
+					// 만약에 10이면 일반게시판의 초기값이어서 이미지게시판 초기값으로
+					// 변경합니다.
+				}
 				// 데이터 세팅 (서비스로 넘길 데이터)
 				// 서비스실행
-				result = Execute.execute(Init.get(uri), null);
+				result = Execute.execute(Init.get(uri), pageObject);
 				// 결과 담기 (jsp에 사용할 데이터, request에 저장한다)
 				request.setAttribute("list", result);
+				request.setAttribute("pageObject", pageObject);
 				// 페이지이동 (로딩할 jsp파일 설정)
 				jsp = "image/list";
 				// "/WEB-INF/views/image/list.jsp"

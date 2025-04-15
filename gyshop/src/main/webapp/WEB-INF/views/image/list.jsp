@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="pageNav" tagdir="/WEB-INF/tags" %>
 <!-- /WEB-INF/views/image/list.jsp -->
 <!DOCTYPE html>
 <html>
@@ -42,12 +43,78 @@ $(function(){
 		location = "view.do?no=" + no + "&inc=1";
 	});
 	
+	// select 태그의 데이터가 변경되었을때
+	$("#perPageNum, #orderStyle").change(function(){
+		$("#searchForm").submit();
+	});
+	
+	// 초기데이터 세팅
+	$("#perPageNum")
+		.val("${(empty pageObject.perPageNum)?'6':pageObject.perPageNum}");
+	
+	$("#orderStyle")
+		.val("${(empty pageObject.orderStyle)?'1':pageObject.orderStyle}");
+	$("#key")
+		.val("${(empty pageObject.key)?'t':pageObject.key}");
+	
 });
 </script>
 </head>
 <body>
 <div class="container topbox">
 	<h2><i class="fa fa-list"></i> Gallery</h2>
+	<form action="list.do" id="searchForm">
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="input-group mb-3 mt-3">
+					<div class="input-group-prepend">
+						<select class="form-control" id="key" name="key">
+							<option value="t">제목</option>
+							<option value="c">내용</option>
+							<option value="w">작성자</option>
+							<option value="tc">제목/내용</option>
+							<option value="tw">제목/작성자</option>
+							<option value="cw">내용/작성자</option>
+							<option value="tcw">모두</option>
+						</select>
+					</div>
+					<input type="text" class="form-control" placeholder="Search"
+						id="word" name="word" value="${pageObject.word }">
+					<div class="input-group-append">
+						<button class="btn btn-primary" type="submit"
+							><i class="fa fa-search"></i></button>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<!-- 정렬순서 지정 -->
+				<div class="input-group mb-3 mt-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text">정렬방법</span>
+					</div>
+					<select class="form-control" id="orderStyle" name="orderStyle">
+						<option value="1">최신글</option>
+						<option value="2">과거글</option>
+						<option value="3">조회수</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<!-- 한페이지의 게시글 수 지정 -->
+				<div class="input-group mb-3 mt-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Rows/page</span>
+					</div>
+					<select class="form-control" id="perPageNum" name="perPageNum">
+						<option>3</option>
+						<option>6</option>
+						<option>9</option>
+						<option>12</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</form>
 	<c:if test="${empty list }">
 		<h4>데이터가 존재하지 않습니다.</h4>
 	</c:if>
@@ -86,6 +153,9 @@ $(function(){
 			<a href="writeForm.do" class="btn btn-primary">등록</a>
 		</div>
 	</c:if>
+	<div>
+		<pageNav:pageNav listURI="list.do" pageObject="${pageObject }"></pageNav:pageNav>
+	</div>
 </div>
 </body>
 </html>
