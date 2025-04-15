@@ -123,6 +123,19 @@ public class ImageController {
 				break;
 			case "/image/updateForm.do":
 				System.out.println("이미지게시판 수정 폼 -----");
+				// 수정되는 글번호 수집
+				// updateForm.do?no=? 로 url에서 정보가 넘어옵니다.
+				no = Long.parseLong(request.getParameter("no"));
+				// 기존 데이터를 화면에 표시
+				// 표시를 위해서 DB에서 정보를 가져옵니다. ImageViewService
+				result = Execute.execute(Init.get("/image/view.do"),
+						new Long[] {no, 0L});
+				// ==> 글번호와 조회수가 증가안되도록 0값을 array로 전달합니다.
+				// 결과값을 request에 담아서 jsp로 전달합니다.
+				request.setAttribute("vo", result);
+				// jsp 로딩
+				jsp = "image/updateForm";
+				// "/WEB-INF/views/image/updateForm.jsp"
 				break;
 			case "/image/update.do":
 				System.out.println("이미지게시판 수정 처리 -----");
