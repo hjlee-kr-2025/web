@@ -81,7 +81,7 @@ public class ImageDAO extends DAO {
 		
 		// 결과 리턴
 		return result;
-	}
+	} // end of increase(Long no)
 	
 	// 2-2. 갤러리 글 보기
 	public ImageVO view(Long no) throws Exception {
@@ -121,7 +121,7 @@ public class ImageDAO extends DAO {
 		
 		// 결과리턴
 		return vo;
-	}
+	} // end of view(Long no)
 	
 	// 3. 이미지 글등록
 	public Integer write(ImageVO vo) throws Exception {
@@ -153,6 +153,69 @@ public class ImageDAO extends DAO {
 		
 		// 결과리턴
 		return result; 
+	} // end of write(ImageVO vo)
+	
+	// 이미지게시판 수정
+	public Integer update(ImageVO vo) throws Exception {
+		// 결과저장변수 선언, 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL - UPDATE
+			System.out.println(UPDATE);
+			// 4. 실행객체 - SQL + 데이터(title, content, fileName, no, id)
+			pstmt = con.prepareStatement(UPDATE);
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getContent());
+			pstmt.setString(3, vo.getFileName());
+			pstmt.setLong(4, vo.getNo());
+			pstmt.setString(5, vo.getId());
+			// 5. 실행 및 결과리턴
+			result = pstmt.executeUpdate();
+			// 6. 결과확인은 controller에서
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		
+		// 결과 리턴
+		return result;
+	} // end of update(ImageVO vo)
+	
+	// 이미지 게시판 글 삭제
+	public Integer delete(ImageVO vo) throws Exception {
+		// 결과저장변수 선언, 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL - DELETE
+			System.out.println(DELETE);
+			// 4. 실행객체에 SQL + 데이터세팅(no, id)
+			pstmt = con.prepareStatement(DELETE);
+			pstmt.setLong(1, vo.getNo());
+			pstmt.setString(2, vo.getId());
+			// 5. 실행 및 결과리턴
+			result = pstmt.executeUpdate();
+			// 6. 결과는 controller에서
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7.DB닫기
+			DB.close(con, pstmt);
+		}
+		
+		// 결과리턴
+		return result;
 	}
 	
 	// SQL 작성
@@ -177,4 +240,20 @@ public class ImageDAO extends DAO {
 	private static final String WRITE = ""
 			+ "insert into image (title, content, fileName, id) "
 			+ "	values (?, ?, ? ,?)";
+	
+	private static final String UPDATE = ""
+			+ "update image set title = ?,"
+			+ " content = ?, fileName = ? "
+			+ " where no = ? and id = ?";
+	
+	private static final String DELETE = ""
+			+ "delete from image "
+			+ " where no = ? and id = ?";
 }
+
+
+
+
+
+
+

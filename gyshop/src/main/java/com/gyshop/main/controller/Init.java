@@ -15,7 +15,9 @@ import com.gyshop.boardreply.service.BoardReplyListService;
 import com.gyshop.boardreply.service.BoardReplyUpdateService;
 import com.gyshop.boardreply.service.BoardReplyWriteService;
 import com.gyshop.image.dao.ImageDAO;
+import com.gyshop.image.service.ImageDeleteService;
 import com.gyshop.image.service.ImageListService;
+import com.gyshop.image.service.ImageUpdateService;
 import com.gyshop.image.service.ImageViewService;
 import com.gyshop.image.service.ImageWriteService;
 import com.gyshop.main.dao.DAO;
@@ -153,10 +155,14 @@ public class Init {
 		serviceMap.put("/image/list.do", new ImageListService());
 		serviceMap.put("/image/view.do", new ImageViewService());
 		serviceMap.put("/image/write.do", new ImageWriteService());
+		serviceMap.put("/image/update.do", new ImageUpdateService());
+		serviceMap.put("/image/delete.do", new ImageDeleteService());
 		// 3. 조립 : service 에 dao를 할당
 		serviceMap.get("/image/list.do").setDAO(daoMap.get("imageDAO"));
 		serviceMap.get("/image/view.do").setDAO(daoMap.get("imageDAO"));
 		serviceMap.get("/image/write.do").setDAO(daoMap.get("imageDAO"));
+		serviceMap.get("/image/update.do").setDAO(daoMap.get("imageDAO"));
+		serviceMap.get("/image/delete.do").setDAO(daoMap.get("imageDAO"));
 	}
 	
 	// 어느 서비스를 실행할지 리턴하는 메서드(할당된 서비스 주소 리턴)

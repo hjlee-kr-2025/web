@@ -26,6 +26,7 @@ $(function(){
 <div class="container topbox">
 	<h2><i class="fa fa-edit"></i> Gallery 수정</h2>
 	<form action="update.do" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="deleteFile" value="${vo.fileName }">
 		<div class="form-group">
 			<label for="no">글번호</label>
 			<input class="form-control" id="no" name="no"

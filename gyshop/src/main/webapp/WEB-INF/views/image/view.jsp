@@ -32,10 +32,41 @@
 	<c:if test="${!empty login && login.id == vo.id }">
 		<a href="updateForm.do?no=${vo.no }"
 			class="btn btn-primary">수정</a>
-		<a href="delete.do?no=${vo.no }"
-			class="btn btn-danger">삭제</a>
+		<button type="button" class="btn btn-danger"
+			data-toggle="modal" data-target="#deleteModal">삭제</button>
 	</c:if>
 	<a href="list.do" class="btn btn-success">리스트</a>
+	
+	<!-- The Modal -->
+	<div class="modal" id="deleteModal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	
+	      <!-- Modal Header -->
+	      <div class="modal-header">
+	        <h4 class="modal-title">삭제확인</h4>
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      </div>
+	
+	      <!-- Modal body -->
+	      <div class="modal-body">
+	        <b>게시글을 삭제하시겠습니까?</b>
+	      </div>
+	
+	      <!-- Modal footer -->
+	      <div class="modal-footer">
+	      	<form action="delete.do" method="post">
+	      		<input type="hidden" name="no" value="${vo.no }">
+	      		<input type="hidden" name="deleteFile" value="${vo.fileName }">
+	      		<button class="btn btn-danger">삭제</button>
+	        	<button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+	      	</form>
+	      </div>
+	
+	    </div>
+	  </div>
+	</div>
+	
 </div>
 </body>
 </html>

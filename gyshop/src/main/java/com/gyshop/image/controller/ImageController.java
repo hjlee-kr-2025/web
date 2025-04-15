@@ -139,9 +139,78 @@ public class ImageController {
 				break;
 			case "/image/update.do":
 				System.out.println("이미지게시판 수정 처리 -----");
+				// 수정되는 데이터 수집
+				multi =	new MultipartRequest(request, realSavePath,
+								sizeLimit, "utf-8",
+								new DefaultFileRenamePolicy());
+				no = Long.parseLong(multi.getParameter("no"));
+				title = multi.getParameter("title");
+				content = multi.getParameter("content");
+				fileName = multi.getFilesystemName("imageFile");
+				String deleteFileName = multi.getParameter("deleteFile");
+				// 서비스로 넘어갈 데이터 세팅
+				vo = new ImageVO();
+				vo.setNo(no);
+				vo.setTitle(title);
+				vo.setContent(content);
+				vo.setFileName(savePath + "/" + fileName);// 경로와 함께
+				vo.setId(id);// 로그인한 id
+				// 서비스 실행
+				result = Execute.execute(Init.get(uri), vo);
+				// 결과 확인
+				if ((Integer)result != 0) {
+					session.setAttribute("msg",
+						"게시글이 수정되었습니다.");
+					if (fileName != null && !fileName.equals("")) {
+						File deleteFile =
+							new File(request.getServletContext()
+									.getRealPath(deleteFileName));
+						if (deleteFile.exists()) deleteFile.delete();
+					}
+				}
+				else {
+					// 수정이 실패했을때는 새로 올린 파일을 삭제합니다.
+					fileName = vo.getFileName();// 경로와 함께 세팅
+					File deleteFile =
+							new File(request.getServletContext()
+									.getRealPath(fileName));
+					if (deleteFile.exists()) deleteFile.delete();
+					session.setAttribute("msg",
+							"게시글이 수정되지 않았습니다. 확인후 시도해주세요.");
+				}
+				// 글보기로 이동
+				jsp = "redirect:view.do?no=" + no + "&inc=0";
 				break;
 			case "/image/delete.do":
 				System.out.println("이미지게시판 삭제 처리 -----");
+				// 삭제되는 글번호 수집
+				no = Long.parseLong(request.getParameter("no"));
+				// 삭제되는 이미지 경로 수집
+				deleteFileName = request.getParameter("deleteFile");
+				// DB의 image 테이블안에 데이터 1개를 삭제합니다.
+				// 웹서버와는 별개입니다
+				
+				// 서비스로 넘어가는 데이터 세팅
+				vo = new ImageVO();
+				vo.setNo(no);
+				vo.setId(id);
+				// 서비스 실행
+				result = Execute.execute(Init.get(uri), vo);
+				if ((Integer)result != 0) {
+					session.setAttribute("msg", 
+							"게시글이 삭제되었습니다.");
+					File deleteFile =
+							new File(request.getServletContext()
+									.getRealPath(deleteFileName));
+					if (deleteFile.exists()) deleteFile.delete();
+					// 웹서버안에 저장되어있는 이미지를 지웁니다.
+					jsp = "redirect:list.do";
+				}
+				else {
+					session.setAttribute("msg",
+							"게시글이 삭제되지 않았습니다. 확인하시고 시도해주세요.");
+					jsp = "redirect:view.do?no=" + no + "&inc=0";
+				}
 				break;
 			default:
 				request.setAttribute("uri", uri);
