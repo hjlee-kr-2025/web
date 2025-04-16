@@ -38,13 +38,16 @@ select @rownum := @rownum + 1 as rnum, no, title, writer, writeDate, hit
 
 -- 페이지 처리
 -- 검색데이터 중 rnum 1부터 10까지 데이터가 화면에 표시되도록 만들어 보세요.
-select @rownum := @rownum + 1 as rnum, no, title, writer, writeDate, hit 
+select no, title, writer, writeDate, hit
+	from
+(select @rownum := @rownum + 1 as rnum, no, title, writer, writeDate, hit 
 	from board, (select @rownum := 0) as rn 
 	where (1=0)
 		or title like '%java%'
         or content like '%java%'
         or writer like '%java%'
-	order by no desc
+	order by no desc) as pageBoard
+    where rnum >= 1 and rnum <= 10;
 
 
 
@@ -54,6 +57,68 @@ select i.no, i.title, i.content, i.fileName, m.name, i.writeDate, i.hit
     where i.id = m.id
     order by no desc;
     
+-- 이미지게시판 페이지 처리
+-- @rownum 변수 선언 (순서 재지정)
+select
+	@rownum := @rownum + 1 as rnum, 
+	i.no, i.title, i.content, i.fileName, m.name, i.writeDate, i.hit
+	from image as i, member as m, (select @rownum := 0) as rn  
+    where i.id = m.id
+    order by no desc;
     
+-- 페이지처리 rnum 1부터 3까지
+select 
+	no, title, content, fileName, name, writeDate, hit
+    from 
+(select
+	@rownum := @rownum + 1 as rnum, 
+	i.no, i.title, i.content, i.fileName, m.name, i.writeDate, i.hit
+	from image as i, member as m, (select @rownum := 0) as rn  
+    where i.id = m.id
+    order by no desc) as imagePage
+    where rnum >= 1 and rnum <= 3;
     
-    
+-- 검색
+select i.no, i.title, i.content, i.fileName, m.name, i.writeDate, i.hit
+	from image as i, member as m 
+    where
+    (1=1)
+    and (
+		(1=0)
+		or title like '%java%'
+        or content like '%java%'
+        or name like '%java%'
+    )
+    and i.id = m.id
+    order by no desc;
+
+-- 페이지처리
+select @rownum := @rownum + 1 as rnum, i.no, i.title, i.content, i.fileName, m.name, i.writeDate, i.hit
+	from image as i, member as m, (select @rownum := 0) as rn  
+    where
+    (1=1)
+    and (
+		(1=0)
+		or title like '%java%'
+        or content like '%java%'
+        or name like '%java%'
+    )
+    and i.id = m.id
+    order by no desc;
+
+-- 2단계
+select no, title, content, fileName, name, writeDate, hit
+	from
+(select @rownum := @rownum + 1 as rnum, i.no, i.title, i.content, i.fileName, m.name, i.writeDate, i.hit
+	from image as i, member as m, (select @rownum := 0) as rn  
+    where
+    (1=1)
+    and (
+		(1=0)
+		or title like '%java%'
+        or content like '%java%'
+        or name like '%java%'
+    )
+    and i.id = m.id
+    order by no desc) imagePage
+    where rnum >= 1 and rnum <= 3;
