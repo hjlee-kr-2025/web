@@ -40,6 +40,7 @@ public class DispatcherServlet extends HttpServlet {
 	private BoardReplyController boardReplyController
 		= new BoardReplyController();
 	private ImageController imageController = new ImageController();
+	private MainController mainController = new MainController();
 	
 
 	/* [shift]+[alt]+[s] -> override/implements method 클릭
@@ -59,6 +60,13 @@ public class DispatcherServlet extends HttpServlet {
 		 */
 		String uri = request.getRequestURI();
 		System.out.println("uri = " + uri);
+		
+		// main 처리 - 주소: "/", "/main.do"
+		if (uri.equals("/") || uri.equals("/main.do")) {
+			response.sendRedirect("/main/main.do");
+			//==> 웹브라우저에 새로운 주소를 입력하는 것
+			return;
+		}
 		
 		// uri : /module/기능 -> /board/list.do : 일반게시판 리스트
 		// 두번째 "/"의 위치값을 저장합니다. 없으면 -1
@@ -83,7 +91,7 @@ public class DispatcherServlet extends HttpServlet {
 		// 메뉴
 		switch (module) {
 		case "/main":// 테스트용도
-			jsp = "main/main";
+			jsp = mainController.execute(request);
 			break;
 		case "/board":
 			jsp = boardController.execute(request);

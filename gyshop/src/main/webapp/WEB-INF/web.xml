@@ -23,6 +23,7 @@
   <servlet-mapping>
   	<servlet-name>dispatcherServlet</servlet-name>
   	<url-pattern>*.do</url-pattern>
+  	<url-pattern>/</url-pattern>
   	<!-- url 끝에 .do로 끝나는 것만 servlet의 service로 들어오도록
   	만들어 줍니다. -->
   </servlet-mapping>
