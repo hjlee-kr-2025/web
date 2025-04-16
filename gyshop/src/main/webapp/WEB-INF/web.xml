@@ -23,7 +23,6 @@
   <servlet-mapping>
   	<servlet-name>dispatcherServlet</servlet-name>
   	<url-pattern>*.do</url-pattern>
-  	<url-pattern>/</url-pattern>
   	<!-- url 끝에 .do로 끝나는 것만 servlet의 service로 들어오도록
   	만들어 줍니다. -->
   </servlet-mapping>
@@ -61,6 +60,16 @@
   <filter-mapping>
   	<filter-name>authority</filter-name>
   	<url-pattern>*.do</url-pattern>
+  </filter-mapping>
+  
+  <filter>
+  	<filter-name>uploadFilter</filter-name>
+  	<filter-class>com.gyshop.util.filter.UploadFilter</filter-class>
+  </filter>
+  
+  <filter-mapping>
+  	<filter-name>uploadFilter</filter-name>
+  	<url-pattern>/</url-pattern>
   </filter-mapping>
   
   

@@ -65,6 +65,7 @@ public class DispatcherServlet extends HttpServlet {
 		if (uri.equals("/") || uri.equals("/main.do")) {
 			response.sendRedirect("/main/main.do");
 			//==> 웹브라우저에 새로운 주소를 입력하는 것
+			
 			return;
 		}
 		

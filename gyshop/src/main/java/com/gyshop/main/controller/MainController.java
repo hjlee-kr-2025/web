@@ -29,7 +29,27 @@ public class MainController {
 				pageObject.setPerPageNum(5L);
 				// 서비스실행
 				result = Execute.execute(Init.get("/board/list.do"), pageObject);
+				// BoardListService()가 실행되었습니다.
 				request.setAttribute("boardList", result);
+				
+				// 공지사항 리스트를 DB에서 가져옵니다.
+				// 위에 있는 pageObject를 그대로 사용합니다.
+				// pageObject를 여기서 다시 사용하더라도 일반게시판에는 영향을
+				// 주지 않습니다.
+				// 한페이지에 5개를 사용할 것이어서 setPerPageNum도 그래도 둡니다.
+				// 서비스실행
+				result = Execute.execute(Init.get("/notice/list.do"), pageObject);
+				// NoticeListService()가 실행되었습니다.
+				request.setAttribute("noticeList", result);
+				
+				// 이미지(Gallery) 리스트를 DB에서 가져옵니다.
+				// 3개의 데이터
+				pageObject.setPerPageNum(3L);
+				// 서비스실행
+				result = Execute.execute(Init.get("/image/list.do"), pageObject);
+				// ImageListService()가 실행됩니다.
+				request.setAttribute("imageList", result);
+				
 				
 				jsp = "main/main";
 				// "/WEB-INF/views/main/main.jsp"
