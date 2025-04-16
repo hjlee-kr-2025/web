@@ -14,6 +14,8 @@ import com.gyshop.boardreply.service.BoardReplyDeleteService;
 import com.gyshop.boardreply.service.BoardReplyListService;
 import com.gyshop.boardreply.service.BoardReplyUpdateService;
 import com.gyshop.boardreply.service.BoardReplyWriteService;
+import com.gyshop.goods.dao.GoodsDAO;
+import com.gyshop.goods.service.GoodsListService;
 import com.gyshop.image.dao.ImageDAO;
 import com.gyshop.image.service.ImageDeleteService;
 import com.gyshop.image.service.ImageListService;
@@ -163,6 +165,15 @@ public class Init {
 		serviceMap.get("/image/write.do").setDAO(daoMap.get("imageDAO"));
 		serviceMap.get("/image/update.do").setDAO(daoMap.get("imageDAO"));
 		serviceMap.get("/image/delete.do").setDAO(daoMap.get("imageDAO"));
+		
+		// 상품테이블
+		// 1. dao생성
+		daoMap.put("goodsDAO", new GoodsDAO());
+		// 2. service생성
+		serviceMap.put("/goods/list.do", new GoodsListService());
+		// 3. 조립 : service에 dao할당
+		serviceMap.get("/goods/list.do").setDAO(daoMap.get("goodsDAO"));
+		
 	}
 	
 	// 어느 서비스를 실행할지 리턴하는 메서드(할당된 서비스 주소 리턴)

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,6 +34,29 @@ $(function(){
 			$(image).height(height);
 		}
 	});
+	
+	// 게시글을 클릭했을때 이벤트 처리
+	$(".dataRow").click(function(){
+		// 글번호 수집
+		let no = $(this).find(".no").text();
+		console.log("no: ", no);
+		// 모듈체크(공지사항(.notice), 일반게시판(.board), Gallery(.image))
+		if ($(this).hasClass("notice")) {
+			console.log("공지사항입니다.");
+			// 페이지를 이동합니다.
+			location = "/notice/view.do?no=" + no + "&inc=1";
+		}
+		else if ($(this).hasClass("board")) {
+			console.log("일반게시판입니다.");
+			location = "/board/view.do?no=" + no + "&inc=1";
+		}
+		else if ($(this).hasClass("image")) {
+			console.log("Gallery입니다.");
+			location = "/image/view.do?no=" + no + "&inc=1";
+		}
+	});
+	
+	
 });
 </script>
 </head>
@@ -54,9 +78,18 @@ $(function(){
 					</tr>
 				</thead>
 				<c:forEach items="${noticeList }" var="noticeVO">
-					<tr>
+					<tr class="dataRow notice">
 						<td class="no">${noticeVO.no }</td>
-						<td>${noticeVO.title }</td>
+						<td>
+							<c:choose>
+								<c:when test="${fn:length(noticeVO.title) > 10 }">
+									${fn:substring(noticeVO.title, 0, 10) }...
+								</c:when>
+								<c:otherwise>
+									${noticeVO.title }
+								</c:otherwise>
+							</c:choose>
+						</td>
 						<td>${noticeVO.endDate }</td>
 						<td>${noticeVO.hit }</td>
 					</tr>
@@ -77,7 +110,7 @@ $(function(){
 					</tr>
 				</thead>
 				<c:forEach items="${boardList }" var="boardVO">
-					<tr class="dataRow">
+					<tr class="dataRow board">
 						<td class="no">${boardVO.no }</td>
 						<td>${boardVO.title }</td>
 						<td>${boardVO.writer }</td>
@@ -104,7 +137,7 @@ $(function(){
 							${"<div class='row mb-2'>"}
 						</c:if>
 						<!-- 데이터표시 시작 -->
-						<div class="col-sm-4 dataRow">
+						<div class="col-sm-4 dataRow image">
 							<div class="card" style="width:100%">
 								<div class="imageDiv text-center align-content-center">
 									<img class="card-img-top" src="${vo.fileName }" alt="Card image">
