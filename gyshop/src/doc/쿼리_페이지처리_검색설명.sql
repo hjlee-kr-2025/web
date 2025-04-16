@@ -25,9 +25,26 @@ select no, title, writer, writeDate, hit from board
         or content like '%java%'
         or writer like '%java%'
 	order by no desc;
+    
+-- 검색이 끝나고 페이지 처리 진행
+-- @rownum 선언    
+select @rownum := @rownum + 1 as rnum, no, title, writer, writeDate, hit 
+	from board, (select @rownum := 0) as rn 
+	where (1=0)
+		or title like '%java%'
+        or content like '%java%'
+        or writer like '%java%'
+	order by no desc;
 
-
-
+-- 페이지 처리
+-- 검색데이터 중 rnum 1부터 10까지 데이터가 화면에 표시되도록 만들어 보세요.
+select @rownum := @rownum + 1 as rnum, no, title, writer, writeDate, hit 
+	from board, (select @rownum := 0) as rn 
+	where (1=0)
+		or title like '%java%'
+        or content like '%java%'
+        or writer like '%java%'
+	order by no desc
 
 
 
