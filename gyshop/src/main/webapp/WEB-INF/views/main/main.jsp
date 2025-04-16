@@ -6,6 +6,35 @@
 <head>
 <meta charset="UTF-8">
 <title>메인페이지</title>
+<script type="text/javascript">
+$(function(){
+	let imgWidth = $(".imageDiv:first").width();
+	let imgHeight = $(".imageDiv:first").height();
+	
+	// box의 가로는 이미지가로와 동일하게 처리
+	// 높이는 비율로 (가로 : 세로 = 4 : 3)
+	/* 세로 * 4 = 가로 * 3
+			세로 = 가로 * 3 / 4
+	*/
+	let height = imgWidth * 3 / 4;
+	console.log("height : ", height);
+	// box크기를 동일하게 만들어 줍니다.
+	$(".imageDiv").height(height);
+	// box크기와 맞춰 이미지크기를 비율로 조절해 줍니다.
+	$(".imageDiv > img").each(function(idx, image){
+		if ($(image).height() > height) {
+			// 현재 이미지크기수집
+			let image_width = $(image).width();
+			let image_height = $(image).height();
+			// 변경될 가로 사이즈  (width : height = image_width : image_height)
+			let width = height * image_width / image_height;
+			// 이미지 크기 변경
+			$(image).width(width);
+			$(image).height(height);
+		}
+	});
+});
+</script>
 </head>
 <body>
 <div class="container topbox">
