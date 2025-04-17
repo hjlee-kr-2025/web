@@ -9,7 +9,7 @@
 <title>상품 정보</title>
 <style>
 	#smallImageDiv img {
-		width: 80px;
+		width: 23%;
 		height: 80px;
 	}
 </style>
@@ -59,13 +59,31 @@ $(function(){
 				</div>
 				<div class="col-sm-6">
 				<!-- 상품명, 가격정보 -->
+					<div>
+						상품명 : ${vo.name }
+					</div>
+					<div>
+						모델번호 : ${vo.modelNo }
+					</div>
+					<div>
+						가격 : ${vo.price }
+					</div>
+					<div>
+						배송료 : ${vo.delivery_cost }
+					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-12">
 				<!-- 상세내용(content) -->
+					<pre>${vo.content }</pre>
 				</div>
 			</div>
+		</div>
+		<div class="card-footer">
+			<a href="updateForm.do?no=${vo.no }"
+				 class="btn btn-primary">수정</a>
+			<a href="list.do" class="btn btn-success">리스트</a>
 		</div>
 	</div>
 </div>

@@ -161,6 +161,23 @@ public class GoodsController {
 				jsp = "redirect:list.do";
 				// "/goods/list.do" 로 페이지 이동합니다.
 				break;
+			case "/goods/updateForm.do":
+				System.out.println("상품관리 수정폼 -----");
+				// 수정할 상품번호 수집
+				no = Long.parseLong(request.getParameter("no"));
+				// 수정할 데이터 서비스를 통해서 가져옵니다.
+				result = Execute.execute(Init.get("/goods/view.do"), no);
+				// ==> GoodsViewService
+				// 수정폼으로 넘길 데이터를 세팅
+				request.setAttribute("vo", result);
+				// jsp파일 로딩
+				jsp = "goods/updateForm";
+				// "/WEB-INF/views/goods/updateForm.jsp"
+				break;
+			case "/goods/update.do":
+				System.out.println("상품관리 수정처리 -----");
+				break;
+			
 			default:
 				request.setAttribute("uri", uri);
 				jsp = "error/404";
