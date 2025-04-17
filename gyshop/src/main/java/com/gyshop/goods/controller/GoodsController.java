@@ -40,6 +40,14 @@ public class GoodsController {
 				jsp = "goods/list";
 				// "/WEB-INF/views/goods/list.jsp"
 				break;
+			case "/goods/writeForm.do":
+				System.out.println("상품등록 폼 -----");
+				jsp = "goods/writeForm";
+				// "/WEB-INF/views/goods/writeForm.jsp"
+				break;
+			case "/goods/write.do":
+				System.out.println("상품등록 처리 -----");
+				break;
 			default:
 				request.setAttribute("uri", uri);
 				jsp = "error/404";
