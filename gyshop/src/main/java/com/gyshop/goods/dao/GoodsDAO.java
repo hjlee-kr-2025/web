@@ -95,7 +95,7 @@ public class GoodsDAO  extends DAO {
 	
 	// SQL
 	private static final String LIST = ""
-			+ "select no, name, photo, price, delevery_cost, modelNo "
+			+ "select no, name, photo, price, delivery_cost, modelNo "
 			+ " from goods order by no desc";
 	
 	private static final String WRITE = ""
