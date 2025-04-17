@@ -108,10 +108,10 @@ public class GoodsController {
 				vo.setName(name);
 				vo.setContent(content);
 				vo.setPhoto(savePath + "/" + photo);
-				vo.setSubPhoto1(savePath + "/" + subPhoto1);
-				vo.setSubPhoto2(savePath + "/" + subPhoto2);
-				vo.setSubPhoto3(savePath + "/" + subPhoto3);
-				vo.setSubPhoto4(savePath + "/" + subPhoto4);
+				if (subPhoto1 != null) vo.setSubPhoto1(savePath + "/" + subPhoto1);
+				if (subPhoto2 != null) vo.setSubPhoto2(savePath + "/" + subPhoto2);
+				if (subPhoto3 != null) vo.setSubPhoto3(savePath + "/" + subPhoto3);
+				if (subPhoto4 != null) vo.setSubPhoto4(savePath + "/" + subPhoto4);
 				vo.setPrice(price);
 				vo.setDelivery_cost(delivery_cost);
 				vo.setModelNo(modelNo);
