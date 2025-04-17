@@ -54,6 +54,49 @@ public class GoodsDAO  extends DAO {
 		return list;
 	} // end of list ()
 	
+	// 상품상세보기
+	public GoodsVO view(Long no) throws Exception {
+		// 결과저장변수 선언, 초기화
+		GoodsVO vo = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL - VIEW
+			System.out.println(VIEW);
+			// 4. 실행객체에 SQL + 데이터세팅(?, 1개-no)
+			pstmt = con.prepareStatement(VIEW);
+			pstmt.setLong(1, no);
+			// 5. 실행 그리고 결과리턴
+			rs = pstmt.executeQuery();
+			// 6. 결과저장
+			if (rs != null && rs.next()) {
+				vo = new GoodsVO();
+				vo.setNo(rs.getLong("no"));
+				vo.setName(rs.getString("name"));
+				vo.setContent(rs.getString("content"));
+				vo.setPhoto(rs.getString("photo"));
+				vo.setSubPhoto1(rs.getString("subPhoto1"));
+				vo.setSubPhoto2(rs.getString("subPhoto2"));
+				vo.setSubPhoto3(rs.getString("subPhoto3"));
+				vo.setSubPhoto4(rs.getString("subPhoto4"));
+				vo.setPrice(rs.getInt("price"));
+				vo.setDelivery_cost(rs.getInt("delivery_cost"));
+				vo.setModelNo(rs.getString("modelNo"));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt, rs);
+		}
+		
+		// 결과 리턴
+		return vo;
+	}
+	
 	// 상품등록
 	public Integer write(GoodsVO vo) throws Exception {
 		// 결과저장변수 선언, 초기화
@@ -97,6 +140,12 @@ public class GoodsDAO  extends DAO {
 	private static final String LIST = ""
 			+ "select no, name, photo, price, delivery_cost, modelNo "
 			+ " from goods order by no desc";
+	
+	private static final String VIEW = ""
+			+ "select no, name, content, photo, subPhoto1, "
+			+ " subPhoto2, subPhoto3, subPhoto4, "
+			+ " price, delivery_cost, modelNo "
+			+ " from goods where no = ?";
 	
 	private static final String WRITE = ""
 			+ "insert into goods "

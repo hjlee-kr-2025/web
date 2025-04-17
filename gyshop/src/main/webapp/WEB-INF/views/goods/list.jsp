@@ -6,6 +6,17 @@
 <head>
 <meta charset="UTF-8">
 <title>쇼핑몰</title>
+<script type="text/javascript">
+$(function(){
+	// 이벤트처리
+	$(".dataRow").click(function(){
+		let no = $(this).find(".no").text();
+		console.log("no : ", no);
+		// 상품상세보기 페이지 이동
+		location = "view.do?no=" + no;
+	});
+});
+</script>
 </head>
 <body>
 <div class="container topbox">

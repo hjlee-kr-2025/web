@@ -16,6 +16,7 @@ import com.gyshop.boardreply.service.BoardReplyUpdateService;
 import com.gyshop.boardreply.service.BoardReplyWriteService;
 import com.gyshop.goods.dao.GoodsDAO;
 import com.gyshop.goods.service.GoodsListService;
+import com.gyshop.goods.service.GoodsViewService;
 import com.gyshop.goods.service.GoodsWriteService;
 import com.gyshop.image.dao.ImageDAO;
 import com.gyshop.image.service.ImageDeleteService;
@@ -172,9 +173,11 @@ public class Init {
 		daoMap.put("goodsDAO", new GoodsDAO());
 		// 2. service생성
 		serviceMap.put("/goods/list.do", new GoodsListService());
+		serviceMap.put("/goods/view.do", new GoodsViewService());
 		serviceMap.put("/goods/write.do", new GoodsWriteService());
 		// 3. 조립 : service에 dao할당
 		serviceMap.get("/goods/list.do").setDAO(daoMap.get("goodsDAO"));
+		serviceMap.get("/goods/view.do").setDAO(daoMap.get("goodsDAO"));
 		serviceMap.get("/goods/write.do").setDAO(daoMap.get("goodsDAO"));
 		
 	}

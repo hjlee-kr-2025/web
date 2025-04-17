@@ -6,6 +6,28 @@
 <head>
 <meta charset="UTF-8">
 <title>상품등록</title>
+<script type="text/javascript">
+$(function(){
+	// 이곳에 구현된 코드는 웹페이지가 로딩된 후에 실행이 됩니다.
+	// 이미지 미리보기
+	$("#photo, #subPhoto1, #subPhoto2, #subPhoto3, #subPhoto4").change(function(){
+		const element = $(this).closest(".form-group").find("img");
+		// img 태그를 가리키는 상수입니다.
+		let file = this.files[0];
+		let reader = new FileReader();
+		reader.onloadend = function() {
+			element.attr("src", reader.result);
+		}
+		reader.readAsDataURL(file);
+	});
+	
+	// 새로고침버튼 클릭시
+	$("#resetBtn").click(function(){
+		$(".fileImage").attr("src", "");
+	});
+	
+});
+</script>
 </head>
 <body>
 <div class="container topbox">
@@ -43,7 +65,7 @@
 			<input id="photo" name="photo" class="form-control"
 				type="file">
 			<div>
-				<img id="photoImg" src="">
+				<img class="fileImage" src="">
 			</div>
 		</div>
 		<div class="form-group">
@@ -51,7 +73,7 @@
 			<input id="subPhoto1" name="subPhoto1" class="form-control"
 				type="file">
 			<div>
-				<img id="photoImg1" src="">
+				<img class="fileImage" src="">
 			</div>
 		</div>
 		<div class="form-group">
@@ -59,7 +81,7 @@
 			<input id="subPhoto2" name="subPhoto2" class="form-control"
 				type="file">
 			<div>
-				<img id="photoImg2" src="">
+				<img class="fileImage" src="">
 			</div>
 		</div>
 		<div class="form-group">
@@ -67,7 +89,7 @@
 			<input id="subPhoto3" name="subPhoto3" class="form-control"
 				type="file">
 			<div>
-				<img id="photoImg3" src="">
+				<img class="fileImage" src="">
 			</div>
 		</div>
 		<div class="form-group">
@@ -75,13 +97,13 @@
 			<input id="subPhoto4" name="subPhoto4" class="form-control"
 				type="file">
 			<div>
-				<img id="photoImg4" src="">
+				<img class="fileImage" src="">
 			</div>
 		</div>
 		
 		<!-- button의 기본 type은 submit 입니다. -->
 		<button class="btn btn-primary">등록</button>
-		<button type="reset" class="btn btn-success">새로입력</button>
+		<button type="reset" class="btn btn-success" id="resetBtn">새로입력</button>
 		<button type="button" class="btn btn-secondary"
 			onclick="history.back();">취소</button>
 	</form>

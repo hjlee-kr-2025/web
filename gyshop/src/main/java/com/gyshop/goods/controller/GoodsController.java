@@ -5,6 +5,7 @@ import java.io.File;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.gyshop.goods.vo.GoodsVO;
 import com.gyshop.main.controller.Init;
 import com.gyshop.member.vo.LoginVO;
 import com.gyshop.util.exe.Execute;
@@ -84,6 +85,69 @@ public class GoodsController {
 				System.out.println("subPhoto2: " + subPhoto2);
 				System.out.println("subPhoto3: " + subPhoto3);
 				System.out.println("subPhoto4: " + subPhoto4);
+				String name = multi.getParameter("name");
+				String content = multi.getParameter("content");
+				String modelNo = multi.getParameter("modelNo");
+				Integer price = Integer.parseInt(multi.getParameter("price"));
+				Integer delivery_cost
+					= Integer.parseInt(multi.getParameter("delivery_cost"));
+				// 서비스에 전송하기위해 GoodsVO 에 담습니다.
+				GoodsVO vo = new GoodsVO();
+				vo.setName(name);
+				vo.setContent(content);
+				vo.setPhoto(savePath + "/" + photo);
+				vo.setSubPhoto1(savePath + "/" + subPhoto1);
+				vo.setSubPhoto2(savePath + "/" + subPhoto2);
+				vo.setSubPhoto3(savePath + "/" + subPhoto3);
+				vo.setSubPhoto4(savePath + "/" + subPhoto4);
+				vo.setPrice(price);
+				vo.setDelivery_cost(delivery_cost);
+				vo.setModelNo(modelNo);
+				// 서비스실행
+				result = Execute.execute(Init.get(uri), vo);
+				// uri="/goods/write.do" --> GoodsWriteService 가 실행
+				if ((Integer)result == 0) {
+					// 상품등록이 실패했습니다.
+					session.setAttribute("msg",
+							"상품이 등록되지 않았습니다. 확인 후 다시 시도해주세요");
+					// 서버로 올라간 파일을 삭제
+					String fileName = vo.getPhoto();
+					File deleteFile = new File(request.getServletContext()
+							.getRealPath(fileName));
+					// 파일이 실제 경로와 이름으로 deleteFile에 넣습니다.
+					if (deleteFile.exists()) deleteFile.delete();
+					
+					fileName = vo.getSubPhoto1();
+					deleteFile = new File(request.getServletContext()
+							.getRealPath(fileName));
+					// 파일이 실제 경로와 이름으로 deleteFile에 넣습니다.
+					if (deleteFile.exists()) deleteFile.delete();
+					
+					fileName = vo.getSubPhoto2();
+					deleteFile = new File(request.getServletContext()
+							.getRealPath(fileName));
+					// 파일이 실제 경로와 이름으로 deleteFile에 넣습니다.
+					if (deleteFile.exists()) deleteFile.delete();
+					
+					fileName = vo.getSubPhoto3();
+					deleteFile = new File(request.getServletContext()
+							.getRealPath(fileName));
+					// 파일이 실제 경로와 이름으로 deleteFile에 넣습니다.
+					if (deleteFile.exists()) deleteFile.delete();
+					
+					fileName = vo.getSubPhoto4();
+					deleteFile = new File(request.getServletContext()
+							.getRealPath(fileName));
+					// 파일이 실제 경로와 이름으로 deleteFile에 넣습니다.
+					if (deleteFile.exists()) deleteFile.delete();
+				}
+				else {
+					session.setAttribute("msg",
+							"상품이 등록되었습니다.");
+				}
+				// 상품리스트로 이동합니다.
+				jsp = "redirect:list.do";
+				// "/goods/list.do" 로 페이지 이동합니다.
 				break;
 			default:
 				request.setAttribute("uri", uri);
