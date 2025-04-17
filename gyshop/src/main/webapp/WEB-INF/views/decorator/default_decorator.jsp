@@ -84,7 +84,7 @@
 					<a class="nav-link" href="/board/list.do">일반게시판</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/shop/list.do">쇼핑몰</a>
+					<a class="nav-link" href="/goods/list.do">쇼핑몰</a>
 				</li>
 				<c:if test="${(!empty login) && (login.gradeNo == 9) }">
 					<li class="nav-item">

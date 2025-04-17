@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.gyshop.ajax.controller.AjaxController;
 import com.gyshop.board.controller.BoardController;
 import com.gyshop.boardreply.controller.BoardReplyController;
+import com.gyshop.goods.controller.GoodsController;
 import com.gyshop.image.controller.ImageController;
 import com.gyshop.member.controller.GradeController;
 import com.gyshop.member.controller.MemberController;
@@ -41,6 +42,7 @@ public class DispatcherServlet extends HttpServlet {
 		= new BoardReplyController();
 	private ImageController imageController = new ImageController();
 	private MainController mainController = new MainController();
+	private GoodsController goodsController = new GoodsController();
 	
 
 	/* [shift]+[alt]+[s] -> override/implements method 클릭
@@ -114,6 +116,9 @@ public class DispatcherServlet extends HttpServlet {
 			break;
 		case "/image":
 			jsp = imageController.execute(request);
+			break;
+		case "/goods":
+			jsp = goodsController.execute(request);
 			break;
 		default:
 			request.setAttribute("uri", uri);

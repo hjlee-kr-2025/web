@@ -54,9 +54,59 @@ public class GoodsDAO  extends DAO {
 		return list;
 	} // end of list ()
 	
+	// 상품등록
+	public Integer write(GoodsVO vo) throws Exception {
+		// 결과저장변수 선언, 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL - WRITE (name, content, photo, subphoto1~4,
+			// price, delivery_cost, modelNo
+			System.out.println(WRITE);
+			// 4. 실행객체에 SQL, 데이터세팅(10개)
+			pstmt = con.prepareStatement(WRITE);
+			pstmt.setString(1, vo.getName());
+			pstmt.setString(2, vo.getContent());
+			pstmt.setString(3, vo.getPhoto());
+			pstmt.setString(4, vo.getSubPhoto1());
+			pstmt.setString(5, vo.getSubPhoto2());
+			pstmt.setString(6, vo.getSubPhoto3());
+			pstmt.setString(7, vo.getSubPhoto4());
+			pstmt.setInt(8, vo.getPrice());
+			pstmt.setInt(9, vo.getDelivery_cost());
+			pstmt.setString(10, vo.getModelNo());
+			// 5. 실행, 결과리턴
+			result = pstmt.executeUpdate();
+			// 6. 결과확인 - controller에서
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		
+		// 결과리턴
+		return result;
+	}
+	
 	// SQL
 	private static final String LIST = ""
 			+ "select no, name, photo, price, delevery_cost, modelNo "
 			+ " from goods order by no desc";
 	
+	private static final String WRITE = ""
+			+ "insert into goods "
+			+ " (name, content, photo, subPhoto1, subPhoto2, "
+			+ " subPhoto3, subPhoto4, price, delivery_cost, "
+			+ " modelNo) values "
+			+ " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 }
+
+
+
+
+
