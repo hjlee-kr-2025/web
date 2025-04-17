@@ -60,6 +60,18 @@ public class GoodsController {
 				jsp = "goods/list";
 				// "/WEB-INF/views/goods/list.jsp"
 				break;
+			case "/goods/view.do":
+				System.out.println("상품 상세보기 -----");
+				// 서비스로 넘어갈 자료를 수집
+				Long no = Long.parseLong(request.getParameter("no"));
+				// 서비스 실행
+				result = Execute.execute(Init.get(uri), no);
+				// 실행후 결과값(DB에서 가져온 데이터)를 jsp로 넘깁니다.
+				request.setAttribute("vo", result);
+				// jsp 파일 로딩
+				jsp = "goods/view";
+				// "/WEB-INF/views/goods/view.jsp"
+				break;
 			case "/goods/writeForm.do":
 				System.out.println("상품등록 폼 -----");
 				jsp = "goods/writeForm";
