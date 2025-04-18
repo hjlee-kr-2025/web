@@ -174,6 +174,7 @@ CREATE TABLE IF NOT EXISTS `gyshop`.`cart` (
   `no` BIGINT NOT NULL AUTO_INCREMENT,
   `id` VARCHAR(20) NOT NULL,
   `gno` BIGINT NOT NULL,
+  `count` INT NOT NULL,
   PRIMARY KEY (`no`),
   INDEX `fk_cart_member1_idx` (`id` ASC) VISIBLE,
   INDEX `fk_cart_goods1_idx` (`gno` ASC) VISIBLE,

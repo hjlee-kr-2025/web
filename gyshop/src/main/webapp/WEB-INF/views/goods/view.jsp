@@ -81,11 +81,15 @@ $(function(){
 			</div>
 		</div>
 		<div class="card-footer">
-			<a href="updateForm.do?no=${vo.no }"
-				 class="btn btn-primary">수정</a>
+			<c:if test="${!empty login && (login.gradeNo == 99) }">
+				<a href="updateForm.do?no=${vo.no }"
+					 class="btn btn-primary">수정</a>
+			</c:if>
 			<a href="list.do" class="btn btn-success">리스트</a>
-			<button class="btn btn-danger" type="button"
-				 data-toggle="modal" data-target="#deleteModal">삭제</button>
+			<c:if test="${!empty login && (login.gradeNo == 99) }">
+				<button class="btn btn-danger" type="button"
+					 data-toggle="modal" data-target="#deleteModal">삭제</button>
+			</c:if>
 		</div>
 	</div>
 	

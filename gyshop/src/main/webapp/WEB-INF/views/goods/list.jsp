@@ -50,11 +50,13 @@ $(function(){
 				</tr>
 			</c:forEach>
 		</c:if>
-		<tr>
-			<td colspan="5">
-				<a href="writeForm.do" class="btn btn-primary">상품등록</a>
-			</td>
-		</tr>
+		<c:if test="${!empty login && (login.gradeNo == 99) }">
+			<tr>
+				<td colspan="5">
+					<a href="writeForm.do" class="btn btn-primary">상품등록</a>
+				</td>
+			</tr>
+		</c:if>
 	</table>
 </div>
 </body>

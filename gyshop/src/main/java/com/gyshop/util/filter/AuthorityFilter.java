@@ -118,6 +118,13 @@ public class AuthorityFilter extends HttpFilter implements Filter {
 		authMap.put("/boardreply/write.do", 1);
 		authMap.put("/boardreply/update.do", 1);
 		authMap.put("/boardreply/delete.do", 1);
+		
+		// 상품관리(Goods권한)
+		authMap.put("/goods/writeForm.do", 99);
+		authMap.put("/goods/write.do", 99);
+		authMap.put("/goods/updateForm.do", 99);
+		authMap.put("/goods/update.do", 99);
+		authMap.put("/goods/delete.do", 99);
 	}
 
 }
