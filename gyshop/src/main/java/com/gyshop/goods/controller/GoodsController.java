@@ -308,7 +308,53 @@ public class GoodsController {
 				// 페이지 이동
 				jsp = "redirect:view.do?no=" + no;
 				break;
-			
+			case "/goods/delete.do":
+				System.out.println("상품 삭제 처리 -----");
+				// 삭제할 상품번호 수집
+				no = Long.parseLong(request.getParameter("no"));
+				// 서비스 실행
+				result = Execute.execute(Init.get(uri), no);
+				
+				if ((Integer)result != 0) {
+					// DB삭제가 잘 처리되었다.
+					session.setAttribute("msg",
+						"상품이 삭제되었습니다.");
+					// 서버이 있는 이미지들을 지워줍니다.
+					deletePhoto = request.getParameter("deletePhoto");
+					deleteSubPhoto1 = request.getParameter("deleteSubPhoto1");
+					deleteSubPhoto2 = request.getParameter("deleteSubPhoto2");
+					deleteSubPhoto3 = request.getParameter("deleteSubPhoto3");
+					deleteSubPhoto4 = request.getParameter("deleteSubPhoto4");
+					
+					File deleteFile = null;
+					if (deletePhoto != null && !deletePhoto.equals("")) {
+						deleteFile = new File(
+								request.getServletContext().getRealPath(deletePhoto));
+						if (deleteFile.exists()) deleteFile.delete();
+					}
+					if (deleteSubPhoto1 != null && !deleteSubPhoto1.equals("")) {
+						deleteFile = new File(
+								request.getServletContext().getRealPath(deleteSubPhoto1));
+						if (deleteFile.exists()) deleteFile.delete();
+					}
+					if (deleteSubPhoto2 != null && !deleteSubPhoto2.equals("")) {
+						deleteFile = new File(
+								request.getServletContext().getRealPath(deleteSubPhoto2));
+						if (deleteFile.exists()) deleteFile.delete();
+					}
+					if (deleteSubPhoto3 != null && !deleteSubPhoto3.equals("")) {
+						deleteFile = new File(
+								request.getServletContext().getRealPath(deleteSubPhoto3));
+						if (deleteFile.exists()) deleteFile.delete();
+					}
+					if (deleteSubPhoto4 != null && !deleteSubPhoto4.equals("")) {
+						deleteFile = new File(
+								request.getServletContext().getRealPath(deleteSubPhoto4));
+						if (deleteFile.exists()) deleteFile.delete();
+					}
+				}
+				jsp = "redirect:list.do";
+				break;
 			default:
 				request.setAttribute("uri", uri);
 				jsp = "error/404";

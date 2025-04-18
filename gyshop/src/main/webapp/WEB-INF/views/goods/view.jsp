@@ -84,7 +84,43 @@ $(function(){
 			<a href="updateForm.do?no=${vo.no }"
 				 class="btn btn-primary">수정</a>
 			<a href="list.do" class="btn btn-success">리스트</a>
+			<button class="btn btn-danger" type="button"
+				 data-toggle="modal" data-target="#deleteModal">삭제</button>
 		</div>
+	</div>
+	
+	<!-- The Modal -->
+	<div class="modal" id="deleteModal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	
+	      <!-- Modal Header -->
+	      <div class="modal-header">
+	        <h4 class="modal-title">상품삭제확인</h4>
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      </div>
+	
+	      <!-- Modal body -->
+	      <div class="modal-body">
+	        상품을 삭제하시겠습니까?
+	      </div>
+	
+	      <!-- Modal footer -->
+	      <div class="modal-footer">
+	      	<form action="delete.do" method="post">
+	      		<input type="hidden" name="no" value="${vo.no }">
+	      		<input type="hidden" name="deletePhoto" value="${vo.photo }">
+	      		<input type="hidden" name="deleteSubPhoto1" value="${vo.subPhoto1 }">
+	      		<input type="hidden" name="deleteSubPhoto2" value="${vo.subPhoto2 }">
+	      		<input type="hidden" name="deleteSubPhoto3" value="${vo.subPhoto3 }">
+	      		<input type="hidden" name="deleteSubPhoto4" value="${vo.subPhoto4 }">
+	      		<button class="btn btn-danger">삭제</button>
+	      	</form>
+	        <button type="button" class="btn btn-success" data-dismiss="modal">취소</button>
+	      </div>
+	
+	    </div>
+	  </div>
 	</div>
 </div>
 </body>
