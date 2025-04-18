@@ -1,10 +1,35 @@
 package com.gyshop.cart.dao;
 
+import java.util.List;
+
 import com.gyshop.cart.vo.CartVO;
 import com.gyshop.main.dao.DAO;
 import com.gyshop.util.db.DB;
 
 public class CartDAO extends DAO {
+	
+	// 장바구니 리스트
+	public List<CartVO> list(String id) throws Exception {
+		// 결과저장변수 선언 , 초기화
+		List<CartVO> list = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL 쿼리 - LIST
+			System.out.println(LIST);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt, rs);
+		}
+		
+		// 결과리턴
+		return list;
+	}
 	
 	// 장바구니 담기
 	public Integer write(CartVO vo) throws Exception {
@@ -38,6 +63,14 @@ public class CartDAO extends DAO {
 	}
 	
 	// SQL 쿼리
+	private static final String LIST = ""
+			+ "";
+/* LIST
+ * select c.no, c.id, c.gno, c.count, g.name, g.photo, g.price, g.delivery_cost
+	from cart c, goods g 
+    where (id = 'kim')
+    and (c.gno = g.no);	
+ */
 	
 	private static final String WRITE = ""
 			+ "insert into cart (id, gno, count) "

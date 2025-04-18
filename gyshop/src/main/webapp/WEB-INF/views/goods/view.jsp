@@ -76,7 +76,9 @@ $(function(){
 							<button class="btn btn-primary" type="button"
 								data-toggle="modal" data-target="#buyModal">구매하기</button>
 						</c:if>
-						<c:if test="">
+						<c:if test="${empty login }">
+							<a class="btn btn-primary"
+							 href="/cart/loginForm.do">구매하기</a>
 						</c:if>
 					</div>
 				</div>

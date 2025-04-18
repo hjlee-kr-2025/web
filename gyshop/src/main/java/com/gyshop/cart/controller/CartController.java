@@ -32,10 +32,17 @@ public class CartController {
 		
 		try {
 			switch(uri) {
+			case "/cart/loginForm.do":
+				System.out.println("장바구니클릭시 로그인화면 -----");
+				session.setAttribute("msg",
+					"로그인이 필요합니다.");
+				jsp = "redirect:/member/loginForm.do";
+				break;
 			case "/cart/write.do":
 				System.out.println("장바구니등록 -----");
 				// 데이터수집
-				Long gno = Long.parseLong(request.getParameter("gno"));
+				// GoodsVO의 no값을 받어서 CartVO의 gno를 세팅합니다.
+				Long gno = Long.parseLong(request.getParameter("no"));
 				Integer count = Integer.parseInt(request.getParameter("count"));
 				// 서비스로 넘어갈 데이터 세팅
 				CartVO vo = new CartVO();
