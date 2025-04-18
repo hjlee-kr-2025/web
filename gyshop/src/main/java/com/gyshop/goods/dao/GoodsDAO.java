@@ -173,6 +173,35 @@ public class GoodsDAO  extends DAO {
 		
 		// 결과리턴
 		return result;
+	} // end of update(GoodsVO vo)
+	
+	// 상품 삭제
+	public Integer delete(Long no) throws Exception {
+		// 결과저장변수 선언, 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL쿼리 - DELETE
+			System.out.println(DELETE);
+			// 4. 실행객체에 SQL + 데이터 세팅
+			pstmt = con.prepareStatement(DELETE);
+			pstmt.setLong(1, no);
+			// 5. 실행, 결과리턴
+			result = pstmt.executeUpdate();
+			// 6. 결과 - controller에서
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		
+		// 결과를 리턴
+		return result;
 	}
 	
 	// SQL
@@ -200,6 +229,9 @@ public class GoodsDAO  extends DAO {
 			+ " subPhoto3 = ?, subPhoto4 = ?, "
 			+ " price = ?, delivery_cost = ?, modelNo = ? "
 			+ " where no = ?";
+	
+	private static final String DELETE = ""
+			+ "delete from goods where no = ?";
 }
 
 
