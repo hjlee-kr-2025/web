@@ -206,13 +206,61 @@ public class GoodsController {
 				vo.setName(name);
 				vo.setContent(content);
 				vo.setPhoto(savePath + "/" + photo);
-				vo.setSubPhoto1(savePath + "/" + subPhoto1);
-				vo.setSubPhoto2(savePath + "/" + subPhoto2);
-				vo.setSubPhoto3(savePath + "/" + subPhoto3);
-				vo.setSubPhoto4(savePath + "/" + subPhoto4);
+				if (subPhoto1 != null && !subPhoto1.equals("")) {
+					// if () 다음에 명령어가 한줄이면 {} 생략가능
+					vo.setSubPhoto1(savePath + "/" + subPhoto1);
+				}
+				if (subPhoto2 != null && !subPhoto2.equals(""))
+					vo.setSubPhoto2(savePath + "/" + subPhoto2);
+				if (subPhoto3 != null && !subPhoto3.equals(""))
+					vo.setSubPhoto3(savePath + "/" + subPhoto3);
+				if (subPhoto4 != null && !subPhoto4.equals(""))
+					vo.setSubPhoto4(savePath + "/" + subPhoto4);
 				vo.setPrice(price);
 				vo.setDelivery_cost(delivery_cost);
 				vo.setModelNo(modelNo);
+				
+				// 서비스 실행
+				result = Execute.execute(Init.get(uri), vo);
+				if ((Integer)result != 0) {
+					// 수정성공
+					File deleteFile = new File(request
+						.getServletContext().getRealPath(deletePhoto));
+					if (deleteFile.exists()) deleteFile.delete();
+					if (subPhoto1 != null && !subPhoto1.equals("")) {
+						if (deleteSubPhoto1 != null && !deleteSubPhoto1.equals("")) {
+							deleteFile = new File(request
+								.getServletContext().getRealPath(deleteSubPhoto1));
+							if (deleteFile.exists()) deleteFile.delete();
+						}
+					}
+					if (subPhoto2!= null && !subPhoto2.equals("")) {
+						if (deleteSubPhoto2 != null && !deleteSubPhoto2.equals("")) {
+							deleteFile = new File(request
+								.getServletContext().getRealPath(deleteSubPhoto2));
+							if (deleteFile.exists()) deleteFile.delete();
+						}
+					}
+					if (subPhoto3 != null && !subPhoto3.equals("")) {
+						if (deleteSubPhoto3 != null && !deleteSubPhoto3.equals("")) {
+							deleteFile = new File(request
+								.getServletContext().getRealPath(deleteSubPhoto3));
+							if (deleteFile.exists()) deleteFile.delete();
+						}
+					}
+					if (subPhoto4 != null && !subPhoto4.equals("")) {
+						if (deleteSubPhoto4 != null && !deleteSubPhoto4.equals("")) {
+							deleteFile = new File(request
+								.getServletContext().getRealPath(deleteSubPhoto4));
+							if (deleteFile.exists()) deleteFile.delete();
+						}
+					}
+				}
+				else {
+					// 수정실패
+				}
+				
+				
 				break;
 			
 			default:
