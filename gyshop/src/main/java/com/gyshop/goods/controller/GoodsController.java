@@ -224,9 +224,12 @@ public class GoodsController {
 				result = Execute.execute(Init.get(uri), vo);
 				if ((Integer)result != 0) {
 					// 수정성공
-					File deleteFile = new File(request
-						.getServletContext().getRealPath(deletePhoto));
-					if (deleteFile.exists()) deleteFile.delete();
+					File deleteFile = null;
+					if (photo != null && !photo.equals("")) {
+						deleteFile = new File(request
+							.getServletContext().getRealPath(deletePhoto));
+						if (deleteFile.exists()) deleteFile.delete();
+					}
 					if (subPhoto1 != null && !subPhoto1.equals("")) {
 						if (deleteSubPhoto1 != null && !deleteSubPhoto1.equals("")) {
 							deleteFile = new File(request
@@ -255,12 +258,46 @@ public class GoodsController {
 							if (deleteFile.exists()) deleteFile.delete();
 						}
 					}
+					session.setAttribute("msg",
+						"상품정보가 수정되었습니다.");
 				}
 				else {
 					// 수정실패
+					String deleteFileName = vo.getPhoto();
+					File deleteFile = new File
+						(request.getServletContext().getRealPath(deleteFileName));
+					if (deleteFile.exists()) deleteFile.delete();
+					
+					deleteFileName = vo.getSubPhoto1();
+					if (deleteFileName != null && !deleteFileName.equals("")) {
+						deleteFile = new File
+							(request.getServletContext().getRealPath(deleteFileName));
+						if (deleteFile.exists()) deleteFile.delete();
+					}
+					deleteFileName = vo.getSubPhoto2();
+					if (deleteFileName != null && !deleteFileName.equals("")) {
+						deleteFile = new File
+								(request.getServletContext().getRealPath(deleteFileName));
+						if (deleteFile.exists()) deleteFile.delete();
+					}
+					deleteFileName = vo.getSubPhoto3();
+					if (deleteFileName != null && !deleteFileName.equals("")) {
+						deleteFile = new File
+								(request.getServletContext().getRealPath(deleteFileName));
+						if (deleteFile.exists()) deleteFile.delete();
+					}
+					deleteFileName = vo.getSubPhoto4();
+					if (deleteFileName != null && !deleteFileName.equals("")) {
+						deleteFile = new File
+								(request.getServletContext().getRealPath(deleteFileName));
+						if (deleteFile.exists()) deleteFile.delete();
+					}
+					
+					session.setAttribute("msg",
+						"상품정보 수정이 실패했습니다. 확인하시고 다시 시도해주세요.");
 				}
-				
-				
+				// 페이지 이동
+				jsp = "redirect:view.do?no=" + no;
 				break;
 			
 			default:
