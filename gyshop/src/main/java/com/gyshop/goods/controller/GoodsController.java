@@ -205,17 +205,26 @@ public class GoodsController {
 				vo.setNo(no);
 				vo.setName(name);
 				vo.setContent(content);
-				vo.setPhoto(savePath + "/" + photo);
+				if (photo != null && !photo.equals(""))
+					vo.setPhoto(savePath + "/" + photo);
+				else 
+					vo.setPhoto(deletePhoto);
 				if (subPhoto1 != null && !subPhoto1.equals("")) {
 					// if () 다음에 명령어가 한줄이면 {} 생략가능
 					vo.setSubPhoto1(savePath + "/" + subPhoto1);
 				}
+				else {
+					vo.setSubPhoto1(deleteSubPhoto1);
+				}
 				if (subPhoto2 != null && !subPhoto2.equals(""))
 					vo.setSubPhoto2(savePath + "/" + subPhoto2);
+				else vo.setSubPhoto2(deleteSubPhoto2);
 				if (subPhoto3 != null && !subPhoto3.equals(""))
 					vo.setSubPhoto3(savePath + "/" + subPhoto3);
+				else vo.setSubPhoto3(deleteSubPhoto3);
 				if (subPhoto4 != null && !subPhoto4.equals(""))
 					vo.setSubPhoto4(savePath + "/" + subPhoto4);
+				else vo.setSubPhoto4(deleteSubPhoto4);
 				vo.setPrice(price);
 				vo.setDelivery_cost(delivery_cost);
 				vo.setModelNo(modelNo);
