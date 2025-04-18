@@ -176,6 +176,43 @@ public class GoodsController {
 				break;
 			case "/goods/update.do":
 				System.out.println("상품관리 수정처리 -----");
+				// 수정에 관련된 데이터를 수집
+				multi = 
+					new MultipartRequest(request,
+						realSavePath, sizeLimit, "utf-8",
+						new DefaultFileRenamePolicy());
+				// 데이터베이스에 저장된것을 수정하는 데이터 수집
+				no = Long.parseLong(multi.getParameter("no"));
+				name = multi.getParameter("name");
+				content = multi.getParameter("content");
+				price = Integer.parseInt(multi.getParameter("price"));
+				delivery_cost = Integer.parseInt(multi.getParameter("delivery_cost"));
+				modelNo = multi.getParameter("modelNo");
+				photo = multi.getFilesystemName("photo");
+				subPhoto1 = multi.getFilesystemName("subPhoto1");
+				subPhoto2 = multi.getFilesystemName("subPhoto2");
+				subPhoto3 = multi.getFilesystemName("subPhoto3");
+				subPhoto4 = multi.getFilesystemName("subPhoto4");
+				// 삭제할 기존 파일의 경로와 이름 수집
+				String deletePhoto = multi.getParameter("deletePhoto");
+				String deleteSubPhoto1 = multi.getParameter("deleteSubPhoto1");
+				String deleteSubPhoto2 = multi.getParameter("deleteSubPhoto2");
+				String deleteSubPhoto3 = multi.getParameter("deleteSubPhoto3");
+				String deleteSubPhoto4 = multi.getParameter("deleteSubPhoto4");
+				
+				// 서비스로 넘길 수정되는 정보를 세팅(GoodsVO)
+				vo = new GoodsVO();
+				vo.setNo(no);
+				vo.setName(name);
+				vo.setContent(content);
+				vo.setPhoto(savePath + "/" + photo);
+				vo.setSubPhoto1(savePath + "/" + subPhoto1);
+				vo.setSubPhoto2(savePath + "/" + subPhoto2);
+				vo.setSubPhoto3(savePath + "/" + subPhoto3);
+				vo.setSubPhoto4(savePath + "/" + subPhoto4);
+				vo.setPrice(price);
+				vo.setDelivery_cost(delivery_cost);
+				vo.setModelNo(modelNo);
 				break;
 			
 			default:

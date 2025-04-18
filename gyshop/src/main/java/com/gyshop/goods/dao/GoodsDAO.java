@@ -136,6 +136,45 @@ public class GoodsDAO  extends DAO {
 		return result;
 	}
 	
+	// 상품 정보 수정
+	public Integer update(GoodsVO vo) throws Exception {
+		// 결과 저장변수선언 및 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL쿼리작성 - UPDATE
+			System.out.println(UPDATE);
+			// 4. 실행객체 - SQL + 데이터세팅
+			pstmt = con.prepareStatement(UPDATE);
+			pstmt.setString(1, vo.getName());
+			pstmt.setString(2, vo.getContent());
+			pstmt.setString(3, vo.getPhoto());
+			pstmt.setString(4, vo.getSubPhoto1());
+			pstmt.setString(5, vo.getSubPhoto2());
+			pstmt.setString(6, vo.getSubPhoto3());
+			pstmt.setString(7, vo.getSubPhoto4());
+			pstmt.setInt(8, vo.getPrice());
+			pstmt.setInt(9, vo.getDelivery_cost());
+			pstmt.setString(10, vo.getModelNo());
+			pstmt.setLong(11, vo.getNo());
+			// 5. 실행 및 결과리턴
+			result = pstmt.executeUpdate();
+			// 6. 결과확인 - controller에서
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		
+		// 결과리턴
+		return result;
+	}
+	
 	// SQL
 	private static final String LIST = ""
 			+ "select no, name, photo, price, delivery_cost, modelNo "
@@ -153,6 +192,14 @@ public class GoodsDAO  extends DAO {
 			+ " subPhoto3, subPhoto4, price, delivery_cost, "
 			+ " modelNo) values "
 			+ " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+	private static final String UPDATE = ""
+			+ "update goods set "
+			+ " name = ?, content = ?, photo = ?, "
+			+ " subPhoto1 = ?, subPhoto2 = ?, "
+			+ " subPhoto3 = ?, subPhoto4 = ?, "
+			+ " price = ?, delivery_cost = ?, modelNo = ? "
+			+ " where no = ?";
 }
 
 
