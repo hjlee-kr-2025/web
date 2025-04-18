@@ -71,6 +71,14 @@ $(function(){
 					<div>
 						배송료 : ${vo.delivery_cost }
 					</div>
+					<div>
+						<c:if test="${!empty login }">
+							<button class="btn btn-primary" type="button"
+								data-toggle="modal" data-target="#buyModal">구매하기</button>
+						</c:if>
+						<c:if test="">
+						</c:if>
+					</div>
 				</div>
 			</div>
 			<div class="row">
@@ -123,6 +131,43 @@ $(function(){
 	        <button type="button" class="btn btn-success" data-dismiss="modal">취소</button>
 	      </div>
 	
+	    </div>
+	  </div>
+	</div>
+	
+	<!-- The Modal -->
+	<div class="modal" id="buyModal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	
+	      <!-- Modal Header -->
+	      <div class="modal-header">
+	        <h4 class="modal-title">상품구매</h4>
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      </div>
+	
+	      <!-- Modal body -->
+				<form action="/cart/write.do" method="post">
+					<input type="hidden" name="no" value="${vo.no }">
+		      <div class="modal-body">
+		        <div class="form-group">
+		        	<label>상품명</label>
+		        	<input class="form-control" name="name" readonly
+		        		value="${vo.name }">
+		        </div>
+		        <div class="form-group">
+		        	<label>구매수량</label>
+		        	<input class="form-control" name="count" type="number"
+		        		value="1">
+		        </div>
+		      </div>
+		
+		      <!-- Modal footer -->
+		      <div class="modal-footer">
+		      	<button class="btn btn-primary">장바구니담기</button>
+		      	<button type="button" class="btn btn-success" data-dismiss="modal">취소</button>
+		      </div>
+				</form>
 	    </div>
 	  </div>
 	</div>
