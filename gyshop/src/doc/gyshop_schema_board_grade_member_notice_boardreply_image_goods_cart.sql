@@ -160,6 +160,7 @@ CREATE TABLE IF NOT EXISTS `gyshop`.`goods` (
   `price` INT NOT NULL,
   `delivery_cost` INT NOT NULL,
   `modelNo` VARCHAR(100) NOT NULL,
+  `delivery_option` INT NULL DEFAULT 0,
   PRIMARY KEY (`no`),
   UNIQUE INDEX `modelNo_UNIQUE` (`modelNo` ASC) VISIBLE)
 ENGINE = InnoDB;
