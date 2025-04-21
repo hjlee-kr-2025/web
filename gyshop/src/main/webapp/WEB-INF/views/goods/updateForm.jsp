@@ -56,10 +56,22 @@ $(function(){
 		</div>
 		<div class="form-group">
 			<label for="delivery_cost">배송료</label>
-			<input id="delivery_cost" name="delivery_cost" required 
-				placeholder="숫자만 입력하세요." pattern="^[0-9]{1,6}"
-				maxlength="6" class="form-control"
-				value="${vo.delivery_cost }">
+			<div class="input-group">
+				<input id="delivery_cost" name="delivery_cost" required 
+					placeholder="숫자만 입력하세요." pattern="^[0-9]{1,6}"
+					maxlength="6" class="form-control"
+					value="${vo.delivery_cost }">
+				<div class="input-group-append">
+			    <div class="input-group-text">
+			      <input type="checkbox">
+			    </div>
+			  </div>
+			  <div class="input-group-append">
+			    <div class="input-group-text">
+			    	배송료별도계산
+			    </div>
+			  </div>
+		  </div>
 		</div>
 		<div class="form-group">
 			<label for="modelNo">모델No</label>

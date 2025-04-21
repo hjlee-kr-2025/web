@@ -1,5 +1,6 @@
 package com.gyshop.cart.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.gyshop.cart.vo.CartVO;
@@ -19,6 +20,28 @@ public class CartDAO extends DAO {
 			con = DB.getConnection();
 			// 3. SQL 쿼리 - LIST
 			System.out.println(LIST);
+			// 4. 실행객체에 SQL + 데이터 세팅(?, 1개-id)
+			pstmt = con.prepareStatement(LIST);
+			pstmt.setString(1, id);
+			// 5. 실행 및 결과리턴
+			rs = pstmt.executeQuery();
+			// 6. 결과저장
+			if (rs != null) {
+				while(rs.next()) {
+					if (list == null) list = new ArrayList<CartVO>();
+					CartVO vo = new CartVO();
+					vo.setNo(rs.getLong("no"));
+					vo.setId(rs.getString("id"));
+					vo.setGno(rs.getLong("gno"));
+					vo.setCount(rs.getInt("count"));
+					vo.setName(rs.getString("name"));
+					vo.setPhoto(rs.getString("photo"));
+					vo.setPrice(rs.getInt("price"));
+					vo.setDelivery_cost(rs.getInt("delivery_cost"));
+					
+					list.add(vo);
+				}
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -64,7 +87,11 @@ public class CartDAO extends DAO {
 	
 	// SQL 쿼리
 	private static final String LIST = ""
-			+ "";
+			+ "select c.no, c.id, c.gno, c.count,"
+			+ " g.name, g.photo, g.price, g.delivery_cost "
+			+ " from cart c, goods g "
+			+ " where (id = ?) "
+			+ " and (c.gno = g.no)";
 /* LIST
  * select c.no, c.id, c.gno, c.count, g.name, g.photo, g.price, g.delivery_cost
 	from cart c, goods g 

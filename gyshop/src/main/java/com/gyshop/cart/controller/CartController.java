@@ -38,6 +38,19 @@ public class CartController {
 					"로그인이 필요합니다.");
 				jsp = "redirect:/member/loginForm.do";
 				break;
+			case "/cart/list.do":
+				System.out.println("장바구니리스트 -----");
+				// 프런트에서 넘어오는 데이터는 별도로 없습니다.
+				// 서비스로 넘어가는 데이터는 로그인 id필요로 하는데
+				// 미리 세팅되어있습니다.
+				// 서비스 실행
+				result = Execute.execute(Init.get(uri), id);
+				// 결과를 받아서 request에 저장 -> JSP로 넘어갑니다.
+				request.setAttribute("list", result);
+				// JSP 로딩
+				jsp = "cart/list";
+				// "/WEB-INF/views/cart/list.jsp"
+				break;
 			case "/cart/write.do":
 				System.out.println("장바구니등록 -----");
 				// 데이터수집
