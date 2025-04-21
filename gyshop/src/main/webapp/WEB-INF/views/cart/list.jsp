@@ -33,10 +33,26 @@ $(function(){
 		}
 	});
 	
-	if (total_price2 >= 50000) delivery = 0;
+	if (total_price2 >= 50000) delivery = 0;// 무료배송가격을 정하면 됩니다.
 	total_price = total_price1 + total_price2 + delivery;
 	console.log("total_price", total_price);
 	$("#total").text(total_price);
+	
+	$(".changeCount").click(function(){
+		console.log("click event");
+		let no = $(this).data("no");
+		console.log("no = ", no);
+		let dataRow = $(this).closest(".dataRow");
+		let name = dataRow.find(".name").text();
+		console.log("name = ", name);
+		let count = dataRow.find(".count").text();
+		console.log("count = ", count);
+		
+		$("#name").val(name);
+		$("#count").val(count);
+		
+		$("#updateModal").modal("show");
+	});
 });
 </script>
 </head>
@@ -52,6 +68,7 @@ $(function(){
 				<th>가격</th>
 				<th>배송료</th>
 				<th>배송료옵션</th>
+				<th></th>
 			</tr>
 		</thead>
 		<c:if test="${empty list }">
@@ -63,7 +80,7 @@ $(function(){
 			<c:forEach items="${list }" var="vo">
 				<tr class="dataRow">
 					<td><img src="${vo.photo }" width="30px" height="30px"></td>
-					<td>${vo.name }</td>
+					<td class="name">${vo.name }</td>
 					<td class="count">${vo.count }</td>
 					<td class="price">${vo.price }</td>
 					<td class="delivery_cost">${vo.delivery_cost }</td>
@@ -72,6 +89,8 @@ $(function(){
 							개별배송료
 						</c:if>
 					</td>
+					<td><button type="button" class="btn btn-primary changeCount"
+					 data-no="${vo.no }">수량변경</button></td>
 				</tr>
 			</c:forEach>
 			<tr>
@@ -80,6 +99,40 @@ $(function(){
 			</tr>
 		</c:if>
 	</table>
+	
+	<!-- The Modal -->
+	<div class="modal" id="updateModal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	
+	      <!-- Modal Header -->
+	      <div class="modal-header">
+	        <h4 class="modal-title">수량변경</h4>
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      </div>
+	
+				<form action="update.do" method="post">
+					<input type="hidden" name="no" id="no">
+		      <!-- Modal body -->
+		      <div class="modal-body">
+		      	<div class="input-group">
+			        <input name="name" id="name" class="form-control" readonly>
+			        <div class="input-group-append">
+			        	<input name="count" id="count" type="number"
+			        		class="form-control">
+			        </div>
+		      	</div>
+		      </div>
+		
+		      <!-- Modal footer -->
+		      <div class="modal-footer">
+		      	<button class="btn btn-primary">수정</button>
+		        <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+		      </div>
+				</form>
+	    </div>
+	  </div>
+	</div>
 </div>
 </body>
 </html>

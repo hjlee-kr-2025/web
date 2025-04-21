@@ -73,6 +73,22 @@ public class CartController {
 					jsp = "redirect:/goods/list.do";
 				}
 				break;
+			case "/cart/update.do":
+				System.out.println("상품수량변경 -----");
+				// 필요한 데이터 수집 (cart no, count)
+				Long no = Long.parseLong(request.getParameter("no"));
+				count = Integer.parseInt(request.getParameter("count"));
+				// 서비스로 넘어갈 데이터 세팅
+				vo = new CartVO();
+				vo.setNo(no);
+				vo.setCount(count);
+				// 서비스 실행
+				result = Execute.execute(Init.get(uri), vo);
+				// CartUpdateService()
+				// 수정후 리스트로 이동
+				jsp = "redirect:list.do";
+				// id는 session에 보관되어있기 때문에 안붙여서 주소값을 적어도 됩니다.
+				break;
 			default:
 				request.setAttribute("uri", uri);
 				jsp = "error/404";
