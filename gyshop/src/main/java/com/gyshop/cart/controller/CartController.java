@@ -78,6 +78,7 @@ public class CartController {
 				// 필요한 데이터 수집 (cart no, count)
 				Long no = Long.parseLong(request.getParameter("no"));
 				count = Integer.parseInt(request.getParameter("count"));
+				String name = request.getParameter("name");
 				// 서비스로 넘어갈 데이터 세팅
 				vo = new CartVO();
 				vo.setNo(no);
@@ -85,9 +86,26 @@ public class CartController {
 				// 서비스 실행
 				result = Execute.execute(Init.get(uri), vo);
 				// CartUpdateService()
+				if ((Integer)result != 0) {
+					session.setAttribute("msg",
+						name + " 상품 수량이 변경되었습니다.");
+				}
 				// 수정후 리스트로 이동
 				jsp = "redirect:list.do";
 				// id는 session에 보관되어있기 때문에 안붙여서 주소값을 적어도 됩니다.
+				break;
+			case "/cart/delete.do":
+				System.out.println("장바구니 상품1개 삭제처리 -----");
+				no = Long.parseLong(request.getParameter("no"));
+				result = Execute.execute(Init.get(uri), no);
+				jsp = "redirect:list.do";
+				break;
+			case "/cart/deleteAll.do":
+				System.out.println("장바구니 비움처리");
+				// 서비스로 넘어가는 id는 로그인정보에서 세팅합니다.
+				// 서비스실행
+				result = Execute.execute(Init.get(uri), id);
+				jsp = "redirect:list.do";
 				break;
 			default:
 				request.setAttribute("uri", uri);

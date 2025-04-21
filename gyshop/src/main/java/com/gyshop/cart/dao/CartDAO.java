@@ -55,6 +55,35 @@ public class CartDAO extends DAO {
 		return list;
 	}
 	
+	// 장바구니 상품수량 변경
+	public Integer update(CartVO vo) throws Exception {
+		// 결과저장변수 선언 및 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL쿼리 작성 - UPDATE
+			System.out.println(UPDATE);
+			// 4. 실행객체에 SQL쿼리와 데이터세팅(count, no)
+			pstmt = con.prepareStatement(UPDATE);
+			pstmt.setInt(1, vo.getCount());
+			pstmt.setLong(2, vo.getNo());
+			// 5. 실행 및 결과 리턴
+			result = pstmt.executeUpdate();
+			// 6. 결과확인은 controller에서
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		// 결과리턴
+		return result;
+	}
+	
 	// 장바구니 담기
 	public Integer write(CartVO vo) throws Exception {
 		// 결과저장변수 선언, 초기화
@@ -86,6 +115,64 @@ public class CartDAO extends DAO {
 		return result;
 	}
 	
+	// 장바구니 상품 1개 삭제
+	public Integer delete(Long no) throws Exception {
+		// 결과저장변수 선언 및 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL쿼리 - DELETE
+			System.out.println(DELETE);
+			// 4. 실행객체에 SQL + 데이터세팅 (no)
+			pstmt = con.prepareStatement(DELETE);
+			pstmt.setLong(1, no);
+			// 5. 실행 및 결과리턴
+			result = pstmt.executeUpdate();
+			// 6. 결과확인 controller에서
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		
+		// 결과리턴
+		return result;
+	} // end of delete(Long no)
+	
+	// 장바구니 비움
+	public Integer deleteAll(String id) throws Exception {
+		// 결과저장변수 선언 및 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL - DELETEALL
+			System.out.println(DELETEALL);
+			// 4. 실행객체에 SQL + 데이터세팅(id)
+			pstmt = con.prepareStatement(DELETEALL);
+			pstmt.setString(1, id);
+			// 5. 실행 및 결과리턴
+			result = pstmt.executeUpdate();
+			// 6. 결과확인은 controller에서
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		
+		// 결과리턴
+		return result;
+	}
+	
 	// SQL 쿼리
 	private static final String LIST = ""
 			+ "select c.no, c.id, c.gno, c.count,"
@@ -105,4 +192,18 @@ public class CartDAO extends DAO {
 			+ "insert into cart (id, gno, count) "
 			+ "	values (?, ?, ?)";
 	
+	private static final String UPDATE = ""
+			+ "update cart set count = ? "
+			+ " where no = ?";
+	
+	private static final String DELETE = ""
+			+ "delete from cart where no = ?";
+	
+	private static final String DELETEALL = ""
+			+ "delete from cart where id = ?";
 }
+
+
+
+
+

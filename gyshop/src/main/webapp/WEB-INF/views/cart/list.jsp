@@ -48,6 +48,7 @@ $(function(){
 		let count = dataRow.find(".count").text();
 		console.log("count = ", count);
 		
+		$("#no").val(no);
 		$("#name").val(name);
 		$("#count").val(count);
 		
@@ -59,7 +60,7 @@ $(function(){
 <body>
 <div class="container topbox">
 	<h2>장바구니</h2>
-	<table class="table table-hover">
+	<table class="table">
 		<thead>
 			<tr>
 				<th>제품사진</th>
@@ -68,12 +69,13 @@ $(function(){
 				<th>가격</th>
 				<th>배송료</th>
 				<th>배송료옵션</th>
-				<th></th>
+				<th><button class="btn btn-danger" type="button"
+					data-toggle="modal" data-target="#deleteModal">장바구니비움</button></th>
 			</tr>
 		</thead>
 		<c:if test="${empty list }">
 			<tr>
-				<td colspan="6">장바구니가 비었습니다.</td>
+				<td colspan="7">장바구니가 비었습니다.</td>
 			</tr>
 		</c:if>
 		<c:if test="${!empty list }">
@@ -89,13 +91,17 @@ $(function(){
 							개별배송료
 						</c:if>
 					</td>
-					<td><button type="button" class="btn btn-primary changeCount"
-					 data-no="${vo.no }">수량변경</button></td>
+					<td>
+						<button type="button" class="btn btn-primary changeCount"
+					 		data-no="${vo.no }">수량변경</button>
+					 	<a href="delete.do?no=${vo.no }" class="btn btn-danger">삭제</a>
+					</td>
 				</tr>
 			</c:forEach>
 			<tr>
 				<td colspan="3">합계</td>
 				<td colspan="3" id="total"></td>
+				<td></td>
 			</tr>
 		</c:if>
 	</table>
@@ -127,12 +133,40 @@ $(function(){
 		      <!-- Modal footer -->
 		      <div class="modal-footer">
 		      	<button class="btn btn-primary">수정</button>
-		        <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-success" data-dismiss="modal">취소</button>
 		      </div>
 				</form>
 	    </div>
 	  </div>
 	</div>
+	
+	<!-- The Modal -->
+	<div class="modal" id="deleteModal">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	
+	      <!-- Modal Header -->
+	      <div class="modal-header">
+	        <h4 class="modal-title">장바구니 비움확인</h4>
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      </div>
+	
+				<form action="deleteAll.do" method="post">
+		      <!-- Modal body -->
+		      <div class="modal-body">
+		      	장바구니를 비우시겠습니까?
+		      </div>
+		
+		      <!-- Modal footer -->
+		      <div class="modal-footer">
+		      	<button class="btn btn-danger">장바구니비움</button>
+		        <button type="button" class="btn btn-success" data-dismiss="modal">취소</button>
+		      </div>
+				</form>
+	    </div>
+	  </div>
+	</div>
+	
 </div>
 </body>
 </html>

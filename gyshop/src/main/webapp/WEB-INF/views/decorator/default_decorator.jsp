@@ -104,7 +104,7 @@
 						<i class="fa fa-address-card-o"></i>회원가입</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/member/searchID.do">
+						<a class="nav-link" href="/member/searchForm.do">
 						<i class="fa fa-search"></i>아이디/비밀번호 찾기</a>
 					</li>
 				</c:if>

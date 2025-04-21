@@ -21,6 +21,9 @@ public class MemberController {
 		
 		// 세션정보 가져오기
 		HttpSession session = request.getSession();
+		LoginVO login = (LoginVO)session.getAttribute("login");
+		String id = null;
+		if (login != null) id = login.getId();
 		
 		// 메뉴를 위한 uri
 		String uri = request.getRequestURI();
@@ -68,7 +71,7 @@ public class MemberController {
 			case "/member/login.do":
 				System.out.println("로그인 처리 ---");
 				// 로그인 데이터 수집 (서비스로 넘어갑니다)
-				LoginVO login = new LoginVO();
+				login = new LoginVO();
 				login.setId(request.getParameter("id"));
 				login.setPw(request.getParameter("pw"));
 				// getParameter 안에 문자열로 적힌 값은
@@ -123,7 +126,10 @@ public class MemberController {
 				
 				// 주소창에 view.do?id=xxx 통해서 id값이  request에
 				// 담겨져서 이곳으로 넘어옵니다.
-				String id = request.getParameter("id");
+				id = request.getParameter("id");
+				if (id == null || id.equals("")) {
+					id = login.getId();// 로그인 id
+				}
 				
 				// 서비스실행 (id가 넘어갑니다)
 				result = Execute.execute(Init.get(uri), id);
@@ -323,6 +329,18 @@ public class MemberController {
 				}
 				jsp = "redirect:/board/list.do";
 				break;
+			case "/member/searchForm.do":
+				System.out.println("아이디 비밀번호찾기 폼 -----");
+				jsp="member/searchForm";
+				// "/WEB-INF/views/member/searchForm.jsp"
+				break;
+			case "/member/searchId.do":
+				System.out.println("아이디 찾기 -----");
+				break;
+			case "/member/searchPw.do":
+				System.out.println("비밀번호 찾기 -----");
+				break;
+			
 			default:
 				request.setAttribute("uri", uri);
 				jsp = "error/404";

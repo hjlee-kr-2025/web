@@ -15,7 +15,10 @@ import com.gyshop.boardreply.service.BoardReplyListService;
 import com.gyshop.boardreply.service.BoardReplyUpdateService;
 import com.gyshop.boardreply.service.BoardReplyWriteService;
 import com.gyshop.cart.dao.CartDAO;
+import com.gyshop.cart.service.CartDeleteAllService;
+import com.gyshop.cart.service.CartDeleteService;
 import com.gyshop.cart.service.CartListService;
+import com.gyshop.cart.service.CartUpdateService;
 import com.gyshop.cart.service.CartWriteService;
 import com.gyshop.goods.dao.GoodsDAO;
 import com.gyshop.goods.service.GoodsDeleteService;
@@ -195,9 +198,15 @@ public class Init {
 		// 2. service생성
 		serviceMap.put("/cart/list.do", new CartListService());
 		serviceMap.put("/cart/write.do", new CartWriteService());
+		serviceMap.put("/cart/update.do", new CartUpdateService());
+		serviceMap.put("/cart/delete.do", new CartDeleteService());
+		serviceMap.put("/cart/deleteAll.do", new CartDeleteAllService());
 		// 3. 조립 - service에 dao를 할당
 		serviceMap.get("/cart/list.do").setDAO(daoMap.get("cartDAO"));
 		serviceMap.get("/cart/write.do").setDAO(daoMap.get("cartDAO"));
+		serviceMap.get("/cart/update.do").setDAO(daoMap.get("cartDAO"));
+		serviceMap.get("/cart/delete.do").setDAO(daoMap.get("cartDAO"));
+		serviceMap.get("/cart/deleteAll.do").setDAO(daoMap.get("cartDAO"));
 	}
 	
 	// 어느 서비스를 실행할지 리턴하는 메서드(할당된 서비스 주소 리턴)

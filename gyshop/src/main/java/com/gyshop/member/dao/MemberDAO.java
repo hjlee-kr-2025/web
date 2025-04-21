@@ -328,6 +328,40 @@ public class MemberDAO extends DAO {
 		return result;
 	} // end of changePhoto(MemberVO vo)
 	
+	// 아이디 찾기
+	public String searchId(MemberVO vo) throws Exception {
+		// 결과저장변수 선언 및 초기화
+		String id = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL - SEARCHID
+			System.out.println(SEARCHID);
+			// 4. 실행객체에 SQL + 데이터세팅(name, email, birth)
+			pstmt = con.prepareStatement(SEARCHID);
+			pstmt.setString(1, vo.getName());
+			pstmt.setString(2, vo.getEmail());
+			pstmt.setString(3, vo.getBirth());
+			// 5. 실행 및 결과리턴
+			rs = pstmt.executeQuery();
+			// 6. 결과저장
+			if (rs != null && rs.next()) {
+				id = rs.getString("id");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt, rs);
+		}
+		
+		// 결과리턴
+		return id;
+	}
+	
 	// SQL
 	private static final String LIST = ""
 			+ "select m.id, m.name, "
@@ -384,6 +418,20 @@ public class MemberDAO extends DAO {
 	private static final String CHANGEPHOTO = ""
 			+ "update member set photo = ? "
 			+ " where id = ? and pw = ?";
+	
+	private static final String SEARCHID = ""
+			+ "select id from member "
+			+ " where name = ? "
+			+ " and email = ? "
+			+ " and DATE(birth) = ?";
+	
+	private static final String SEARCHPW = ""
+			+ "select pw from member "
+			+ " where id = ? "
+			+ " and name = ? "
+			+ " and email = ? "
+			+ " and DATE(birth) = ?";
+			
 }
 
 
