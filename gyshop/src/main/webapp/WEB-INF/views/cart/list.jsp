@@ -9,16 +9,32 @@
 <title>장바구니</title>
 <script type="text/javascript">
 $(function(){
-	let total_price = 0;
+	//console.log(${list});
 	
+	
+	let total_price1 = 0;// 개별배송료
+	let total_price2 = 0;// 토탈
+	let total_price = 0;// 두가지를 합치는 변수
+	let delivery = 0;
+ 	
 	$(".dataRow").each(function(){
 		const price = parseInt($(this).find(".price").text());
 		const count = parseInt($(this).find(".count").text());
 		const delivery_cost = parseInt($(this).find(".delivery_cost").text());
+		const delivery_option = $(this).find(".delivery_option").data("option");
 		
-		total_price += (price * count) + delivery_cost;
+		if (delivery_option == '1') {
+			total_price1 += (price * count) + delivery_cost;
+		}
+		else {
+			total_price2 += (price * count);
+			if (delivery < delivery_cost)
+				delivery = delivery_cost; 
+		}
 	});
 	
+	if (total_price2 >= 50000) delivery = 0;
+	total_price = total_price1 + total_price2 + delivery;
 	console.log("total_price", total_price);
 	$("#total").text(total_price);
 });
@@ -35,11 +51,12 @@ $(function(){
 				<th>수량</th>
 				<th>가격</th>
 				<th>배송료</th>
+				<th>배송료옵션</th>
 			</tr>
 		</thead>
 		<c:if test="${empty list }">
 			<tr>
-				<td colspan="5">장바구니가 비었습니다.</td>
+				<td colspan="6">장바구니가 비었습니다.</td>
 			</tr>
 		</c:if>
 		<c:if test="${!empty list }">
@@ -50,11 +67,16 @@ $(function(){
 					<td class="count">${vo.count }</td>
 					<td class="price">${vo.price }</td>
 					<td class="delivery_cost">${vo.delivery_cost }</td>
+					<td data-option="${vo.delivery_option }" class="delivery_option">
+						<c:if test="${vo.delivery_option == 1 }">
+							개별배송료
+						</c:if>
+					</td>
 				</tr>
 			</c:forEach>
 			<tr>
 				<td colspan="3">합계</td>
-				<td colspan="2" id="total"></td>
+				<td colspan="3" id="total"></td>
 			</tr>
 		</c:if>
 	</table>

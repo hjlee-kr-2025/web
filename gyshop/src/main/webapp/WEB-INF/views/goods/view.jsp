@@ -70,6 +70,9 @@ $(function(){
 					</div>
 					<div>
 						배송료 : ${vo.delivery_cost }
+						<c:if test="${vo.delivery_option == 1 }">
+						(개별 배송료)
+						</c:if>
 					</div>
 					<div>
 						<c:if test="${!empty login }">

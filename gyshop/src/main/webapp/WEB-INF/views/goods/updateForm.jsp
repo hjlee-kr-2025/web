@@ -63,7 +63,7 @@ $(function(){
 					value="${vo.delivery_cost }">
 				<div class="input-group-append">
 			    <div class="input-group-text">
-			      <input type="checkbox">
+			      <input type="checkbox" name="delivery_option" value="1">
 			    </div>
 			  </div>
 			  <div class="input-group-append">

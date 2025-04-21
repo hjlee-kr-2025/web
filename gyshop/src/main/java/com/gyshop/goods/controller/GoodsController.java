@@ -188,6 +188,7 @@ public class GoodsController {
 				price = Integer.parseInt(multi.getParameter("price"));
 				delivery_cost = Integer.parseInt(multi.getParameter("delivery_cost"));
 				modelNo = multi.getParameter("modelNo");
+				String delivery_option_str = multi.getParameter("delivery_option");
 				photo = multi.getFilesystemName("photo");
 				subPhoto1 = multi.getFilesystemName("subPhoto1");
 				subPhoto2 = multi.getFilesystemName("subPhoto2");
@@ -228,6 +229,12 @@ public class GoodsController {
 				vo.setPrice(price);
 				vo.setDelivery_cost(delivery_cost);
 				vo.setModelNo(modelNo);
+				if (delivery_option_str != null && !delivery_option_str.equals("")) {
+					vo.setDelivery_option(Integer.parseInt(delivery_option_str));
+				}
+				else {
+					vo.setDelivery_option(0);
+				}
 				
 				// 서비스 실행
 				result = Execute.execute(Init.get(uri), vo);

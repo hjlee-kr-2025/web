@@ -84,6 +84,7 @@ public class GoodsDAO  extends DAO {
 				vo.setPrice(rs.getInt("price"));
 				vo.setDelivery_cost(rs.getInt("delivery_cost"));
 				vo.setModelNo(rs.getString("modelNo"));
+				vo.setDelivery_option(rs.getInt("delivery_option"));
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -159,7 +160,8 @@ public class GoodsDAO  extends DAO {
 			pstmt.setInt(8, vo.getPrice());
 			pstmt.setInt(9, vo.getDelivery_cost());
 			pstmt.setString(10, vo.getModelNo());
-			pstmt.setLong(11, vo.getNo());
+			pstmt.setInt(11, vo.getDelivery_option());
+			pstmt.setLong(12, vo.getNo());
 			// 5. 실행 및 결과리턴
 			result = pstmt.executeUpdate();
 			// 6. 결과확인 - controller에서
@@ -212,7 +214,7 @@ public class GoodsDAO  extends DAO {
 	private static final String VIEW = ""
 			+ "select no, name, content, photo, subPhoto1, "
 			+ " subPhoto2, subPhoto3, subPhoto4, "
-			+ " price, delivery_cost, modelNo "
+			+ " price, delivery_cost, modelNo, delivery_option "
 			+ " from goods where no = ?";
 	
 	private static final String WRITE = ""
@@ -227,7 +229,8 @@ public class GoodsDAO  extends DAO {
 			+ " name = ?, content = ?, photo = ?, "
 			+ " subPhoto1 = ?, subPhoto2 = ?, "
 			+ " subPhoto3 = ?, subPhoto4 = ?, "
-			+ " price = ?, delivery_cost = ?, modelNo = ? "
+			+ " price = ?, delivery_cost = ?, modelNo = ?,"
+			+ " delivery_option = ? "
 			+ " where no = ?";
 	
 	private static final String DELETE = ""

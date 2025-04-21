@@ -38,6 +38,7 @@ public class CartDAO extends DAO {
 					vo.setPhoto(rs.getString("photo"));
 					vo.setPrice(rs.getInt("price"));
 					vo.setDelivery_cost(rs.getInt("delivery_cost"));
+					vo.setDelivery_option(rs.getInt("delivery_option"));
 					
 					list.add(vo);
 				}
@@ -88,7 +89,8 @@ public class CartDAO extends DAO {
 	// SQL 쿼리
 	private static final String LIST = ""
 			+ "select c.no, c.id, c.gno, c.count,"
-			+ " g.name, g.photo, g.price, g.delivery_cost "
+			+ " g.name, g.photo, g.price, g.delivery_cost,"
+			+ " g.delivery_option "
 			+ " from cart c, goods g "
 			+ " where (id = ?) "
 			+ " and (c.gno = g.no)";

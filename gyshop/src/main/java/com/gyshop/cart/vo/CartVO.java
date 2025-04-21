@@ -17,4 +17,5 @@ public class CartVO {
 	private String photo;
 	private Integer price;
 	private Integer delivery_cost;
+	private Integer delivery_option;
 }

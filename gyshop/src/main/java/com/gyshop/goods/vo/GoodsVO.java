@@ -17,4 +17,5 @@ public class GoodsVO {
 	private Integer price;
 	private Integer delivery_cost;
 	private String modelNo;
+	private Integer delivery_option;
 }
