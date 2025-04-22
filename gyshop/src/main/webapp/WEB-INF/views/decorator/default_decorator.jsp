@@ -126,7 +126,7 @@
 						<a class="nav-link" href="/member/logout.do">
 						<i class="fa fa-sign-out"></i>로그아웃</a>
 					</li>
-					<c:if test="${login.gradeNo == 9 }">
+					<c:if test="${login.gradeNo == 99 }">
 						<li class="nav-item">
 							<a class="nav-link" href="/member/list.do">회원리스트보기</a>
 						</li>

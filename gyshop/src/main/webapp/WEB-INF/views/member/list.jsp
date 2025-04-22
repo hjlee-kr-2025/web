@@ -39,8 +39,39 @@ $(function(){
 				<td>${vo.name }</td>
 				<td>${vo.birth }</td>
 				<td>${vo.tel }</td>
-				<td>${vo.gradeName }</td>
-				<td>${vo.status }</td>
+				<td>
+					<!-- 회원등급 변경할 수 있는 메뉴 -->
+					<form action="changeGradeNo.do">
+						<input type="hidden" name="id" value="${vo.id }">
+						<div class="input-group">
+							<select class="form-control grade" name="gradeNo"
+								data-data="${vo.gradeNo }">
+								<option value="1" ${(vo.gradeNo == 1)?"selected":"" }>일반회원</option>
+								<option value="99" ${(vo.gradeNo == 99)?"selected":"" }>관리자</option>
+							</select>
+							<div class="input-group-append">
+								<button class="btn btn-primary" disabled>변경</button>
+							</div>
+						</div>
+					</form>
+				</td>
+				<td>
+					<form action="changeStatus.do">
+						<input type="hidden" name="id" value="${vo.id }">
+						<div class="input-group">
+							<select class="form-control status" name="status"
+								data-data="${vo.status }">
+								<option ${(vo.status == "정상")?"selected":"" }>정상</option>
+								<option ${(vo.status == "탈퇴")?"selected":"" }>탈퇴</option>
+								<option ${(vo.status == "휴면")?"selected":"" }>휴면</option>
+								<option ${(vo.status == "강퇴")?"selected":"" }>강퇴</option>
+							</select>
+							<div class="input-group-append">
+								<button class="btn btn-primary" disabled>변경</button>
+							</div>
+						</div>
+					</form>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>

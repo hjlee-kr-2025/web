@@ -362,6 +362,31 @@ public class MemberController {
 				break;
 			case "/member/searchPw.do":
 				System.out.println("비밀번호 찾기 -----");
+				// 데이터 수집 (id, name, email, birth)
+				id = request.getParameter("id");
+				name = request.getParameter("name");
+				email = request.getParameter("email");
+				birth = request.getParameter("birth");
+				// 서비스로 넘어갈 데이터 세팅
+				vo = new MemberVO();
+				vo.setId(id);
+				vo.setName(name);
+				vo.setEmail(email);
+				vo.setBirth(birth);
+				// 서비스를 실행합니다.
+				result = Execute.execute(Init.get(uri), vo);
+				// 결과확인
+				if (result == null) {
+					session.setAttribute("msg",
+						"비밀번호를 찾을 수 없습니다. 확인하시고 다시 시도해주세요.");
+				}
+				else {
+					pw = (String)result;
+					session.setAttribute("msg",
+						"비밀번호는 " + pw + " 입니다.");
+				}
+				// 페이지이동
+				jsp = "redirect:searchForm.do";
 				break;
 			
 			default:
