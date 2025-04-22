@@ -32,9 +32,11 @@ public class WeatherXML {
 				+ "&dataType=XML"	// 요청자료형식 (default:XML) - XML or JSON
 				+ "&base_date=" + t.format(DateTimeFormatter.ofPattern("yyyyMMdd")) // 발표날짜
 				+ "&base_time=" + t.format(DateTimeFormatter.ofPattern("HHmm"))		// 발표시각
-				+ "&nx" + x		// 예보지점 x값
-				+ "&ny" + y		// 예보지점 y값
+				+ "&nx=" + x		// 예보지점 x값
+				+ "&ny=" + y		// 예보지점 y값
 				);
+			
+			System.out.println("url : " + url);
 			con = (HttpURLConnection) url.openConnection();
 			
 			// org.w3c.dom.Document - HTML문서
@@ -57,6 +59,8 @@ public class WeatherXML {
 			}
 			
 			if (ok) {
+				System.out.println("WeatherXML resultCode ok");
+				
 				String fd = null, ft = null; // 가장빠른 예보시각
 				String pty = null;	//강수형태
 				String sky = null;	//하늘상태
@@ -111,6 +115,12 @@ public class WeatherXML {
 			// 연결닫기
 			if (con != null) con.disconnect();
 		}
+		
+		System.out.println("v[0] : " + v[0]);
+		System.out.println("v[1] : " + v[1]);
+		System.out.println("v[2] : " + v[2]);
+		System.out.println("v[3] : " + v[3]);
+		System.out.println("v[4] : " + v[4]);
 		
 		
 		// 결과리턴

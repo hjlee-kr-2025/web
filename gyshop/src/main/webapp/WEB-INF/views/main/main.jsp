@@ -64,6 +64,16 @@ $(function(){
 <div class="container topbox">
 	<h2>MAIN</h2>
 	<div class="row">
+		<c:if test="${!empty weatherVO }">
+			<p>날씨정보</p>
+			<p>지역: ${weatherVO.region }</p>
+			<p>예보날짜: ${weatherVO.date } ${weatherVO.time }</p>
+			<p>날씨: ${weatherVO.weather }</p>
+			<p>기온: ${weatherVO.temperature }</p>
+			<p>습도: ${weatherVO.humidity }
+		</c:if>
+	</div>
+	<div class="row">
 		<div class="col-sm-6">
 			<!-- 공지사항 리스트 (5) -->
 			<!-- 제목/게시종료일/조회수 -->

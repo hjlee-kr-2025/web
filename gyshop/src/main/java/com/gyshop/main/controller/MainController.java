@@ -2,8 +2,10 @@ package com.gyshop.main.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.gyshop.main.vo.WeatherVO;
 import com.gyshop.util.exe.Execute;
 import com.gyshop.util.page.PageObject;
+import com.gyshop.util.weather.WeatherXML;
 
 public class MainController {
 
@@ -50,6 +52,27 @@ public class MainController {
 				// ImageListService()가 실행됩니다.
 				request.setAttribute("imageList", result);
 				
+				// 날씨정보
+				String[] wData = new String[5];
+				String err = WeatherXML.getWeatherXML(58, 127, wData);
+				WeatherVO weatherVO = null;
+				System.out.println("err: " + err);
+				if (err == null) {
+					weatherVO = new WeatherVO();
+					
+					weatherVO.setRegion("화전동");
+					weatherVO.setDate(wData[0].substring(0,4) + "-"
+							+ wData[0].substring(4, 6) + "-"
+							+ wData[0].substring(6));
+					// yyyy-MM-dd ==> 형태로 날짜 저장
+					weatherVO.setTime(wData[1].substring(0, 2) + ":"
+							+ wData[1].substring(2));
+					weatherVO.setWeather(wData[2]);
+					weatherVO.setTemperature(wData[3]);
+					weatherVO.setHumidity(wData[4]);
+					
+					request.setAttribute("weatherVO", weatherVO);
+				}
 				
 				jsp = "main/main";
 				// "/WEB-INF/views/main/main.jsp"
