@@ -388,7 +388,43 @@ public class MemberController {
 				// 페이지이동
 				jsp = "redirect:searchForm.do";
 				break;
-			
+			case "/member/changeGradeNo.do":
+				System.out.println("회원등급변경 -----");
+				// 데이터 수집
+				id = request.getParameter("id");
+				Integer gradeNo = Integer.parseInt(request.getParameter("gradeNo"));
+				// 서비스로 넘어갈 데이터를 세팅
+				vo = new MemberVO();
+				vo.setId(id);
+				vo.setGradeNo(gradeNo);
+				// 서비스를 실행
+				result = Execute.execute(Init.get(uri), vo);
+				// 결과확인
+				if ((Integer)result != 0) {
+					session.setAttribute("msg",
+						id + "회원님 등급이 변경되었습니다.");
+				}
+				// 회원관리 리스트로 이동
+				jsp = "redirect:list.do";
+				break;
+			case "/member/changeStatus.do":
+				System.out.println("회원상태변경 -----");
+				// 데이터 수집
+				id = request.getParameter("id");
+				String status = request.getParameter("status");
+				// 서비스로 넘어갈 데이터 세팅
+				vo = new MemberVO();
+				vo.setId(id);
+				vo.setStatus(status);
+				// 서비스 실행
+				result = Execute.execute(Init.get(uri), vo);
+				// 결과확인
+				if ((Integer)result != 0) {
+					session.setAttribute("msg",
+							id + " 회원님의 상태가 변경되었습니다.");
+				}
+				jsp = "redirect:list.do";
+				break;
 			default:
 				request.setAttribute("uri", uri);
 				jsp = "error/404";
