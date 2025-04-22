@@ -360,6 +360,41 @@ public class MemberDAO extends DAO {
 		
 		// 결과리턴
 		return id;
+	} // end of searchId(MemberVO vo)
+	
+	// 비밀번호 찾기
+	public String searchPw(MemberVO vo) throws Exception {
+		// 결과저장변수 선언 / 초기화
+		String pw = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL - SEARCHPW
+			System.out.println(SEARCHPW);
+			// 4. 실행객체에 SQL + 데이터세팅 (id, name, email, birth)
+			pstmt = con.prepareStatement(SEARCHPW);
+			pstmt.setString(1, vo.getId());
+			pstmt.setString(2, vo.getName());
+			pstmt.setString(3, vo.getEmail());
+			pstmt.setString(4, vo.getBirth());
+			// 5. 실행 / 결과리턴받기
+			rs = pstmt.executeQuery();
+			// 6. 결과저장
+			if (rs != null && rs.next()) {
+				pw = rs.getString("pw");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt, rs);
+		}
+		
+		// 결과리턴
+		return pw;
 	}
 	
 	// SQL

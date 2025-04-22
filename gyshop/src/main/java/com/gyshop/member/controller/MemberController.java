@@ -336,6 +336,29 @@ public class MemberController {
 				break;
 			case "/member/searchId.do":
 				System.out.println("아이디 찾기 -----");
+				// 자료를 수집 (name, email, birth)
+				name = request.getParameter("name");
+				email = request.getParameter("email");
+				birth = request.getParameter("birth");
+				// 서비스로 넘어갈 데이터 세팅
+				vo = new MemberVO();
+				vo.setName(name);
+				vo.setEmail(email);
+				vo.setBirth(birth);
+				// 서비스를 실행
+				result = Execute.execute(Init.get(uri), vo);
+				// 결과확인
+				if (result == null) {
+					session.setAttribute("msg",
+						"해당정보로 id를 찾을 수 없습니다. 다시 확인하시고 시도해주세요.");
+				}
+				else {
+					id = (String)result;
+					session.setAttribute("msg",
+						"아이디는 " + id + " 입니다.");
+				}
+				// 페이지 이동
+				jsp = "redirect:searchForm.do";
 				break;
 			case "/member/searchPw.do":
 				System.out.println("비밀번호 찾기 -----");
