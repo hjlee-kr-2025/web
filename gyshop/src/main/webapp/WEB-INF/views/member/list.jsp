@@ -9,13 +9,43 @@
 <script type="text/javascript">
 $(function(){
 	// 이벤트 - 회원리스트에서 회원정보 클릭시
-	$(".dataRow").click(function(){
+	$(".dataRow").on("click", function(){
 		let id = $(this).find(".id").text();
 		console.log("id = ", id);
 		
 		// 상세보기 페이지로 이동
 		location = "view.do?id=" + id;
 	});
+	
+	// 등급과 상태변경시 click이벤트가 적용안되도록 설정
+	$(".grade, .status").parent().on("mouseover", function(){
+		$(".dataRow").off("click");
+	}).on("mouseout", function(){
+		$(".dataRow").on("click", function(){
+			let id = $(this).find(".id").text();
+			location = "view.do?id=" + id;
+		});
+	});
+	
+	// 변경버튼 활성화하는 부분
+	$(".dataRow").on("change", ".grade, .status", function(){
+		// 변경된 값을 알아냅니다.
+		let changeData = $(this).val();
+		// 원래데이터
+		let data = $(this).data("data");
+		console.log("changeData: ", changeData);
+		console.log("data: ", data);
+		if (changeData == data) {
+			$(this).next().find("button").prop("disabled", true);
+			// 버튼 비활성화
+		}
+		else {
+			$(this).next().find("button").prop("disabled", false);
+			// 버튼 활성화
+		}
+	});
+	
+	
 });
 </script>
 </head>

@@ -395,6 +395,64 @@ public class MemberDAO extends DAO {
 		
 		// 결과리턴
 		return pw;
+	} // end of searchPw(MemberVO vo)
+	
+	// 회원등급변경 (id, 변경되는 등급)
+	public Integer changeGradeNo(MemberVO vo) throws Exception {
+		// 결과저장변수 선언, 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			con = DB.getConnection();
+			// 3. SQL - CHANGEGRADENO
+			System.out.println(CHANGEGRADENO);
+			// 4. 실행객체: SQL + 데이터세팅(gradeNo, id)
+			pstmt = con.prepareStatement(CHANGEGRADENO);
+			pstmt.setInt(1, vo.getGradeNo());
+			pstmt.setString(2, vo.getId());
+			// 5. 실행 및 결과리턴
+			result = pstmt.executeUpdate();
+			// 6. 결과는 controller에서 확인
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		// 결과 리턴
+		return result;
+	} // end of changeGradeNo(MemberVO vo)
+	
+	// 회원상태변경
+	public Integer changeStatus(MemberVO vo) throws Exception {
+		// 결과저장변수 선언 및 초기화
+		Integer result = null;
+		
+		try {
+			// 1. 드라이버확인
+			// 2. DB연결
+			DB.getConnection();
+			// 3. SQL - CHANGESTATUS
+			System.out.println(CHANGESTATUS);
+			// 4. 실행객체 : SQL + 데이터세팅(status, id)
+			pstmt = con.prepareStatement(CHANGESTATUS);
+			pstmt.setString(1, vo.getStatus());
+			pstmt.setString(2, vo.getId());
+			// 5. 실행 및 결과리턴
+			result = pstmt.executeUpdate();
+			// 6. 결과는 controller에서 확인
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			// 7. DB닫기
+			DB.close(con, pstmt);
+		}
+		// 결과 리턴
+		return result;
 	}
 	
 	// SQL
@@ -467,6 +525,13 @@ public class MemberDAO extends DAO {
 			+ " and email = ? "
 			+ " and DATE(birth) = ?";
 			
+	private static final String CHANGEGRADENO = ""
+			+ "update member set gradeNo = ? "
+			+ " where id = ?";
+	
+	private static final String CHANGESTATUS = ""
+			+ "update member set status = ? "
+			+ " where id = ?";
 }
 
 
