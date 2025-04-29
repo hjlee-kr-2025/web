@@ -62,6 +62,7 @@ public class MovieInfoSave {
 						MovieVO vo = new MovieVO();
 						vo.setMovieCd((String)movie.get("movieCd"));
 						vo.setMovieNm((String)movie.get("movieNm"));
+						vo.setMovieNmEn((String)movie.get("movieNmEn"));
 						vo.setOpenDt((String)movie.get("openDt"));
 						vo.setTypeNm((String)movie.get("typeNm"));
 						vo.setPrdtStatNm((String)movie.get("prdtStatNm"));

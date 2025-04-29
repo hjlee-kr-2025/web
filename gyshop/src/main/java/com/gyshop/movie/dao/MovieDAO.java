@@ -81,10 +81,12 @@ public class MovieDAO extends DAO {
 	
 	private String getWriteListQuery(List<MovieVO> list) {
 		String str = WRITELIST;
+		int start = 0;
 		
 		for (int i = 0 ; i<list.size() ; i++) {
-			if (i != 0) str += ",";
 			if (list.get(i).getSaveFlag() == 1) {
+				if (start != 0) str += ",";
+				start = 1;
 				str += "(?,?,?,?,?,?,?,?,?)";
 			}
 		}

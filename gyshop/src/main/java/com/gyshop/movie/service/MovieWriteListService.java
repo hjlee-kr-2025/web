@@ -20,8 +20,10 @@ public class MovieWriteListService implements Service {
 		for (MovieVO vo : list) {
 			String checkStr = dao.searchCode(vo.getMovieCd());
 			if (checkStr == null || !checkStr.equals(vo.getMovieCd())) {
-				vo.setSaveFlag(1);
-				updateCount++;
+				if (!vo.getRepGenreNm().equals("성인물(에로)")) {
+					vo.setSaveFlag(1);
+					updateCount++;
+				}
 			}
 		}
 		
