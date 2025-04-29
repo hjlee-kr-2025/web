@@ -17,6 +17,7 @@ import com.gyshop.image.controller.ImageController;
 import com.gyshop.member.controller.GradeController;
 import com.gyshop.member.controller.MemberController;
 import com.gyshop.notice.controller.NoticeController;
+import com.gyshop.util.movie.MovieInfoSave;
 
 /* 1. webserver 가 로딩될때 init()가 실행되도록 구성
  * 		(web.xml에 load-on-startup 를 1로 세팅)
@@ -160,6 +161,8 @@ public class DispatcherServlet extends HttpServlet {
 			Class.forName("com.gyshop.main.controller.Init");
 			// mysql jdbc 드라이버 확인
 			Class.forName("com.gyshop.util.db.DB");
+			//MovieInfoSave movieInfoSave = new MovieInfoSave(60, "2025");
+			//movieInfoSave.start();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

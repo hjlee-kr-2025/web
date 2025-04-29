@@ -1,11 +1,16 @@
 package com.gyshop.main.controller;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gyshop.main.vo.WeatherVO;
 import com.gyshop.util.exe.Execute;
 import com.gyshop.util.page.PageObject;
 import com.gyshop.util.weather.WeatherXML;
+
+import kr.or.kobis.kobisopenapi.consumer.rest.KobisOpenAPIRestService;
 
 public class MainController {
 
@@ -77,6 +82,34 @@ public class MainController {
 				jsp = "main/main";
 				// "/WEB-INF/views/main/main.jsp"
 				break;
+				
+			case "/main/movie.do":
+				jsp = "rest/restService";
+				String targetDt = request.getParameter("targetDt")==null?"20250101":
+					request.getParameter("targetDt");
+				String itemPerPage = request.getParameter("itemPerPage")==null?"10":
+					request.getParameter("itemPerPage");
+				String openStartDt = request.getParameter("openStartDt")==null?"2025":
+					request.getParameter("openStartDt");
+
+				String key = "8587a970816e9487ea6d5205da108798";
+
+				KobisOpenAPIRestService service = new KobisOpenAPIRestService(key);
+
+				//String[] movieTypeCdArr = {"드라마", "어드벤처",
+//						"애니메이션", "액션", "공포(호러)", "다큐멘터리", "스릴러",
+//						"멜로/로맨스", "SF", "기타", "공연", "범죄", "뮤지컬"};
+				//String[] movieTypeCdArr = {"220101", "220199"};
+				//service.getMovieList(isJson, curPage, itemPerPage, movieNm, directorNm, openStartDt, openEndDt, prdtStartYear, prdtEndYear, repNationCd, movieTypeCdArr)
+				String movieListStr = service.getMovieList(true, null, itemPerPage, null, null, openStartDt, null, null, null, null, null);
+
+				ObjectMapper mapper = new ObjectMapper();
+				HashMap<String, Object> movieListMap = mapper.readValue(movieListStr, HashMap.class);
+
+				request.setAttribute("movieListMap", movieListMap);
+
+				break;
+			
 			default:
 				request.setAttribute("uri", uri);
 				jsp = "error/404";

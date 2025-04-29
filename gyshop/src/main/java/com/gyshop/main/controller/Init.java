@@ -52,6 +52,8 @@ import com.gyshop.member.service.MemberSearchPwService;
 import com.gyshop.member.service.MemberUpdateService;
 import com.gyshop.member.service.MemberViewService;
 import com.gyshop.member.service.MemberWriteService;
+import com.gyshop.movie.dao.MovieDAO;
+import com.gyshop.movie.service.MovieWriteListService;
 import com.gyshop.notice.dao.NoticeDAO;
 import com.gyshop.notice.service.NoticeDeleteService;
 import com.gyshop.notice.service.NoticeListService;
@@ -219,6 +221,12 @@ public class Init {
 		serviceMap.get("/cart/update.do").setDAO(daoMap.get("cartDAO"));
 		serviceMap.get("/cart/delete.do").setDAO(daoMap.get("cartDAO"));
 		serviceMap.get("/cart/deleteAll.do").setDAO(daoMap.get("cartDAO"));
+		
+		
+		// movie
+		daoMap.put("movieDAO", new MovieDAO());
+		serviceMap.put("/movie/writeList", new MovieWriteListService());
+		serviceMap.get("/movie/writeList").setDAO(daoMap.get("movieDAO"));
 	}
 	
 	// 어느 서비스를 실행할지 리턴하는 메서드(할당된 서비스 주소 리턴)

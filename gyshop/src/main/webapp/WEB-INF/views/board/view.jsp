@@ -43,7 +43,10 @@ $(function(){
 	  	</div>
 		</div>
 	  <div class="card-body">
-	  	<pre>${vo.content }</pre>
+	  	<%-- jstl 의 <c:out /> 을 사용하면
+	  		HTML태그가 나오면 escape 시켜준다.
+	  	 --%>
+	  	<pre><c:out value="${vo.content }" /></pre>
 	  </div>
 	  <div class="card-footer">
 	  	<div class="d-flex justify-content-between">

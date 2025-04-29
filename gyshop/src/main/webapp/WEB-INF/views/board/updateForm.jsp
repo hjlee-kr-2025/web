@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- /WEB-INF/views/board/updateForm.jsp -->    
 <!DOCTYPE html>
 <html>
@@ -146,7 +147,8 @@ $(function(){
 	  <div class="form-group">
 	  	<label for="content">내용:</label>
 	  	<textarea class="form-control" id="content"
-	  		name="content" rows="10" required>${vo.content }</textarea>
+	  		name="content" rows="10" required
+	  		><c:out value="${vo.content }" /></textarea>
 	  </div>
 	  <div class="form-group">
 	    <label for="writer">작성자:</label>
